@@ -15,3 +15,4 @@ __builtin_write_OSCCONL(OSCCON | 0x01);
 while (OSCCONbits.COSC!= 0b011);
 // Espera por desbloqueo del PLL
 while (OSCCONbits.LOCK!= 1);
+
