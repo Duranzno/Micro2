@@ -1,0 +1,22 @@
+[DEVICE]
+Name=P33EP512MC806
+Clock=10000000
+[MEMORY_MODEL]
+Value=0
+[BUILD_TYPE]
+Value=0
+[FILES]
+Count=1
+[HEADERS]
+Count=0
+[BINARIES]
+Count=0
+[OTHER_FILES]
+Count=0
+[OPENED_FILES]
+Count=1
+File0=C:\Users\Alejandro\Dropbox\Nube\universidad\2018-1\Microprocesadores II\Laboratorios\Micro2\Lab1\Lab1.c
+[SEARCH_PATH]
+Count=0
+[HEADER_PATH]
+Count=0
