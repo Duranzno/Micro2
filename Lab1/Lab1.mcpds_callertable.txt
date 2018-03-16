@@ -1,16 +1,29 @@
 main
 	config_INT
 	config_IO
-	Glcd_Init
-		Delay_1us
-		Write_To_Pins
-		Strobe
-			Delay_10us
-	Glcd_Set_Font
-	Glcd_Fill
+	config_CN
+	config_LCD
+		Glcd_Init
+			Delay_1us
+			Write_To_Pins
+			Strobe
+				Delay_10us
+		Glcd_Set_Font
+		Glcd_Fill
+			Glcd_Set_Page
+				Write_To_Pins
+				Strobe
+			Glcd_Write_Data
+				Write_To_Pins
+				Strobe
+	Glcd_PartialImage
+		Glcd_Set_Side
 		Glcd_Set_Page
+		__AddToFarPointer
+		Glcd_Set_X
 			Write_To_Pins
 			Strobe
+		Glcd_Read_Data
+			Delay_1us
+			Delay_10us
 		Glcd_Write_Data
-			Write_To_Pins
-			Strobe

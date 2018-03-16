@@ -6,4 +6,5 @@ Nota: El pulsador 0 es el más prioritario y el 4 el menos
 2.3.- Si se pulsa la tercera opción el diseño debe ser capaz de visualizar por 20 segundos (usar una animación) cual fue el último elemento que provocó un reset.
 	2.3.1: Solo se trabajará con el POR, MCLR y el WDT. 
 	2.3.2: Se utilizará el quinto Dip-Switch para habilitar y deshabilitar el perro guardian por software.
-	2.3.3: Se sugiere un tiempo de desbordamiento para el perro guardián mayor de 1 minuto. 2.3.4.- Por cada reset detectado se encenderá un LED respectivo que indicara por hardware quien lo provocó.
+	2.3.3: Se sugiere un tiempo de desbordamiento para el perro guardián mayor de 1 minuto. 
+	2.3.4.- Por cada reset detectado se encenderá un LED respectivo que indicara por hardware quien lo provocó.

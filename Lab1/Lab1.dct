@@ -2902,6 +2902,7 @@ brp4
 brp5
 brp5
 bsubsampletype
+btn_pps_locations
 bufm
 bufm
 bufm
@@ -5010,8 +5011,10 @@ con_bit
 con_cm1con_bit
 con_cm2con_bit
 con_cm3con_bit
+config_cn
 config_int
 config_io
+config_lcd
 corcon
 corconbits
 cos
@@ -5714,6 +5717,7 @@ dftdata_inc_8
 dftdata_inc_8_bit
 dftdata_inc_9
 dftdata_inc_9_bit
+dip_pps_locations
 dir
 dir
 dir
@@ -14128,7 +14132,9 @@ keypad_init
 keypad_key_click
 keypad_key_press
 kirby_1
+kirby_2
 kirby_3
+kirby_4
 kirby_5
 labs
 latb

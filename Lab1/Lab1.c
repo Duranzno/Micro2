@@ -32,11 +32,11 @@ sbit GLCD_EN_Direction at TRISD3_bit;
 sbit GLCD_RST_Direction at TRISE4_bit;
 // End Glcd module connections
 unsigned short posicion=0;
-void INT0() org 0x14{;}
-void INT1() org 0x3C{;}
-void INT2() org 0x4E{:}
-void INT3() org 0x7E{;}
-void INT4() org 0x80{;}
+//void INT0() org 0x14{;}
+//void INT1() org 0x3C{;}
+//void INT2() org 0x4E{:}
+//void INT3() org 0x7E{;}
+//void INT4() org 0x80{;}
 
 void config_INT(){
   SRbits.IPL =0;// iNTERRUPCION DE CPU ES DE NIVEL 0
@@ -79,40 +79,39 @@ void config_IO(){
   //INT0 No tiene PPS y es constante, a los demas se les tiene que colocar
   //el numero del RPINx en su registro correspondiente.
    //Necesito otras entradas para el 5 dipswitches, y 4 de usb/ps/2
-  RPINR0bits.INT1R = BTN_PPS_LOCATIONS[1]//El Periferico INT1 esta en el pin 47
+  RPINR0bits.INT1R = BTN_PPS_LOCATIONS[1];//El Periferico INT1 esta en el pin 47
   RPINR1bits.INT2R = BTN_PPS_LOCATIONS[2];
   RPINR1bits.INT3R=  BTN_PPS_LOCATIONS[3];
   RPINR2bits.INT4R=  BTN_PPS_LOCATIONS[4];
   //Necesito 3 salidas extras de GPIO
-  LATB = 0;              // Set PORTB to zero
-  ANSELB = 0;
-  TRISB = 0;             // Initialize PORTB as output
-}
-const int DIP_PPS_LOCATIONS[5]={0,1,2,3,4}//5 posiciones para 5 Dipswitches
-void config_CN(){
 
+}
+const int DIP_PPS_LOCATIONS[5]={0,1,2,3,4};//5 posiciones para 5 Dipswitches
+void config_CN(){
+     TRISB = 0;
+     CNENB=
+     
+//CNENx, CNPUx,CNIEx
+
+}
+void config_LCD(){
+  Glcd_Init();
+  Glcd_Set_Font(font5x7 , 5, 7, 32);
+  Glcd_Fill(0);
 }
 void main(){
   config_INT();
   config_IO();
   config_CN();//para los dipswitches
-  Glcd_Init();
-  Glcd_Set_Font(font5x7 , 5, 7, 32);
-  Glcd_Fill(0);
+  config_LCD();
+
   while(1){
-  LATB = ~LATB;  
   //void Glcd_PartialImage(unsigned int x_left, unsigned int y_top, unsigned int width, unsigned int height, unsigned int picture_width, unsigned int picture_height, code const far char * image);
-  Glcd_PartialImage(32,63,30,20,30,20,kirby_1);  delay_ms(500);
-  Glcd_PartialImage(32,63,30,20,30,20,kirby_2);  delay_ms(500);
-  Glcd_PartialImage(32,63,30,20,30,20,kirby_3);  delay_ms(500);
-  Glcd_PartialImage(32,63,30,20,30,20,kirby_4);  delay_ms(500);
-  Glcd_PartialImage(32,63,30,20,30,20,kirby_5);  delay_ms(500);
+  Glcd_PartialImage(63,32,30,20,30,20,kirby_1);  delay_ms(500);
+  Glcd_PartialImage(63,32,30,20,30,20,kirby_2);  delay_ms(500);
+  Glcd_PartialImage(63,32,30,20,30,20,kirby_3);  delay_ms(500);
+  Glcd_PartialImage(63,32,30,20,30,20,kirby_4);  delay_ms(500);
+  Glcd_PartialImage(63,32,30,20,30,20,kirby_5);  delay_ms(500);
 
-
-   // Invert PORTB value
-  //Glcd_Image(camion); delay_ms(500);
-  //Glcd_Image(camion2); delay_ms(500);
-  //Glcd_Image(camion3); delay_ms(500);
-  //Glcd_Image(camion4); delay_ms(500);
   }
 }
