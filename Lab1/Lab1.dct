@@ -6415,6 +6415,7 @@ doendl_8
 doendl_8_bit
 doendl_9
 doendl_9_bit
+dog_1
 done
 done
 done
@@ -14128,6 +14129,7 @@ iwcol_bit
 iwcol_i2c1stat_bit
 iwcol_i2c2stat_bit
 jpegdecoder
+keyboard_pps_locations
 keypad_init
 keypad_key_click
 keypad_key_press
@@ -14426,6 +14428,7 @@ lebdly3
 lebdly3bits
 lebdly4
 lebdly4bits
+led_pps_locations
 left_to_right
 lendian
 lendian
