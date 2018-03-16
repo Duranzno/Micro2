@@ -69,8 +69,8 @@ void config_INT(){
   INTCON2bits.INT4EP =0;
 }
 const int BTN_PPS_LOCATIONS[5]={-1,47,46,45,44};//5 posiciones para las 4 Ubicaciones de los botones de Interrupciion del ejercicio 1
-// el 0 nunca se usa porque INT) esta fijo
-const int LED_PPS_LOCATIONS[3]={1,2,3};//3 posiciones para 3 LEDS de salida
+// el 0 nunca se usa porque INT0 esta fijo
+//const int LED_PPS_LOCATIONS[3]={1,2,3};//3 posiciones para 3 LEDS de salida
 void config_IO(){
 //TRISx,PORTX,LATx,ODCx
   ANSELC=0; ANSELD=0; ANSELE=0;                  //ANALOGICO SON B Y F
@@ -83,7 +83,7 @@ void config_IO(){
   RPINR1bits.INT2R = BTN_PPS_LOCATIONS[2];
   RPINR1bits.INT3R=  BTN_PPS_LOCATIONS[3];
   RPINR2bits.INT4R=  BTN_PPS_LOCATIONS[4];
-  //Necesito 4 salidas extras de GPIO
+  //Necesito 3 salidas extras de GPIO
   LATB = 0;              // Set PORTB to zero
   ANSELB = 0;
   TRISB = 0;             // Initialize PORTB as output
@@ -100,7 +100,16 @@ void main(){
   Glcd_Set_Font(font5x7 , 5, 7, 32);
   Glcd_Fill(0);
   while(1){
-  LATB = ~LATB;        // Invert PORTB value
+  LATB = ~LATB;  
+  //void Glcd_PartialImage(unsigned int x_left, unsigned int y_top, unsigned int width, unsigned int height, unsigned int picture_width, unsigned int picture_height, code const far char * image);
+  Glcd_PartialImage(32,63,30,20,30,20,kirby_1);  delay_ms(500);
+  Glcd_PartialImage(32,63,30,20,30,20,kirby_2);  delay_ms(500);
+  Glcd_PartialImage(32,63,30,20,30,20,kirby_3);  delay_ms(500);
+  Glcd_PartialImage(32,63,30,20,30,20,kirby_4);  delay_ms(500);
+  Glcd_PartialImage(32,63,30,20,30,20,kirby_5);  delay_ms(500);
+
+
+   // Invert PORTB value
   //Glcd_Image(camion); delay_ms(500);
   //Glcd_Image(camion2); delay_ms(500);
   //Glcd_Image(camion3); delay_ms(500);
