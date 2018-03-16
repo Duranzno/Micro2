@@ -47,25 +47,25 @@ L_barras7:
 ;barras.h,35 :: 		}
 L_barras0:
 	CP.B	W10, #0
-	BRA NZ	L__barras26
+	BRA NZ	L__barras35
 	GOTO	L_barras2
-L__barras26:
+L__barras35:
 	CP.B	W10, #1
-	BRA NZ	L__barras27
+	BRA NZ	L__barras36
 	GOTO	L_barras3
-L__barras27:
+L__barras36:
 	CP.B	W10, #2
-	BRA NZ	L__barras28
+	BRA NZ	L__barras37
 	GOTO	L_barras4
-L__barras28:
+L__barras37:
 	CP.B	W10, #3
-	BRA NZ	L__barras29
+	BRA NZ	L__barras38
 	GOTO	L_barras5
-L__barras29:
+L__barras38:
 	CP.B	W10, #4
-	BRA NZ	L__barras30
+	BRA NZ	L__barras39
 	GOTO	L_barras6
-L__barras30:
+L__barras39:
 	GOTO	L_barras7
 L_barras1:
 ;barras.h,36 :: 		}
@@ -93,14 +93,14 @@ _bar_drawer:
 ; contador_reset start address is: 0 (W0)
 ;barras.h,43 :: 		if(contador_barra>1){
 	CP.B	W11, #1
-	BRA GTU	L__bar_drawer32
+	BRA GTU	L__bar_drawer41
 	GOTO	L_bar_drawer8
-L__bar_drawer32:
+L__bar_drawer41:
 ;barras.h,44 :: 		if (contador_reset==1){
 	CP	W0, #1
-	BRA Z	L__bar_drawer33
+	BRA Z	L__bar_drawer42
 	GOTO	L_bar_drawer9
-L__bar_drawer33:
+L__bar_drawer42:
 ; contador_reset end address is: 0 (W0)
 ;barras.h,46 :: 		Glcd_Box(x_left,MAX_BAR_HEIGHT,x_right,BAR_HEIGHT,WHITE);
 	MOV.B	#4, W13
@@ -148,9 +148,9 @@ _DrawableBars:
 ;barras.h,59 :: 		if(real_number_of_bars>25){
 	PUSH	W11
 	CP	W10, #25
-	BRA GT	L__DrawableBars35
+	BRA GT	L__DrawableBars44
 	GOTO	L_DrawableBars11
-L__DrawableBars35:
+L__DrawableBars44:
 ;barras.h,60 :: 		int quotient=real_number_of_bars/25;
 	MOV	#25, W2
 	REPEAT	#17
@@ -286,13 +286,15 @@ L_end_config_INT:
 
 _config_IO:
 
-;Lab1.c,74 :: 		void config_IO(){
-;Lab1.c,76 :: 		ANSELC=0; ANSELD=0; ANSELE=0;                  //ANALOGICO SON B Y F
+;Lab1.c,78 :: 		void config_IO(){
+;Lab1.c,80 :: 		ANSELB=0;
+	CLR	ANSELB
+;Lab1.c,81 :: 		ANSELC=0; ANSELD=0; ANSELE=0;                  //ANALOGICO SON B Y F
 	CLR	ANSELC
 	CLR	ANSELD
 	CLR	ANSELE
-;Lab1.c,82 :: 		RPINR0bits.INT1R = BTN_PPS_LOCATIONS[1];//El Periferico INT1 esta en el pin 47
-	MOV	#12032, W0
+;Lab1.c,87 :: 		RPINR0bits.INT1R = BTN_PPS_LOCATIONS[1];//El Periferico INT1 esta en el pin 47
+	MOV	#9472, W0
 	MOV	W0, W1
 	MOV	#lo_addr(RPINR0bits), W0
 	XOR	W1, [W0], W1
@@ -301,8 +303,8 @@ _config_IO:
 	MOV	#lo_addr(RPINR0bits), W0
 	XOR	W1, [W0], W1
 	MOV	W1, RPINR0bits
-;Lab1.c,83 :: 		RPINR1bits.INT2R = BTN_PPS_LOCATIONS[2];
-	MOV.B	#46, W0
+;Lab1.c,88 :: 		RPINR1bits.INT2R = BTN_PPS_LOCATIONS[2];
+	MOV.B	#36, W0
 	MOV.B	W0, W1
 	MOV	#lo_addr(RPINR1bits), W0
 	XOR.B	W1, [W0], W1
@@ -312,8 +314,8 @@ _config_IO:
 	XOR.B	W1, [W0], W1
 	MOV	#lo_addr(RPINR1bits), W0
 	MOV.B	W1, [W0]
-;Lab1.c,84 :: 		RPINR1bits.INT3R=  BTN_PPS_LOCATIONS[3];
-	MOV	#11520, W0
+;Lab1.c,89 :: 		RPINR1bits.INT3R=  BTN_PPS_LOCATIONS[3];
+	MOV	#8960, W0
 	MOV	W0, W1
 	MOV	#lo_addr(RPINR1bits), W0
 	XOR	W1, [W0], W1
@@ -322,8 +324,8 @@ _config_IO:
 	MOV	#lo_addr(RPINR1bits), W0
 	XOR	W1, [W0], W1
 	MOV	W1, RPINR1bits
-;Lab1.c,85 :: 		RPINR2bits.INT4R=  BTN_PPS_LOCATIONS[4];
-	MOV.B	#44, W0
+;Lab1.c,90 :: 		RPINR2bits.INT4R=  BTN_PPS_LOCATIONS[4];
+	MOV.B	#34, W0
 	MOV.B	W0, W1
 	MOV	#lo_addr(RPINR2bits), W0
 	XOR.B	W1, [W0], W1
@@ -333,31 +335,55 @@ _config_IO:
 	XOR.B	W1, [W0], W1
 	MOV	#lo_addr(RPINR2bits), W0
 	MOV.B	W1, [W0]
-;Lab1.c,88 :: 		}
+;Lab1.c,92 :: 		}
 L_end_config_IO:
 	RETURN
 ; end of _config_IO
 
 _config_CN:
 
-;Lab1.c,90 :: 		void config_CN(){
-;Lab1.c,91 :: 		TRISB = 0;
+;Lab1.c,94 :: 		void config_CN(){
+;Lab1.c,96 :: 		TRISB = 0;
 	CLR	TRISB
-;Lab1.c,95 :: 		}
+;Lab1.c,97 :: 		CNENBbits.CNIEB0=1;
+	BSET	CNENBbits, #0
+;Lab1.c,98 :: 		CNENBbits.CNIEB1=1;
+	BSET	CNENBbits, #1
+;Lab1.c,99 :: 		CNENBbits.CNIEB6=1;
+	BSET	CNENBbits, #6
+;Lab1.c,100 :: 		CNENBbits.CNIEB7=1;
+	BSET	CNENBbits, #7
+;Lab1.c,101 :: 		CNENBbits.CNIEB8=1;
+	BSET	CNENBbits, #8
+;Lab1.c,103 :: 		CNPUBbits.CNPUB0=1;
+	BSET	CNPUBbits, #0
+;Lab1.c,104 :: 		CNPUBbits.CNPUB1=1;
+	BSET	CNPUBbits, #1
+;Lab1.c,105 :: 		CNPUBbits.CNPUB6=1;
+	BSET	CNPUBbits, #6
+;Lab1.c,106 :: 		CNPUBbits.CNPUB7=1;
+	BSET	CNPUBbits, #7
+;Lab1.c,107 :: 		CNPUBbits.CNPUB8=1;
+	BSET	CNPUBbits, #8
+;Lab1.c,109 :: 		IFS1bits.CNIF=0;
+	BCLR	IFS1bits, #3
+;Lab1.c,110 :: 		IEC1bits.CNIE=1;//Resset Interrupcion
+	BSET	IEC1bits, #3
+;Lab1.c,114 :: 		}
 L_end_config_CN:
 	RETURN
 ; end of _config_CN
 
 _config_LCD:
 
-;Lab1.c,96 :: 		void config_LCD(){
-;Lab1.c,97 :: 		Glcd_Init();
+;Lab1.c,115 :: 		void config_LCD(){
+;Lab1.c,116 :: 		Glcd_Init();
 	PUSH	W10
 	PUSH	W11
 	PUSH	W12
 	PUSH	W13
 	CALL	_Glcd_Init
-;Lab1.c,98 :: 		Glcd_Set_Font(font5x7 , 5, 7, 32);
+;Lab1.c,117 :: 		Glcd_Set_Font(font5x7 , 5, 7, 32);
 	MOV	#___Lib_System_DefaultPage, W0
 	MOV.B	#7, W13
 	MOV.B	#5, W12
@@ -367,10 +393,10 @@ _config_LCD:
 	PUSH	W0
 	CALL	_Glcd_Set_Font
 	SUB	#2, W15
-;Lab1.c,99 :: 		Glcd_Fill(0);
+;Lab1.c,118 :: 		Glcd_Fill(0);
 	CLR	W10
 	CALL	_Glcd_Fill
-;Lab1.c,100 :: 		}
+;Lab1.c,119 :: 		}
 L_end_config_LCD:
 	POP	W13
 	POP	W12
@@ -388,25 +414,26 @@ _main:
 	MOV	#4, W0
 	IOR	68
 
-;Lab1.c,101 :: 		void main(){
-;Lab1.c,102 :: 		config_INT();
+;Lab1.c,121 :: 		void main(){
+;Lab1.c,122 :: 		config_INT();
 	PUSH	W10
 	PUSH	W11
 	PUSH	W12
 	PUSH	W13
 	CALL	_config_INT
-;Lab1.c,103 :: 		config_IO();
+;Lab1.c,123 :: 		config_IO();
 	CALL	_config_IO
-;Lab1.c,104 :: 		config_CN();//para los dipswitches
-	CALL	_config_CN
-;Lab1.c,105 :: 		config_LCD();
+;Lab1.c,125 :: 		config_LCD();
 	CALL	_config_LCD
-;Lab1.c,107 :: 		while(1){
+;Lab1.c,127 :: 		while(1){
 L_main13:
-;Lab1.c,109 :: 		Glcd_PartialImage(63,32,30,20,30,20,kirby_1);  delay_ms(500);
+;Lab1.c,130 :: 		if (RCONbits.WDTO==1){
+	BTSS	RCONbits, #4
+	GOTO	L_main15
+;Lab1.c,131 :: 		Glcd_PartialImage(63,40,30,20,30,20,kirby_1);  delay_ms(500);
 	MOV	#20, W13
 	MOV	#30, W12
-	MOV	#32, W11
+	MOV	#40, W11
 	MOV	#63, W10
 	MOV	#lo_addr(_kirby_1), W0
 	PUSH	W0
@@ -420,37 +447,36 @@ L_main13:
 	SUB	#4, W15
 	MOV	#8, W8
 	MOV	#41252, W7
-L_main15:
+L_main16:
 	DEC	W7
-	BRA NZ	L_main15
+	BRA NZ	L_main16
 	DEC	W8
-	BRA NZ	L_main15
-;Lab1.c,110 :: 		Glcd_PartialImage(63,32,30,20,30,20,kirby_2);  delay_ms(500);
-	MOV	#20, W13
-	MOV	#30, W12
-	MOV	#32, W11
-	MOV	#63, W10
-	MOV	#lo_addr(_kirby_2), W0
-	PUSH	W0
-	MOV	#___Lib_System_DefaultPage, W0
-	PUSH	W0
-	MOV	#20, W0
-	PUSH	W0
-	MOV	#30, W0
-	PUSH	W0
-	CALL	_Glcd_PartialImage
-	SUB	#4, W15
+	BRA NZ	L_main16
+;Lab1.c,133 :: 		Glcd_Write_TEXT("WDT",0,1,BLACK);
+	MOV.B	#1, W13
+	MOV.B	#1, W12
+	CLR	W11
+	MOV	#lo_addr(?lstr1_Lab1), W10
+	CALL	_Glcd_Write_Text
+;Lab1.c,134 :: 		delay_ms(500);
 	MOV	#8, W8
 	MOV	#41252, W7
-L_main17:
+L_main18:
 	DEC	W7
-	BRA NZ	L_main17
+	BRA NZ	L_main18
 	DEC	W8
-	BRA NZ	L_main17
-;Lab1.c,111 :: 		Glcd_PartialImage(63,32,30,20,30,20,kirby_3);  delay_ms(500);
+	BRA NZ	L_main18
+;Lab1.c,135 :: 		RCONbits.WDTO=0;
+	BCLR	RCONbits, #4
+;Lab1.c,136 :: 		}else if(RCONbits.EXTR==1){
+	GOTO	L_main20
+L_main15:
+	BTSS	RCONbits, #7
+	GOTO	L_main21
+;Lab1.c,137 :: 		Glcd_PartialImage(63,40,30,20,30,20,kirby_3);  delay_ms(500);
 	MOV	#20, W13
 	MOV	#30, W12
-	MOV	#32, W11
+	MOV	#40, W11
 	MOV	#63, W10
 	MOV	#lo_addr(_kirby_3), W0
 	PUSH	W0
@@ -464,39 +490,37 @@ L_main17:
 	SUB	#4, W15
 	MOV	#8, W8
 	MOV	#41252, W7
-L_main19:
+L_main22:
 	DEC	W7
-	BRA NZ	L_main19
+	BRA NZ	L_main22
 	DEC	W8
-	BRA NZ	L_main19
-;Lab1.c,112 :: 		Glcd_PartialImage(63,32,30,20,30,20,kirby_4);  delay_ms(500);
-	MOV	#20, W13
-	MOV	#30, W12
-	MOV	#32, W11
-	MOV	#63, W10
-	MOV	#lo_addr(_kirby_4), W0
-	PUSH	W0
-	MOV	#___Lib_System_DefaultPage, W0
-	PUSH	W0
-	MOV	#20, W0
-	PUSH	W0
-	MOV	#30, W0
-	PUSH	W0
-	CALL	_Glcd_PartialImage
-	SUB	#4, W15
+	BRA NZ	L_main22
+;Lab1.c,139 :: 		Glcd_Write_TEXT("MCLR",0,2,BLACK);     delay_ms(500);
+	MOV.B	#1, W13
+	MOV.B	#2, W12
+	CLR	W11
+	MOV	#lo_addr(?lstr2_Lab1), W10
+	CALL	_Glcd_Write_Text
 	MOV	#8, W8
 	MOV	#41252, W7
+L_main24:
+	DEC	W7
+	BRA NZ	L_main24
+	DEC	W8
+	BRA NZ	L_main24
+;Lab1.c,140 :: 		RCONbits.EXTR=0;
+	BCLR	RCONbits, #7
+;Lab1.c,141 :: 		}else if (RCONbits.POR==1){
+	GOTO	L_main26
 L_main21:
-	DEC	W7
-	BRA NZ	L_main21
-	DEC	W8
-	BRA NZ	L_main21
-;Lab1.c,113 :: 		Glcd_PartialImage(63,32,30,20,30,20,kirby_5);  delay_ms(500);
+	BTSS	RCONbits, #0
+	GOTO	L_main27
+;Lab1.c,142 :: 		Glcd_PartialImage(63,40,30,20,30,20,kirby_2);  delay_ms(500);
 	MOV	#20, W13
 	MOV	#30, W12
-	MOV	#32, W11
+	MOV	#40, W11
 	MOV	#63, W10
-	MOV	#lo_addr(_kirby_5), W0
+	MOV	#lo_addr(_kirby_2), W0
 	PUSH	W0
 	MOV	#___Lib_System_DefaultPage, W0
 	PUSH	W0
@@ -508,14 +532,45 @@ L_main21:
 	SUB	#4, W15
 	MOV	#8, W8
 	MOV	#41252, W7
-L_main23:
+L_main28:
 	DEC	W7
-	BRA NZ	L_main23
+	BRA NZ	L_main28
 	DEC	W8
-	BRA NZ	L_main23
-;Lab1.c,115 :: 		}
+	BRA NZ	L_main28
+;Lab1.c,144 :: 		Glcd_Write_TEXT("POR",0,3,BLACK);  delay_ms(500);
+	MOV.B	#1, W13
+	MOV.B	#3, W12
+	CLR	W11
+	MOV	#lo_addr(?lstr3_Lab1), W10
+	CALL	_Glcd_Write_Text
+	MOV	#8, W8
+	MOV	#41252, W7
+L_main30:
+	DEC	W7
+	BRA NZ	L_main30
+	DEC	W8
+	BRA NZ	L_main30
+;Lab1.c,145 :: 		RCONbits.POR=0;}
+	BCLR	RCONbits, #0
+L_main27:
+L_main26:
+L_main20:
+;Lab1.c,146 :: 		Glcd_Write_TEXT("Prueba",0,3,BLACK);  delay_ms(500);
+	MOV.B	#1, W13
+	MOV.B	#3, W12
+	CLR	W11
+	MOV	#lo_addr(?lstr4_Lab1), W10
+	CALL	_Glcd_Write_Text
+	MOV	#8, W8
+	MOV	#41252, W7
+L_main32:
+	DEC	W7
+	BRA NZ	L_main32
+	DEC	W8
+	BRA NZ	L_main32
+;Lab1.c,147 :: 		}
 	GOTO	L_main13
-;Lab1.c,116 :: 		}
+;Lab1.c,148 :: 		}
 L_end_main:
 	POP	W13
 	POP	W12

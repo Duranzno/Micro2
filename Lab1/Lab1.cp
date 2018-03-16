@@ -34,7 +34,7 @@ const int WHITE=0;
 const int BLACK=1;
 
 const int MAX_BAR_HEIGHT=BAR_HEIGHT*25;
-const int BARS_H_LOCATIONS[5]={0,1,2,3,4};
+const int BARS_H_LOCATIONS[]={0,1,2,3,4};
 typedef enum {Int0,Int1,Int2,Int3,Int4}Bars;
 void bar_drawer(unsigned short x_left,unsigned short contador_barra);
 int DrawableBars(int real_number_of_bars);
@@ -193,6 +193,20 @@ const code char blooper_4[175] = {
 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
 };
 
+
+
+
+
+const code char dog_1[210] = {
+ 0, 0, 0, 0, 192, 240, 248, 252, 252, 62, 28, 60, 248, 240, 112, 56, 56, 240, 240, 56, 56, 112, 240, 248, 60, 28, 62, 124, 120, 248, 248, 124, 60, 0, 0,
+ 0, 0, 0, 0, 3, 15, 31, 31, 129, 128, 0, 64, 15, 15, 88, 17, 58, 95, 95, 58, 17, 88, 15, 15, 64, 0, 128, 128, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 248, 254, 255, 255, 255, 242, 244, 200, 202, 136, 185, 132, 130, 130, 244, 249, 248, 250, 248, 252, 242, 255, 255, 255, 254, 248, 192, 0, 0, 0,
+ 0, 0, 0, 0, 0, 1, 15, 31, 63, 63, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 63, 127, 127, 127, 63, 15, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+
+
 const code char bullet_1[32] = {
 0, 176, 184, 60, 126, 254, 254, 255, 255, 231, 198, 206, 252, 248, 192, 0,
 14, 31, 29, 15, 0, 15, 31, 63, 63, 31, 31, 15, 15, 15, 15, 0
@@ -274,11 +288,16 @@ void config_INT(){
  INTCON2bits.INT3EP=0;
  INTCON2bits.INT4EP =0;
 }
-const int BTN_PPS_LOCATIONS[5]={-1,47,46,45,44};
 
+const int BTN_PPS_LOCATIONS[5]={-1,37,36,35,34};
+
+const int DIP_PPS_LOCATIONS[5]={32,33,38,39,40};
+const int KEYBOARD_PPS_LOCATIONS[2]={100,101};
+const int LED_PPS_LOCATIONS[3]={85,87,118};
 
 void config_IO(){
 
+ ANSELB=0;
  ANSELC=0; ANSELD=0; ANSELE=0;
 
 
@@ -290,11 +309,25 @@ void config_IO(){
  RPINR1bits.INT3R= BTN_PPS_LOCATIONS[3];
  RPINR2bits.INT4R= BTN_PPS_LOCATIONS[4];
 
-
 }
-const int DIP_PPS_LOCATIONS[5]={0,1,2,3,4};
+
 void config_CN(){
+
  TRISB = 0;
+ CNENBbits.CNIEB0=1;
+ CNENBbits.CNIEB1=1;
+ CNENBbits.CNIEB6=1;
+ CNENBbits.CNIEB7=1;
+ CNENBbits.CNIEB8=1;
+
+ CNPUBbits.CNPUB0=1;
+ CNPUBbits.CNPUB1=1;
+ CNPUBbits.CNPUB6=1;
+ CNPUBbits.CNPUB7=1;
+ CNPUBbits.CNPUB8=1;
+
+ IFS1bits.CNIF=0;
+ IEC1bits.CNIE=1;
 
 
 
@@ -304,19 +337,32 @@ void config_LCD(){
  Glcd_Set_Font(font5x7 , 5, 7, 32);
  Glcd_Fill(0);
 }
+
 void main(){
  config_INT();
  config_IO();
- config_CN();
+
  config_LCD();
 
  while(1){
 
- Glcd_PartialImage(63,32,30,20,30,20,kirby_1); delay_ms(500);
- Glcd_PartialImage(63,32,30,20,30,20,kirby_2); delay_ms(500);
- Glcd_PartialImage(63,32,30,20,30,20,kirby_3); delay_ms(500);
- Glcd_PartialImage(63,32,30,20,30,20,kirby_4); delay_ms(500);
- Glcd_PartialImage(63,32,30,20,30,20,kirby_5); delay_ms(500);
 
+ if (RCONbits.WDTO==1){
+ Glcd_PartialImage(63,40,30,20,30,20,kirby_1); delay_ms(500);
+
+ Glcd_Write_TEXT("WDT",0,1,BLACK);
+ delay_ms(500);
+ RCONbits.WDTO=0;
+ }else if(RCONbits.EXTR==1){
+ Glcd_PartialImage(63,40,30,20,30,20,kirby_3); delay_ms(500);
+
+ Glcd_Write_TEXT("MCLR",0,2,BLACK); delay_ms(500);
+ RCONbits.EXTR=0;
+ }else if (RCONbits.POR==1){
+ Glcd_PartialImage(63,40,30,20,30,20,kirby_2); delay_ms(500);
+
+ Glcd_Write_TEXT("POR",0,3,BLACK); delay_ms(500);
+ RCONbits.POR=0;}
+ Glcd_Write_TEXT("Prueba",0,3,BLACK); delay_ms(500);
  }
 }

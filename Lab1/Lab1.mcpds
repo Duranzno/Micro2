@@ -1,5 +1,5 @@
 [DEVICE]
-Name=P33EP512MC806
+Name=P33EP256MU806
 Clock=10000000
 [MEMORY_MODEL]
 Value=0
@@ -24,10 +24,8 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
+Count=1
 File0=Lab1.c
-File1=sprites.h
-File2=barras.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

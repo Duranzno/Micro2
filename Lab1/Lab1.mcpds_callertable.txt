@@ -1,7 +1,6 @@
 main
 	config_INT
 	config_IO
-	config_CN
 	config_LCD
 		Glcd_Init
 			Delay_1us
@@ -27,3 +26,10 @@ main
 			Delay_1us
 			Delay_10us
 		Glcd_Write_Data
+	Glcd_Write_Text
+		Glcd_Write_Char
+			Glcd_Set_X
+			Glcd_Set_Page
+			Glcd_Set_Side
+			Glcd_Read_Data
+			Glcd_Write_Data

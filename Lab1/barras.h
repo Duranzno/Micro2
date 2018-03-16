@@ -6,7 +6,7 @@ const int WHITE=0;
 const int BLACK=1;
 
 const int MAX_BAR_HEIGHT=BAR_HEIGHT*25;
-const int BARS_H_LOCATIONS[5]={0,1,2,3,4};
+const int BARS_H_LOCATIONS[]={0,1,2,3,4};
 typedef enum {Int0,Int1,Int2,Int3,Int4}Bars;
 void bar_drawer(unsigned short x_left,unsigned short contador_barra);
 int DrawableBars(int real_number_of_bars);
