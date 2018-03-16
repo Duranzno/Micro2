@@ -68,11 +68,16 @@ void config_INT(){
   INTCON2bits.INT3EP=0;
   INTCON2bits.INT4EP =0;
 }
-const int BTN_PPS_LOCATIONS[5]={-1,47,46,45,44};//5 posiciones para las 4 Ubicaciones de los botones de Interrupciion del ejercicio 1
-// el 0 nunca se usa porque INT0 esta fijo
-//const int LED_PPS_LOCATIONS[3]={1,2,3};//3 posiciones para 3 LEDS de salida
+
+const int BTN_PPS_LOCATIONS[5]={-1,37,36,35,34};//5 posiciones para las 4 Ubicaciones de los botones de Interrupciion del ejercicio 1
+// el 0 nunca se usa porque INT0 esta fijo en el pin 46 RP64. RB2-5
+const int DIP_PPS_LOCATIONS[5]={32,33,38,39,40};//5 posiciones para 5 Dipswitches RPI32,33,38,39,40 Y RB0,1,6,7,8
+const int KEYBOARD_PPS_LOCATIONS[]={100,101}//RF4,RF5
+const int LED_PPS_LOCATIONS[3]={85,87,118};//3 posiciones para 3 LEDS de salida
+
 void config_IO(){
 //TRISx,PORTX,LATx,ODCx
+  ANSELB=0;
   ANSELC=0; ANSELD=0; ANSELE=0;                  //ANALOGICO SON B Y F
   //------------------------------------------------------
   //Asignacion Pines Entrada
@@ -84,14 +89,27 @@ void config_IO(){
   RPINR1bits.INT3R=  BTN_PPS_LOCATIONS[3];
   RPINR2bits.INT4R=  BTN_PPS_LOCATIONS[4];
   //Necesito 3 salidas extras de GPIO
-
 }
-const int DIP_PPS_LOCATIONS[5]={0,1,2,3,4};//5 posiciones para 5 Dipswitches
+
 void config_CN(){
-     TRISB = 0;
-     CNENB=
-     
 //CNENx, CNPUx,CNIEx
+     TRISB = 0;
+     CNENBbits.CNIEB0=1;
+     CNENBbits.CNIEB1=1;
+     CNENBbits.CNIEB6=1;
+     CNENBbits.CNIEB7=1;
+     CNENBbits.CNIEB8=1;
+     //CNPU
+     CNPUBbits.CNPUB0=1;
+     CNPUBbits.CNPUB1=1;
+     CNPUBbits.CNPUB6=1;
+     CNPUBbits.CNPUB7=1;
+     CNPUBbits.CNPUB8=1;
+     //RB1-rb5, rpi33-37
+     IFS1bits.CNIF=0;
+     IEC1bits.CNIE=1;//Resset Interrupcion
+     
+
 
 }
 void config_LCD(){
@@ -100,6 +118,7 @@ void config_LCD(){
   Glcd_Fill(0);
 }
 void main(){
+  void main(){
   config_INT();
   config_IO();
   config_CN();//para los dipswitches
@@ -107,11 +126,26 @@ void main(){
 
   while(1){
   //void Glcd_PartialImage(unsigned int x_left, unsigned int y_top, unsigned int width, unsigned int height, unsigned int picture_width, unsigned int picture_height, code const far char * image);
-  Glcd_PartialImage(63,32,30,20,30,20,kirby_1);  delay_ms(500);
-  Glcd_PartialImage(63,32,30,20,30,20,kirby_2);  delay_ms(500);
-  Glcd_PartialImage(63,32,30,20,30,20,kirby_3);  delay_ms(500);
-  Glcd_PartialImage(63,32,30,20,30,20,kirby_4);  delay_ms(500);
-  Glcd_PartialImage(63,32,30,20,30,20,kirby_5);  delay_ms(500);
+//  Glcd_PartialImage(63,32,30,20,30,20,kirby_1);  delay_ms(500);
 
-  }
+
+       if (RCONbits.WDTO==1)
+       {
+
+       }
+            if(RCONbits.EXTR==1)
+            {
+
+            }
+                if (RCONbits.POR==1)
+                 {
+
+
+                 }
+
+
+         }
+
+
+}
 }
