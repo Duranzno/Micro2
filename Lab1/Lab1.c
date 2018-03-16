@@ -143,6 +143,9 @@ void main(){
   //void Glcd_Write_Text(char *text, unsigned short x_pos, unsigned short page_num, unsigned short color);
       Glcd_Write_TEXT("POR",0,3,BLACK);  delay_ms(500);
       RCONbits.POR=0;}
+<<<<<<< HEAD
         Glcd_Write_TEXT("Prueba",0,3,BLACK);  delay_ms(500);
+=======
+>>>>>>> 57579742dcb5bc5278be19979377d4b04752735c
     }
 }
