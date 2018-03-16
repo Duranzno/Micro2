@@ -107,11 +107,25 @@ void main(){
 
   while(1){
   //void Glcd_PartialImage(unsigned int x_left, unsigned int y_top, unsigned int width, unsigned int height, unsigned int picture_width, unsigned int picture_height, code const far char * image);
-  Glcd_PartialImage(63,32,30,20,30,20,kirby_1);  delay_ms(500);
-  Glcd_PartialImage(63,32,30,20,30,20,kirby_2);  delay_ms(500);
-  Glcd_PartialImage(63,32,30,20,30,20,kirby_3);  delay_ms(500);
-  Glcd_PartialImage(63,32,30,20,30,20,kirby_4);  delay_ms(500);
-  Glcd_PartialImage(63,32,30,20,30,20,kirby_5);  delay_ms(500);
+//  Glcd_PartialImage(63,32,30,20,30,20,kirby_1);  delay_ms(500);
 
-  }
+       
+       if (RCONbits.WDTO==1)
+       {
+
+       }
+            if(RCONbits.EXTR==1)
+            {
+
+            }
+                if (RCONbits.POR==1)
+                 {
+        
+        
+                 } 
+
+
+         }
+
+  
 }
