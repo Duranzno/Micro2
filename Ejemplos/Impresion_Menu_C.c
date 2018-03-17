@@ -54,10 +54,10 @@ const code char charmander_1[1024] = {
 //0,   3,   7,   6,   6,   7,   3,   1,   1,   1,   1,   1,   3,   7,   7,   7,   7,   6,   6,   7,   3,   0,   0
 //};
 // PS2 pinout definition
-//sbit PS2_Data at RF4_bit;
-//sbit PS2_Clock at RF5_bit;
-//sbit PS2_Data_Direction at TRISF4_bit;
-//sbit PS2_Clock_Direction at TRISF5_bit;
+sbit PS2_Data at RF4_bit;
+sbit PS2_Clock at RF5_bit;
+sbit PS2_Data_Direction at TRISF4_bit;
+sbit PS2_Clock_Direction at TRISF5_bit;
 // End of PS2 pinout definition
 // Glcd module connections
 sbit GLCD_D7 at RE1_bit;
@@ -88,6 +88,8 @@ sbit GLCD_RS_Direction at TRISD1_bit;
 sbit GLCD_RW_Direction at TRISD2_bit;
 sbit GLCD_EN_Direction at TRISD3_bit;
 sbit GLCD_RST_Direction at TRISE4_bit;
+const int WHITE=0;
+const int BLACK=1;
 //   void INT0() org 0x14{
 // int a=1;}
 //void INT1() org 0x3C{
@@ -166,10 +168,10 @@ sbit GLCD_RST_Direction at TRISE4_bit;
 //      IEC1bits.CNIE=1;//Resset Interrupcion
 // }
 
-//unsigned short keydata = 0;
-//unsigned short special = 0;
-//unsigned short down = 0;
-//    int op=0;
+unsigned short keydata = 0;
+unsigned short special = 0;
+unsigned short down = 0;
+    int op=0;
 void casoC(){
  Glcd_Write_TEXT("Ultimo Reset",60,0,1);
  do{
@@ -197,11 +199,6 @@ void main(){
   Glcd_Init();
   Glcd_Set_Font(font5x7 , 5, 7, 32);
   Glcd_Fill(0);
-
-while(1){
- Glcd_Image(charmander_1);
- delay_ms(500);}
-} 
 PS2_Config();
       Glcd_Write_TEXT("Laboratorio 1",31,0,1);
          delay_ms(3000);
