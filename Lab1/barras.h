@@ -7,33 +7,19 @@ const int BLACK=1;
 
 const int MAX_BAR_HEIGHT=BAR_HEIGHT*25;
 const int BARS_H_LOCATIONS[]={0,1,2,3,4};
-typedef enum {Int0,Int1,Int2,Int3,Int4}Bars;
+char txt[3];
+
 void bar_drawer(unsigned short x_left,unsigned short contador_barra);
 int DrawableBars(int real_number_of_bars);
 //Las barras se usan calculando la posicion X mas a la izquierda, todos tienen un alto y un ancho definidos
-void barras(Bars interrupcion,int contador_barra) {
-  switch(interrupcion){
-    case Int0:
-    //Int0 tiene una posicion especifica constante asignada aqui, se toma 0 como ejemplo
+
+void barras(int INTx,int contador_barra) {
     // void Glcd_Box(unsigned short x_upper_left, unsigned short y_upper_left, unsigned short x_bottom_right, unsigned short y_bottom_right, unsigned short color);
-    bar_drawer(BARS_H_LOCATIONS[Int0],contador_barra);
-    break;
-    case Int1:
-    bar_drawer(BARS_H_LOCATIONS[Int1],contador_barra);
-    break;
-    case Int2:
-    bar_drawer(BARS_H_LOCATIONS[Int2],contador_barra) ;
-    break;
-    case Int3:
-    bar_drawer(BARS_H_LOCATIONS[Int3],contador_barra);
-    break;
-    case Int4:
-    bar_drawer(BARS_H_LOCATIONS[Int4],contador_barra);
-    break;
-    default:
-    break;
-    }
+    bar_drawer(BARS_H_LOCATIONS[INTx],contador_barra);
+    IntToStr(contador_barra, char *txt);
+    Glcd_Write_Text(txt,BARS_H_LOCATIONS[INTx],0,1)
 }
+
 void bar_drawer(unsigned short x_left,unsigned short contador_barra){
 //        contador_barra=contador_barra==0?1:contador_barra;//Contador de barras nunca puede ser cero al momento de usar esta funcion
 //se debe de haber aumentado antes

@@ -31,13 +31,53 @@ sbit GLCD_RW_Direction at TRISD2_bit;
 sbit GLCD_EN_Direction at TRISD3_bit;
 sbit GLCD_RST_Direction at TRISE4_bit;
 // End Glcd module connections
+void casoC(){
+ Glcd_Write_TEXT("Ultimo Reset",60,0,1);
+ do{
+   if (RCONbits.WDTO==1){
+     Glcd_Write_TEXT("WDT",0,1,BLACK);
+     animate_dog_20s();
+     delay_ms(500);
+     RCONbits.WDTO=0;
+   }else if(RCONbits.EXTR==1){
+     Glcd_Fill(0xFF)
+     Glcd_Write_TEXT("MCLR",0,2,0);  
+     animate_blooper_20s();   
+     delay_ms(500);
+     RCONbits.EXTR=0;
+     Glcd_Fill(00);
+   }else if (RCONbits.POR==1){
+     Glcd_Write_TEXT("POR",0,3,1);
+     animate_shell_20s();  
+     delay_ms(500);
+     RCONbits.POR=0;
+   }
+ while(Ps2_Key_Read(&keydata, &special, &down));
+ }while(op!=34);
+ op='c';
+}
 unsigned short posicion=0;
-//void INT0() org 0x14{;}
-//void INT1() org 0x3C{;}
-//void INT2() org 0x4E{:}
-//void INT3() org 0x7E{;}
-//void INT4() org 0x80{;}
+int counters[5] count={0,0,0,0,0};
+void INT0() org 0x14{
+  InterrAdapter(0);  
+}
+void INT1() org 0x3C{
+  InterrAdapter(1);
+}
+void INT2() org 0x4E{
+  InterrAdapter(2);
+}
+void INT3() org 0x7E{
+  InterrAdapter(3);
+}
+void INT4() org 0x80{
+  InterrAdapter(4);
+}
+void InterrAdapter(int INTx){
+  count[INTx]++;
+  barras(INTx,counters[INTx]);
 
+}
 void config_INT(){
   SRbits.IPL =0;// iNTERRUPCION DE CPU ES DE NIVEL 0
   INTCON1bits.NSTDIS =0;// INTERRUPCION ANIDADAS ACTIVADAS
@@ -76,7 +116,7 @@ const int KEYBOARD_PPS_LOCATIONS[2]={100,101};//RF4,RF5
 const int LED_PPS_LOCATIONS[3]={85,87,118};//3 posiciones para 3 LEDS de salida
 
 void config_IO(){
-//TRISx,PORTX,LATx,ODCx
+//TRISx,PORTX,LATx,ODC
   ANSELB=0;
   ANSELC=0; ANSELD=0; ANSELE=0;                  //ANALOGICO SON B Y F
   //------------------------------------------------------
@@ -117,35 +157,72 @@ void config_LCD(){
   Glcd_Set_Font(font5x7 , 5, 7, 32);
   Glcd_Fill(0);
 }
-
-void main(){
+void casoA(){
   config_INT();
-  config_IO();
-//  config_CN();//para los dipswitches
-  config_LCD();
 
-    while(1){
-    //void Glcd_PartialImage(unsigned int x_left, unsigned int y_top, unsigned int width, unsigned int height, unsigned int picture_width, unsigned int picture_height, code const far char * image);
-    //Glcd_PartialImage(63,32,30,20,30,20,kirby_1);  delay_ms(500);
-    if (RCONbits.WDTO==1){
-      Glcd_PartialImage(63,40,30,20,30,20,kirby_1);  delay_ms(500);
-      //void Glcd_Write_Text(char *text, unsigned short x_pos, unsigned short page_num, unsigned short color);
-      Glcd_Write_TEXT("WDT",0,1,BLACK);
-      delay_ms(500);
-      RCONbits.WDTO=0;
-    }else if(RCONbits.EXTR==1){
-      Glcd_PartialImage(63,40,30,20,30,20,kirby_3);  delay_ms(500);
-      //void Glcd_Write_Text(char *text, unsigned short x_pos, unsigned short page_num, unsigned short color);
-      Glcd_Write_TEXT("MCLR",0,2,BLACK);     delay_ms(500);
-      RCONbits.EXTR=0;
-    }else if (RCONbits.POR==1){
-      Glcd_PartialImage(63,40,30,20,30,20,kirby_2);  delay_ms(500);
-  //void Glcd_Write_Text(char *text, unsigned short x_pos, unsigned short page_num, unsigned short color);
-      Glcd_Write_TEXT("POR",0,3,BLACK);  delay_ms(500);
-      RCONbits.POR=0;}
-<<<<<<< HEAD
-        Glcd_Write_TEXT("Prueba",0,3,BLACK);  delay_ms(500);
-=======
->>>>>>> 57579742dcb5bc5278be19979377d4b04752735c
-    }
+}
+void main(){
+  
+  config_IO();
+  config_CN();//para los dipswitches
+  config_LCD();
+  PS2_Config();
+  animate_charmander();
+  Glcd_Write_TEXT("Laboratorio 1",31,0,1);
+  delay_ms(3000);
+  while(1){       // Invert PORTB value
+   Glcd_Write_TEXT("Laboratorio 1",31,0,1);
+   Glcd_Image(charmander_1);         
+   delay_ms(3000);
+   Glcd_Fill(0);
+   Glcd_Write_TEXT("Presione 'A' para Caso 1",0,1,1);
+   Glcd_Write_TEXT("Presione 'B' para Caso 2",0,2,1);
+   Glcd_Write_TEXT("Presione 'C' para Caso 3",0,3,1);
+   Glcd_Write_TEXT("Presione 'D' para WDT   ",0,4,1);
+    delay_ms(3000);
+   
+    while(op!=34){
+     if(Ps2_Key_Read(&keydata, &special, &down)){
+     Glcd_Fill(0);
+     switch(op){
+       case 'a':
+       Glcd_Write_TEXT("Caso A",60,0,1);
+       delay_ms(1000);
+       op=keydata;
+       casoA();
+       break;
+
+       case 'b':
+       Glcd_Write_TEXT("Caso B ",60,0,1);
+       delay_ms(1000);
+       op=keydata;
+       break;
+
+       case 'c':
+       Glcd_Write_TEXT("Caso C ",60,0,1);
+       delay_ms(1000);
+       casoC();
+       op=keydata;
+       break;
+
+       case 'd':
+       Glcd_Write_TEXT("Caso D ",60,0,1);
+       delay_ms(1000);
+       op=keydata;
+       break;
+
+       case 34:
+       Glcd_Write_TEXT("Menu Principal ",60,0,1);
+       delay_ms(1000);
+       op=keydata;
+       //continue
+       break;
+       default:
+       Glcd_Write_TEXT("Erroneo ",60,0,1);
+       delay_ms(1000);
+       break;
+       }
+     }
+   }
+  }
 }
