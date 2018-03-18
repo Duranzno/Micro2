@@ -44,7 +44,7 @@ int DrawableBars(int real_number_of_bars){
   //Ejemplo 80-->5
   if(real_number_of_bars>25){
     int quotient=real_number_of_bars/25;
-    quotient=floor(quotient);
+    // quotient=floor(quotient);
     return real_number_of_bars-25*quotient;
   }else{
     return real_number_of_bars;

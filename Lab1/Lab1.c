@@ -47,7 +47,7 @@ const int KEYBOARD_PPS_LOCATIONS[2]={100,101};//RF4,RF5
 //Variables de trabajo
 int counters[5]={0,0,0,0,0};
 unsigned short keydata = 0, special = 0, down = 0;
-int op=00;
+int op=0;
 //extern sbit POR_LED at PORTE.E5
 //sbit WDT_LED at TRI
 //sbit MCLR_LED
@@ -105,12 +105,24 @@ void config_INT(){
   INTCON2bits.INT3EP=0;
   INTCON2bits.INT4EP =0;
 }
+void disable_INT(){
+  IPC0bits.INT0IP= 0;
+  IPC5BITS.INT1IP=0;
+  IPC7bits.INT2IP =0;
+  IPC13bits.INT3IP=0;
+  IPC13bits.INT4IP=0;
+  counters[0]=0;
+  counters[1]=0;
+  counters[2]=0;
+  counters[3]=0;
+  counters[4]=0;
+}
 void config_IO(){
   ANSELB = 0;
   ANSELC=0; 
   ANSELD=0; 
   ANSELE=0;                  //ANALOGICO SON B Y F
-//  LATB = 0;              // Set PORTB to zero
+ LATB = 0;              // Set PORTB to zero
   TRISB = 0;      
   ANSELG=0;
   //Entrada Botones y Dipswitches
@@ -182,61 +194,55 @@ void casoC(){
 //Programa Principal
 void main(){ 
   //-------------------------------------------Inicializacion de Configuraciones
-  config_IO();
+  
+
+ANSELB = 0;
+  ANSELC=0; 
+  ANSELD=0; 
+  ANSELE=0;                  //ANALOGICO SON B Y F
+ LATB = 0;              // Set PORTB to zero
+  TRISB = 0;      
+  ANSELG=0;
+  // config_IO();
   config_LCD();
   PS2_Config();
   // config_CN();//para los dipswitches
   // config_INT();
   //--------------------------------------------------------------Codigo General
   animate_charmander();
-  Glcd_Write_TEXT("Laboratorio 1",31,0,1);
-  delay_ms(3000);
-  while(1){       // Invert PORTB value
+  delay_ms(1000); 
+  while(1){ 
+  Glcd_Fill(0);
    Glcd_Write_TEXT("Laboratorio 1",31,0,1);
-   Glcd_Image(charmander_1);         
-   delay_ms(3000);
-   Glcd_Fill(0);
    Glcd_Write_TEXT("Presione 'A' para Caso 1",0,1,1);
    Glcd_Write_TEXT("Presione 'B' para Caso 2",0,2,1);
    Glcd_Write_TEXT("Presione 'C' para Caso 3",0,3,1);
    Glcd_Write_TEXT("Presione 'D' para WDT   ",0,4,1);
-   delay_ms(3000);
-   
-    while(op!=34){
-     if(Ps2_Key_Read(&keydata, &special, &down)){
-     Glcd_Fill(0);
-     switch(op){
+   if(Ps2_Key_Read(&keydata, &special, &down)){
+      if(down &&!special){
+        switch(keydata){
        case 'a':
          Glcd_Write_TEXT("Caso A",60,0,1);
          delay_ms(1000);
-         op=keydata;
          casoA();
          break;
 
        case 'b':
          Glcd_Write_TEXT("Caso B ",60,0,1);
          delay_ms(1000);
-         op=keydata;
+//         casoB();
          break;
 
        case 'c':
          Glcd_Write_TEXT("Caso C ",60,0,1);
-         delay_ms(1000);
+         delay_ms(1000);        
          casoC();
-         op=keydata;
          break;
 
        case 'd':
          Glcd_Write_TEXT("Caso D ",60,0,1);
          delay_ms(1000);
-         op=keydata;
-         break;
-
-       case 34:
-         Glcd_Write_TEXT("Menu Principal ",60,0,1);
-         delay_ms(1000);
-         op=keydata;
-         //continue
+//         casoD();
          break;
        default:
          Glcd_Write_TEXT("Erroneo ",60,0,1);
@@ -245,5 +251,48 @@ void main(){
        }
      }
    }
-  }
+ }
 }
+
+// {
+//      Glcd_Fill(0);
+//      //arreglar y actualizart op respecto a keydata
+//      switch(op){
+//        case 'a':
+//          Glcd_Write_TEXT("Caso A",60,0,1);
+//          delay_ms(1000);
+//          op=keydata;
+//          casoA();
+//          break;
+
+//        case 'b':
+//          Glcd_Write_TEXT("Caso B ",60,0,1);
+//          delay_ms(1000);
+//          op=keydata;
+//          break;
+
+//        case 'c':
+//          Glcd_Write_TEXT("Caso C ",60,0,1);
+//          delay_ms(1000);
+//          casoC();
+//          op=keydata;
+//          break;
+
+//        case 'd':
+//          Glcd_Write_TEXT("Caso D ",60,0,1);
+//          delay_ms(1000);
+//          op=keydata;
+//          break;
+
+//        case 34:
+//          Glcd_Write_TEXT("Menu Principal ",60,0,1);
+//          delay_ms(1000);
+//          op=keydata;
+//          //continue
+//          break;
+//        default:
+//          Glcd_Write_TEXT("Erroneo ",60,0,1);
+//          delay_ms(1000);
+//          break;
+//        }
+//      }

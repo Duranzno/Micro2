@@ -35,13 +35,15 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=3
+Count=4
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for dsPIC\defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for dsPIC\uses\
-Path2=C:\Users\Alejandro\Dropbox\Nube\universidad\2018-1\Microprocesadores II\Laboratorios\Micro2\Lab1\
+Path2=C:\Users\Alejandro\Documents\Git\Micro2\Lab1\
+Path3=C:\Users\Alejandro\Dropbox\Nube\universidad\2018-1\Microprocesadores II\Laboratorios\Micro2\Lab1\
 [HEADER_PATH]
-Count=1
+Count=2
 Path0=C:\Users\Alejandro\Dropbox\Nube\universidad\2018-1\Microprocesadores II\Laboratorios\Micro2\Lab1\
+Path1=C:\Users\Alejandro\Documents\Git\Micro2\Lab1\
 [HEADERS]
 Count=2
 File0=sprites.h
