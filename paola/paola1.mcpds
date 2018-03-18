@@ -24,8 +24,10 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
+Count=3
 File0=paola1.c
+File1=sprites.h
+File2=barras.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -33,14 +35,18 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=3
+Count=4
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for dsPIC\defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for dsPIC\uses\
-Path2=C:\Users\Lenovo\Desktop\uni\micro2\laboratorio\Micro2\paola\
+Path2=C:\Users\Alejandro\Documents\Git\Micro2\paola\
+Path3=C:\Users\Lenovo\Desktop\uni\micro2\laboratorio\Micro2\paola\
 [HEADER_PATH]
-Count=0
+Count=1
+Path0=C:\Users\Alejandro\Documents\Git\Micro2\paola\
 [HEADERS]
-Count=0
+Count=2
+File0=sprites.h
+File1=barras.h
 [PLDS]
 Count=0
 [Useses]
@@ -108,4 +114,6 @@ File59=USB
 File60=Vectors
 [EXPANDED NODES]
 Node1=Sources
-Count=1
+Node2=Header Files
+Node3=Output Files
+Count=3

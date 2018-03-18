@@ -1,5 +1,5 @@
-//#include "barras.h"
-//#include "sprites.h"
+#include "barras.h"
+#include "sprites.h"
 
 
 const code char camion[1024] = {
@@ -49,8 +49,7 @@ sbit GLCD_RS_Direction at TRISD1_bit;
 sbit GLCD_RW_Direction at TRISD2_bit;
 sbit GLCD_EN_Direction at TRISD3_bit;
 sbit GLCD_RST_Direction at TRISE4_bit;
-const int WHITE=0;
-const int BLACK=1;
+
 
 
 unsigned short keydata = 0;
@@ -95,6 +94,17 @@ while(1){
          LATB = ~LATB; // Invert PORTB value
          Glcd_Write_TEXT("Laboratorio 1",31,0,1);
          Glcd_Image(camion);
+          animate_kirby();
+          delay_ms(3000);
+          animate_bullet();
+          delay_ms(3000);
+          animate_blooper_20s();
+          delay_ms(3000);
+          animate_dog_20s();
+          delay_ms(3000);
+          animate_shell_20s();
+          delay_ms(3000);
+          animate_charmander();
          delay_ms(3000);
          Glcd_Fill(0);
          Glcd_Write_TEXT("Presione 'A' para Caso 1",0,1,1);

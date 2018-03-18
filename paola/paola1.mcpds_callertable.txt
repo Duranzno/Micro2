@@ -9,45 +9,60 @@ main
 		Glcd_Set_Page
 			Write_To_Pins
 			Strobe
-				Delay_10us
 		Glcd_Write_Data
 			Write_To_Pins
 			Strobe
-				Delay_10us
 	Ps2_Config
 	Glcd_Write_Text
 		Glcd_Write_Char
 			Glcd_Set_X
 				Write_To_Pins
 				Strobe
-					Delay_10us
 			Glcd_Set_Page
-				Write_To_Pins
-				Strobe
-					Delay_10us
 			Glcd_Set_Side
 			Glcd_Read_Data
 				Delay_1us
 				Delay_10us
 			Glcd_Write_Data
-				Write_To_Pins
-				Strobe
-					Delay_10us
 	Glcd_Image
 		Glcd_Set_Side
 		Glcd_Set_Page
-			Write_To_Pins
-			Strobe
-				Delay_10us
 		Glcd_Set_X
-			Write_To_Pins
-			Strobe
-				Delay_10us
 		Glcd_Write_Data
-			Write_To_Pins
-			Strobe
-				Delay_10us
 		__AddToFarPointer
+	animate_kirby
+		Glcd_Rectangle
+			Glcd_H_Line
+				Glcd_Dot
+					Glcd_Set_Side
+					Glcd_Set_Page
+					Glcd_Set_X
+					Delay_10us
+					Glcd_Read_Data
+					Glcd_Write_Data
+			Glcd_V_Line
+				Glcd_Dot
+		Glcd_PartialImage
+			Glcd_Set_Side
+			Glcd_Set_Page
+			__AddToFarPointer
+			Glcd_Set_X
+			Glcd_Read_Data
+			Glcd_Write_Data
+	animate_bullet
+		Glcd_Fill
+		Glcd_PartialImage
+	animate_blooper_20s
+		Glcd_Rectangle
+		Glcd_PartialImage
+	animate_dog_20s
+		Glcd_Rectangle
+		Glcd_PartialImage
+	animate_shell_20s
+		Glcd_Rectangle
+		Glcd_PartialImage
+	animate_charmander
+		Glcd_Image
 	Ps2_Key_Read
 		Keyboard_Active
 			Clock_Enable
@@ -59,29 +74,4 @@ main
 		Ps2_Get_Value
 	casoC
 		Glcd_Write_Text
-			Glcd_Write_Char
-				Glcd_Set_X
-					Write_To_Pins
-					Strobe
-						Delay_10us
-				Glcd_Set_Page
-					Write_To_Pins
-					Strobe
-						Delay_10us
-				Glcd_Set_Side
-				Glcd_Read_Data
-					Delay_1us
-					Delay_10us
-				Glcd_Write_Data
-					Write_To_Pins
-					Strobe
-						Delay_10us
 		Ps2_Key_Read
-			Keyboard_Active
-				Clock_Enable
-				Clock_Wait_High
-				Clock_Disable
-			Get_Hex
-				Wait_Falling
-				Clock_Disable
-			Ps2_Get_Value
