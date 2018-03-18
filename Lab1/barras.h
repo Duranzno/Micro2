@@ -16,8 +16,8 @@ int DrawableBars(int real_number_of_bars);
 void barras(int INTx,int contador_barra) {
     // void Glcd_Box(unsigned short x_upper_left, unsigned short y_upper_left, unsigned short x_bottom_right, unsigned short y_bottom_right, unsigned short color);
     bar_drawer(BARS_H_LOCATIONS[INTx],contador_barra);
-    IntToStr(contador_barra, char *txt);
-    Glcd_Write_Text(txt,BARS_H_LOCATIONS[INTx],0,1)
+    IntToStr(contador_barra,txt);
+    Glcd_Write_Text(txt,BARS_H_LOCATIONS[INTx],0,1);
 }
 
 void bar_drawer(unsigned short x_left,unsigned short contador_barra){

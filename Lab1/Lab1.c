@@ -1,7 +1,13 @@
 #include "barras.h"
 #include "sprites.h"
-
-// Glcd module connections
+//____________________________________________________________________________________________________________________________________
+//~~~~~~~~~~~~~~~~~~Constantes  del dsPIC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//Variables de PS2
+sbit PS2_Data at RF4_bit;
+sbit PS2_Clock at RF5_bit;
+sbit PS2_Data_Direction at TRISF4_bit;
+sbit PS2_Clock_Direction at TRISF5_bit;
+//Variables de GLCD
 sbit GLCD_D7 at RE1_bit;
 sbit GLCD_D6 at RE0_bit;
 sbit GLCD_D5 at RF1_bit;
@@ -29,35 +35,26 @@ sbit GLCD_CS2_Direction at TRISE2_bit;
 sbit GLCD_RS_Direction at TRISD1_bit;
 sbit GLCD_RW_Direction at TRISD2_bit;
 sbit GLCD_EN_Direction at TRISD3_bit;
-sbit GLCD_RST_Direction at TRISE4_bit;
-// End Glcd module connections
-void casoC(){
- Glcd_Write_TEXT("Ultimo Reset",60,0,1);
- do{
-   if (RCONbits.WDTO==1){
-     Glcd_Write_TEXT("WDT",0,1,BLACK);
-     animate_dog_20s();
-     delay_ms(500);
-     RCONbits.WDTO=0;
-   }else if(RCONbits.EXTR==1){
-     Glcd_Fill(0xFF)
-     Glcd_Write_TEXT("MCLR",0,2,0);  
-     animate_blooper_20s();   
-     delay_ms(500);
-     RCONbits.EXTR=0;
-     Glcd_Fill(00);
-   }else if (RCONbits.POR==1){
-     Glcd_Write_TEXT("POR",0,3,1);
-     animate_shell_20s();  
-     delay_ms(500);
-     RCONbits.POR=0;
-   }
- while(Ps2_Key_Read(&keydata, &special, &down));
- }while(op!=34);
- op='c';
-}
-unsigned short posicion=0;
-int counters[5] count={0,0,0,0,0};
+sbit GLCD_RST_Direction at TRISE4_bit; 
+
+//~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+//Constantes de las ubicaciones de los pines  
+const int BTN_PPS_LOCATIONS[5]={-1,37,36,35,34};//5 posiciones para las 4 Ubicaciones de los botones de Interrupciion del ejercicio 1
+// el 0 nunca se usa porque INT0 esta fijo en el pin 46 RP64. RB2-5
+const int DIP_PPS_LOCATIONS[5]={32,33,38,39,40};//5 posiciones para 5 Dipswitches RPI32,33,38,39,40 Y RB0,1,6,7,8
+const int KEYBOARD_PPS_LOCATIONS[2]={100,101};//RF4,RF5
+//const int LED_PPS_LOCATIONS[3]={85,87,118};//3 posiciones para 3 LEDS de salida    RE5,RE7,RG6
+//Variables de trabajo
+int counters[5]={0,0,0,0,0};
+unsigned short keydata = 0, special = 0, down = 0;
+int op=00;
+//extern sbit POR_LED at PORTE.E5
+//sbit WDT_LED at TRI
+//sbit MCLR_LED
+//____________________________________________________________________________________________________________________________________
+//~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void InterrAdapter(int INTx);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void INT0() org 0x14{
   InterrAdapter(0);  
 }
@@ -74,10 +71,10 @@ void INT4() org 0x80{
   InterrAdapter(4);
 }
 void InterrAdapter(int INTx){
-  count[INTx]++;
+  counters[INTx]++;
   barras(INTx,counters[INTx]);
-
 }
+//~~~~~~~~~~~~~~~~~~~~~~Configuraciones Iniciales~~~~~~~~~~~~~~~~~~~~~~~~~~
 void config_INT(){
   SRbits.IPL =0;// iNTERRUPCION DE CPU ES DE NIVEL 0
   INTCON1bits.NSTDIS =0;// INTERRUPCION ANIDADAS ACTIVADAS
@@ -108,29 +105,24 @@ void config_INT(){
   INTCON2bits.INT3EP=0;
   INTCON2bits.INT4EP =0;
 }
-
-const int BTN_PPS_LOCATIONS[5]={-1,37,36,35,34};//5 posiciones para las 4 Ubicaciones de los botones de Interrupciion del ejercicio 1
-// el 0 nunca se usa porque INT0 esta fijo en el pin 46 RP64. RB2-5
-const int DIP_PPS_LOCATIONS[5]={32,33,38,39,40};//5 posiciones para 5 Dipswitches RPI32,33,38,39,40 Y RB0,1,6,7,8
-const int KEYBOARD_PPS_LOCATIONS[2]={100,101};//RF4,RF5
-const int LED_PPS_LOCATIONS[3]={85,87,118};//3 posiciones para 3 LEDS de salida
-
 void config_IO(){
-//TRISx,PORTX,LATx,ODC
-  ANSELB=0;
-  ANSELC=0; ANSELD=0; ANSELE=0;                  //ANALOGICO SON B Y F
-  //------------------------------------------------------
-  //Asignacion Pines Entrada
-  //INT0 No tiene PPS y es constante, a los demas se les tiene que colocar
-  //el numero del RPINx en su registro correspondiente.
-   //Necesito otras entradas para el 5 dipswitches, y 4 de usb/ps/2
-  RPINR0bits.INT1R = BTN_PPS_LOCATIONS[1];//El Periferico INT1 esta en el pin 47
-  RPINR1bits.INT2R = BTN_PPS_LOCATIONS[2];
-  RPINR1bits.INT3R=  BTN_PPS_LOCATIONS[3];
-  RPINR2bits.INT4R=  BTN_PPS_LOCATIONS[4];
-  //Necesito 3 salidas extras de GPIO
-}
+  ANSELB = 0;
+  ANSELC=0; 
+  ANSELD=0; 
+  ANSELE=0;                  //ANALOGICO SON B Y F
+//  LATB = 0;              // Set PORTB to zero
+  TRISB = 0;      
+  ANSELG=0;
+  //Entrada Botones y Dipswitches
+  //Las entradas del teclado y las salidas de la pantalla son manejadas por las librerias;
+//Se deben colocar manualmente como A/D
+  //Salida LEDS
+  TRISEbits.TRISE5=0;
+  TRISEbits.TRISE7=0;
+  TRISGbits.TRISG6=0;
 
+
+}
 void config_CN(){
 //CNENx, CNPUx,CNIEx
      TRISB = 0;
@@ -149,24 +141,53 @@ void config_CN(){
      IFS1bits.CNIF=0;
      IEC1bits.CNIE=1;//Resset Interrupcion
      
-
-
 }
-void config_LCD(){
+void config_LCD(){ 
   Glcd_Init();
   Glcd_Set_Font(font5x7 , 5, 7, 32);
   Glcd_Fill(0);
 }
-void casoA(){
-  config_INT();
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos del Menu~~~~~~~~~~~~~~~~~~~~
+
+void casoA(){
 }
-void main(){
-  
+void casoC(){
+ Glcd_Write_TEXT("Ultimo Reset",60,0,1);
+ do{
+   if (RCONbits.WDTO==1){
+     Glcd_Write_TEXT("WDT",0,1,BLACK);
+     animate_dog_20s();
+     delay_ms(500);
+     RCONbits.WDTO=0;
+//     PORTEbits.PORTE
+   }else if(RCONbits.EXTR==1){
+     Glcd_Fill(0xFF);
+     Glcd_Write_TEXT("MCLR",0,2,0);  
+     animate_blooper_20s();   
+     delay_ms(500);
+     RCONbits.EXTR=0;
+     Glcd_Fill(00);
+   }else if (RCONbits.POR==1){
+     Glcd_Write_TEXT("POR",0,3,1);
+     animate_shell_20s();  
+     delay_ms(500);
+     RCONbits.POR=0;
+   }
+ while(Ps2_Key_Read(&keydata, &special, &down));
+ }while(op!=34);
+ op='c';
+}
+
+//Programa Principal
+void main(){ 
+  //-------------------------------------------Inicializacion de Configuraciones
   config_IO();
-  config_CN();//para los dipswitches
   config_LCD();
   PS2_Config();
+  // config_CN();//para los dipswitches
+  // config_INT();
+  //--------------------------------------------------------------Codigo General
   animate_charmander();
   Glcd_Write_TEXT("Laboratorio 1",31,0,1);
   delay_ms(3000);
@@ -179,48 +200,48 @@ void main(){
    Glcd_Write_TEXT("Presione 'B' para Caso 2",0,2,1);
    Glcd_Write_TEXT("Presione 'C' para Caso 3",0,3,1);
    Glcd_Write_TEXT("Presione 'D' para WDT   ",0,4,1);
-    delay_ms(3000);
+   delay_ms(3000);
    
     while(op!=34){
      if(Ps2_Key_Read(&keydata, &special, &down)){
      Glcd_Fill(0);
      switch(op){
        case 'a':
-       Glcd_Write_TEXT("Caso A",60,0,1);
-       delay_ms(1000);
-       op=keydata;
-       casoA();
-       break;
+         Glcd_Write_TEXT("Caso A",60,0,1);
+         delay_ms(1000);
+         op=keydata;
+         casoA();
+         break;
 
        case 'b':
-       Glcd_Write_TEXT("Caso B ",60,0,1);
-       delay_ms(1000);
-       op=keydata;
-       break;
+         Glcd_Write_TEXT("Caso B ",60,0,1);
+         delay_ms(1000);
+         op=keydata;
+         break;
 
        case 'c':
-       Glcd_Write_TEXT("Caso C ",60,0,1);
-       delay_ms(1000);
-       casoC();
-       op=keydata;
-       break;
+         Glcd_Write_TEXT("Caso C ",60,0,1);
+         delay_ms(1000);
+         casoC();
+         op=keydata;
+         break;
 
        case 'd':
-       Glcd_Write_TEXT("Caso D ",60,0,1);
-       delay_ms(1000);
-       op=keydata;
-       break;
+         Glcd_Write_TEXT("Caso D ",60,0,1);
+         delay_ms(1000);
+         op=keydata;
+         break;
 
        case 34:
-       Glcd_Write_TEXT("Menu Principal ",60,0,1);
-       delay_ms(1000);
-       op=keydata;
-       //continue
-       break;
+         Glcd_Write_TEXT("Menu Principal ",60,0,1);
+         delay_ms(1000);
+         op=keydata;
+         //continue
+         break;
        default:
-       Glcd_Write_TEXT("Erroneo ",60,0,1);
-       delay_ms(1000);
-       break;
+         Glcd_Write_TEXT("Erroneo ",60,0,1);
+         delay_ms(1000);
+         break;
        }
      }
    }

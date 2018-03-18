@@ -3,14 +3,7 @@ void animate_bullet();
 void animate_blooper_20s();
 void animate_dog_20s();
 void animate_shell_20s();
-void animate_charmander(){
-
-	Glcd_Image(charmander_1);
-	delay_ms(500);
-
-	Glcd_Image(charmander_);
-	delay_ms(500);
-}
+void animate_charmander();
 const code char charmander_1[1024] = {
 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 
 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 192,  32,  16,   0,   8,   8,   8,   8,   0,  16,  16, 160, 192,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 128, 128,  64,  64,  64,  64,  64, 128, 128,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 
@@ -37,20 +30,15 @@ const code char charmander_2[1024] = {
 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   4,  10,  15,  23,  23,  23,  15,  23,  23,  31,   7,   3,   0,   0,   0,   0,   0,   8,  21,  23,  31,  47,  47,  47,  31,  47,  39,  23,  15,   6,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   3,  13,  20,  12,  17,  15,   4,   3,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 
 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
 };
-void animate_blooper_20s(){
-	Glcd_Rectangle(0,8,127,64,1)
-	Glcd_PartialImage(63,16,35,34,35,34,blooper_1);
-	delay_ms(500);
-	Glcd_Rectangle(0,8,127,64,1)
-	Glcd_PartialImage(63,16,35,34,35,34,blooper_2);
-	delay_ms(500);
-	Glcd_Rectangle(0,8,127,64,1)
-	Glcd_PartialImage(63,16,35,34,35,34,blooper_3);
-	delay_ms(500);
-	Glcd_Rectangle(0,8,127,64,1)
-	Glcd_PartialImage(63,16,35,34,35,34,blooper_4);
-	delay_ms(500);
+void animate_charmander(){
+
+        Glcd_Image(charmander_1);
+        delay_ms(500);
+
+        Glcd_Image(charmander_2);
+        delay_ms(500);
 }
+
 const code char blooper_1[175] = {
 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 127,  63,  63,  63,  63, 127, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 
 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 239, 231, 227,   1, 128, 128, 128, 128, 128, 128, 128, 128,   1, 227, 231, 239, 255, 255, 255, 255, 255, 255, 255, 255, 255, 
@@ -82,47 +70,44 @@ const code char blooper_4[175] = {
 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 
 3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3
 };
-
+ void animate_blooper_20s(){
+        Glcd_Rectangle(0,8,127,64,1);
+        Glcd_PartialImage(63,16,35,34,35,34,blooper_1);
+        delay_ms(500);
+        Glcd_Rectangle(0,8,127,64,1);
+        Glcd_PartialImage(63,16,35,34,35,34,blooper_2);
+        delay_ms(500);
+        Glcd_Rectangle(0,8,127,64,1);
+        Glcd_PartialImage(63,16,35,34,35,34,blooper_3);
+        delay_ms(500);
+        Glcd_Rectangle(0,8,127,64,1);
+        Glcd_PartialImage(63,16,35,34,35,34,blooper_4);
+        delay_ms(500);
+}
 // ------------------------------------------------------  
 // GLCD Picture name: bullet.bmp            
 // GLCD Model: KS0108 128x64            
 // ------------------------------------------------------  
-void animate_bullet(){
-	for(int i=108,i-10,i<19){
-		Glcd_Fill(00);
-		Glcd_PartialImage(i,24,18,18,18,18,bullet);
-		delay_ms(250);
-	}
-}
+
 const code char bullet[54] = {
   0,   0, 128,  64,  32, 240, 240, 216, 232, 232, 232, 232, 232, 248,   0, 232, 232,   0, 
   0,  15,  30,  61, 126, 255, 243, 227, 225, 227, 240, 248, 249, 255,   0, 255, 255,   0, 
   0,   0,   0,   0,   0,   0,   0,   1,   1,   1,   1,   1,   1,   1,   0,   1,   1,   0
 };
-
+void animate_bullet(){
+      int i;  
+      for(i=108;i-10;i<19){
+                Glcd_Fill(00);
+                Glcd_PartialImage(i,24,18,18,18,18,bullet);
+                delay_ms(250);
+        }
+}
 
 // ------------------------------------------------------  
 // GLCD Picture name: 10.bmp            
 // GLCD Model: KS0108 128x64            
 // ------------------------------------------------------  
-void animate_shell_20s(){
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(125,56,16,16,16,16,shell_1);
-	delay_ms(4000);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(100,56,16,16,16,16,shell_2);
-	delay_ms(4000);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(75,56,16,16,16,16,shell_3);
-	delay_ms(4000);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(50,56,16,16,16,16,shell_1);
-	delay_ms(4000);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(25,56,16,16,16,16,shell_2);
-	delay_ms(4000);
 
-}
 const code char shell_1[32] = {
 0, 176, 184,  60, 126, 254, 254, 255, 255, 231, 198, 206, 252, 248, 192,   0, 
 14,  31,  29,  15,   0,  15,  31,  63,  63,  31,  31,  15,  15,  15,  15,   0
@@ -141,24 +126,25 @@ const code char shell_3[32] = {
 // GLCD Picture name: dog_1.bmp            
 // GLCD Model: KS0108 128x64            
 // ------------------------------------------------------  
-void animate_dog_20s(){
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(45,16,31,40,31,40,dog_1);
-	delay_ms(4000);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(45,16,31,40,31,40,dog_2);
-	delay_ms(4000);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(45,16,31,40,31,40,dog_3);
-	delay_ms(4000);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(45,16,31,40,31,40,dog_1);
-	delay_ms(4000);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(45,16,31,40,31,40,dog_2);
-	delay_ms(4000);
+void animate_shell_20s(){
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(125,56,16,16,16,16,shell_1);
+        delay_ms(4000);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(100,56,16,16,16,16,shell_2);
+        delay_ms(4000);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(75,56,16,16,16,16,shell_3);
+        delay_ms(4000);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(50,56,16,16,16,16,shell_1);
+        delay_ms(4000);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(25,56,16,16,16,16,shell_2);
+        delay_ms(4000);
 
 }
+
 const code char dog_1[155] = {
 224, 248, 252, 254, 254,  31,   7,   7, 254, 254,  14,   7, 103, 254, 254, 103,   7,  14, 254, 254,   7,   7,  31,  62,  60, 124, 124,  62,  30,   0,   0, 
   1,   7,  15,  15,   0,   0,   0, 136,   1,  65,  11,  34, 135, 203, 203, 135,  34,  11,  65,   1, 136,   0, 128, 192, 192, 224, 240, 240, 248, 252,   0, 
@@ -194,25 +180,22 @@ const code char dog_3[155] = {
 // GLCD Picture name: kirby_1.bmp            
 // GLCD Model: KS0108 128x64            
 // ------------------------------------------------------  
-void animate_kirby(){
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(21,20,21,19,21,19,kirby_1);
-	delay_ms(300);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(21,20,21,19,21,19,kirby_2);
-	delay_ms(300);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(21,20,21,19,21,19,kirby_3);
-	delay_ms(300);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(21,20,21,19,21,19,kirby_4);
-	delay_ms(300);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(21,20,21,19,21,19,kirby_5);
-	delay_ms(300);
-	Glcd_Rectangle(0,8,127,64,0)
-	Glcd_PartialImage(21,20,21,19,21,19,kirby_6);
-	delay_ms(300);
+void animate_dog_20s(){
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(45,16,31,40,31,40,dog_1);
+        delay_ms(4000);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(45,16,31,40,31,40,dog_2);
+        delay_ms(4000);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(45,16,31,40,31,40,dog_3);
+        delay_ms(4000);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(45,16,31,40,31,40,dog_1);
+        delay_ms(4000);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(45,16,31,40,31,40,dog_2);
+        delay_ms(4000);
 }
 const code char kirby_1[63] = {
 128,  64,  96,  32,  56,  12,   6,   2,   3,   1,  41, 241,   1,  43, 242,   6,  12,  48,  32,  96, 192, 
@@ -244,11 +227,7 @@ const code char kirby_3[63] = {
 // GLCD Model: KS0108 128x64            
 // ------------------------------------------------------  
 
-const code char kirby_3[63] = {
-  0, 128, 224,  48,  24,   8,  12,   4,   4,   4,   4,  84, 228,   4,  84, 232,   8,  48, 224, 128,   0, 
-  0,  31,  48, 104, 208, 160, 160, 224,  48,  32,  32,  32,  33,  64, 196, 193, 192,  96,  56,  31,   0, 
-  0,   0,   0,   0,   0,   0,   1,   3,   3,   3,   3,   3,   3,   3,   3,   1,   0,   0,   0,   0,   0
-};
+
 // ------------------------------------------------------  
 // GLCD Picture name: kirby_4.bmp            
 // GLCD Model: KS0108 128x64            
@@ -279,14 +258,23 @@ const code char kirby_6[63] = {
 240, 184,  15,  56,  96, 192, 192, 192, 128, 128, 132, 128, 193, 192, 192, 224, 242, 255, 226, 126,  60, 
   1,   3,   7,   6,   7,   7,   7,   3,   0,   0,   0,   0,   0,   1,   1,   1,   1,   0,   0,   0,   0
 };
-
-
-
-
-
-
-
-
-
-
-
+void animate_kirby(){
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(21,20,21,19,21,19,kirby_1);
+        delay_ms(300);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(21,20,21,19,21,19,kirby_2);
+        delay_ms(300);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(21,20,21,19,21,19,kirby_3);
+        delay_ms(300);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(21,20,21,19,21,19,kirby_4);
+        delay_ms(300);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(21,20,21,19,21,19,kirby_5);
+        delay_ms(300);
+        Glcd_Rectangle(0,8,127,64,0);
+        Glcd_PartialImage(21,20,21,19,21,19,kirby_6);
+        delay_ms(300);
+}
