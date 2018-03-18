@@ -73,16 +73,16 @@ const code char blooper_4[175] = {
  void animate_blooper_20s(){
         Glcd_Rectangle(0,8,127,64,1);
         Glcd_PartialImage(63,16,35,34,35,34,blooper_1);
-        delay_ms(500);
+        delay_ms(5000);
         Glcd_Rectangle(0,8,127,64,1);
         Glcd_PartialImage(63,16,35,34,35,34,blooper_2);
-        delay_ms(500);
+        delay_ms(5000);
         Glcd_Rectangle(0,8,127,64,1);
         Glcd_PartialImage(63,16,35,34,35,34,blooper_3);
-        delay_ms(500);
+        delay_ms(5000);
         Glcd_Rectangle(0,8,127,64,1);
         Glcd_PartialImage(63,16,35,34,35,34,blooper_4);
-        delay_ms(500);
+        delay_ms(5000);
 }
 // ------------------------------------------------------  
 // GLCD Picture name: bullet.bmp            

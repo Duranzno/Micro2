@@ -46,6 +46,7 @@ const int KEYBOARD_PPS_LOCATIONS[2]={100,101};//RF4,RF5
 //const int LED_PPS_LOCATIONS[3]={85,87,118};//3 posiciones para 3 LEDS de salida    RE5,RE7,RG6
 //Variables de trabajo
 int counters[5]={0,0,0,0,0};
+int valores_cn[4]={0,0,0,0}
 unsigned short keydata = 0, special = 0, down = 0;
 int op=0;
 //extern sbit POR_LED at PORTE.E5
@@ -69,6 +70,18 @@ void INT3() org 0x7E{
 }
 void INT4() org 0x80{
   InterrAdapter(4);
+}
+void INT_CN() org 0x3A{
+  if(PORTBbits.RB0==1){
+
+  }else if(PORTBbits.RB1==1){
+  
+  }else if(PORTBbits.RB6==1){
+  
+  }else if(PORTBbits.RB7==1){
+  
+  }
+  IFS1bits.CNIF = 0;
 }
 void InterrAdapter(int INTx){
   counters[INTx]++;
@@ -118,26 +131,21 @@ void disable_INT(){
   counters[4]=0;
 }
 void config_IO(){
-  ANSELB = 0;
+  ANSELB=0;
   ANSELC=0; 
   ANSELD=0; 
-  ANSELE=0;                  //ANALOGICO SON B Y F
- LATB = 0;              // Set PORTB to zero
-  TRISB = 0;      
-  ANSELG=0;
+  ANSELE=0; 
+  ANSELG=0;             //ANALOGICO SON B Y F
+
+  TRISB = 1;
+  TRISE=0;
+  TRISG=0;
   //Entrada Botones y Dipswitches
   //Las entradas del teclado y las salidas de la pantalla son manejadas por las librerias;
-//Se deben colocar manualmente como A/D
-  //Salida LEDS
-  TRISEbits.TRISE5=0;
-  TRISEbits.TRISE7=0;
-  TRISGbits.TRISG6=0;
-
-
 }
 void config_CN(){
+  //
 //CNENx, CNPUx,CNIEx
-     TRISB = 0;
      CNENBbits.CNIEB0=1;
      CNENBbits.CNIEB1=1;
      CNENBbits.CNIEB6=1;
@@ -150,6 +158,8 @@ void config_CN(){
      CNPUBbits.CNPUB7=1;
      CNPUBbits.CNPUB8=1;
      //RB1-rb5, rpi33-37
+    //Prioridad 
+     IPC4bits.CNIP=7;
      IFS1bits.CNIF=0;
      IEC1bits.CNIE=1;//Resset Interrupcion
      
@@ -163,7 +173,9 @@ void config_LCD(){
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos del Menu~~~~~~~~~~~~~~~~~~~~
 
 void casoA(){
+
 }
+
 void casoC(){
  Glcd_Write_TEXT("Ultimo Reset",60,0,1);
  do{
@@ -195,18 +207,19 @@ void casoC(){
 void main(){ 
   //-------------------------------------------Inicializacion de Configuraciones
   
-
-ANSELB = 0;
+  ANSELB=0;
   ANSELC=0; 
   ANSELD=0; 
-  ANSELE=0;                  //ANALOGICO SON B Y F
- LATB = 0;              // Set PORTB to zero
-  TRISB = 0;      
-  ANSELG=0;
+  ANSELE=0; 
+  ANSELG=0;             //ANALOGICO SON B Y F
+
+  TRISB = 1;
+  TRISE=0;
+  TRISG=0;
   // config_IO();
   config_LCD();
   PS2_Config();
-  // config_CN();//para los dipswitches
+  config_CN();//para los dipswitches
   // config_INT();
   //--------------------------------------------------------------Codigo General
   animate_charmander();
