@@ -72,7 +72,7 @@ void INT4() org 0x80{
 }
 void InterrAdapter(int INTx){
   counters[INTx]++;
-  barras(INTx,counters[INTx]);
+  //barras(INTx,counters[INTx]);
 }
 //~~~~~~~~~~~~~~~~~~~~~~Configuraciones Iniciales~~~~~~~~~~~~~~~~~~~~~~~~~~
 void config_INT(){
