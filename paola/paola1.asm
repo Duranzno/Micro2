@@ -990,8 +990,8 @@ L_end_animate_kirby:
 
 _casoC:
 
-;paola1.c,59 :: 		void casoC(){
-;paola1.c,60 :: 		Glcd_Write_TEXT("Ultimo Reset",60,0,1);
+;paola1.c,75 :: 		void casoC(){
+;paola1.c,76 :: 		Glcd_Write_TEXT("Ultimo Reset",60,0,1);
 	PUSH	W10
 	PUSH	W11
 	PUSH	W12
@@ -1001,18 +1001,18 @@ _casoC:
 	MOV.B	#60, W11
 	MOV	#lo_addr(?lstr1_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,61 :: 		do{
+;paola1.c,77 :: 		do{
 L_casoC54:
-;paola1.c,62 :: 		if (RCONbits.WDTO==1){
+;paola1.c,78 :: 		if (RCONbits.WDTO==1){
 	BTSS	RCONbits, #4
 	GOTO	L_casoC57
-;paola1.c,63 :: 		Glcd_Write_TEXT("WDT",0,1,BLACK);
+;paola1.c,79 :: 		Glcd_Write_TEXT("WDT",0,1,BLACK);
 	MOV.B	#1, W13
 	MOV.B	#1, W12
 	CLR	W11
 	MOV	#lo_addr(?lstr2_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,64 :: 		delay_ms(500);
+;paola1.c,80 :: 		delay_ms(500);
 	MOV	#8, W8
 	MOV	#41252, W7
 L_casoC58:
@@ -1020,20 +1020,20 @@ L_casoC58:
 	BRA NZ	L_casoC58
 	DEC	W8
 	BRA NZ	L_casoC58
-;paola1.c,65 :: 		RCONbits.WDTO=0;
+;paola1.c,81 :: 		RCONbits.WDTO=0;
 	BCLR	RCONbits, #4
-;paola1.c,66 :: 		}else if(RCONbits.EXTR==1){
+;paola1.c,82 :: 		}else if(RCONbits.EXTR==1){
 	GOTO	L_casoC60
 L_casoC57:
 	BTSS	RCONbits, #7
 	GOTO	L_casoC61
-;paola1.c,67 :: 		Glcd_Write_TEXT("MCLR",0,2,1);
+;paola1.c,83 :: 		Glcd_Write_TEXT("MCLR",0,2,1);
 	MOV.B	#1, W13
 	MOV.B	#2, W12
 	CLR	W11
 	MOV	#lo_addr(?lstr3_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,68 :: 		delay_ms(500);
+;paola1.c,84 :: 		delay_ms(500);
 	MOV	#8, W8
 	MOV	#41252, W7
 L_casoC62:
@@ -1041,20 +1041,20 @@ L_casoC62:
 	BRA NZ	L_casoC62
 	DEC	W8
 	BRA NZ	L_casoC62
-;paola1.c,69 :: 		RCONbits.EXTR=0;
+;paola1.c,85 :: 		RCONbits.EXTR=0;
 	BCLR	RCONbits, #7
-;paola1.c,70 :: 		}else if (RCONbits.POR==1){
+;paola1.c,86 :: 		}else if (RCONbits.POR==1){
 	GOTO	L_casoC64
 L_casoC61:
 	BTSS	RCONbits, #0
 	GOTO	L_casoC65
-;paola1.c,71 :: 		Glcd_Write_TEXT("POR",0,3,1);
+;paola1.c,87 :: 		Glcd_Write_TEXT("POR",0,3,1);
 	MOV.B	#1, W13
 	MOV.B	#3, W12
 	CLR	W11
 	MOV	#lo_addr(?lstr4_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,72 :: 		delay_ms(500);
+;paola1.c,88 :: 		delay_ms(500);
 	MOV	#8, W8
 	MOV	#41252, W7
 L_casoC66:
@@ -1062,13 +1062,13 @@ L_casoC66:
 	BRA NZ	L_casoC66
 	DEC	W8
 	BRA NZ	L_casoC66
-;paola1.c,73 :: 		RCONbits.POR=0;
+;paola1.c,89 :: 		RCONbits.POR=0;
 	BCLR	RCONbits, #0
-;paola1.c,74 :: 		}
+;paola1.c,90 :: 		}
 L_casoC65:
 L_casoC64:
 L_casoC60:
-;paola1.c,75 :: 		while(Ps2_Key_Read(&keydata, &special, &down));
+;paola1.c,91 :: 		while(Ps2_Key_Read(&keydata, &special, &down));
 L_casoC68:
 	MOV	#lo_addr(_down), W12
 	MOV	#lo_addr(_special), W11
@@ -1080,17 +1080,17 @@ L_casoC68:
 L__casoC125:
 	GOTO	L_casoC68
 L_casoC69:
-;paola1.c,76 :: 		}while(op!=34);
+;paola1.c,92 :: 		}while(op!=34);
 	MOV	#34, W1
 	MOV	#lo_addr(_op), W0
 	CP	W1, [W0]
 	BRA Z	L__casoC126
 	GOTO	L_casoC54
 L__casoC126:
-;paola1.c,77 :: 		op='c';
+;paola1.c,93 :: 		op='c';
 	MOV	#99, W0
 	MOV	W0, _op
-;paola1.c,78 :: 		}
+;paola1.c,94 :: 		}
 L_end_casoC:
 	POP	W13
 	POP	W12
@@ -1108,8 +1108,8 @@ _main:
 	MOV	#4, W0
 	IOR	68
 
-;paola1.c,79 :: 		void main(){
-;paola1.c,80 :: 		ANSELC=0; ANSELD=0; ANSELE=0;                  //ANALOGICO SON B Y F
+;paola1.c,95 :: 		void main(){
+;paola1.c,96 :: 		ANSELC=0; ANSELD=0; ANSELE=0;                  //ANALOGICO SON B Y F
 	PUSH	W10
 	PUSH	W11
 	PUSH	W12
@@ -1117,15 +1117,15 @@ _main:
 	CLR	ANSELC
 	CLR	ANSELD
 	CLR	ANSELE
-;paola1.c,84 :: 		LATB = 0;              // Set PORTB to zero
+;paola1.c,100 :: 		LATB = 0;              // Set PORTB to zero
 	CLR	LATB
-;paola1.c,85 :: 		ANSELB = 0;
+;paola1.c,101 :: 		ANSELB = 0;
 	CLR	ANSELB
-;paola1.c,86 :: 		TRISB = 0;             // Initialize PORTB as output
+;paola1.c,102 :: 		TRISB = 0;             // Initialize PORTB as output
 	CLR	TRISB
-;paola1.c,87 :: 		Glcd_Init();
+;paola1.c,103 :: 		Glcd_Init();
 	CALL	_Glcd_Init
-;paola1.c,88 :: 		Glcd_Set_Font(font5x7 , 5, 7, 32);
+;paola1.c,104 :: 		Glcd_Set_Font(font5x7 , 5, 7, 32);
 	MOV	#___Lib_System_DefaultPage, W0
 	MOV.B	#7, W13
 	MOV.B	#5, W12
@@ -1135,18 +1135,18 @@ _main:
 	PUSH	W0
 	CALL	_Glcd_Set_Font
 	SUB	#2, W15
-;paola1.c,89 :: 		Glcd_Fill(0);
+;paola1.c,105 :: 		Glcd_Fill(0);
 	CLR	W10
 	CALL	_Glcd_Fill
-;paola1.c,90 :: 		PS2_Config();
+;paola1.c,106 :: 		PS2_Config();
 	CALL	_Ps2_Config
-;paola1.c,91 :: 		Glcd_Write_TEXT("Laboratorio 1",31,0,1);
+;paola1.c,107 :: 		Glcd_Write_TEXT("Laboratorio 1",31,0,1);
 	MOV.B	#1, W13
 	CLR	W12
 	MOV.B	#31, W11
 	MOV	#lo_addr(?lstr5_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,92 :: 		delay_ms(3000);
+;paola1.c,108 :: 		delay_ms(3000);
 	MOV	#46, W8
 	MOV	#50906, W7
 L_main70:
@@ -1158,24 +1158,19 @@ L_main70:
 	NOP
 	NOP
 	NOP
-;paola1.c,93 :: 		while(1){
+;paola1.c,109 :: 		while(1){
 L_main72:
-;paola1.c,94 :: 		LATB = ~LATB; // Invert PORTB value
+;paola1.c,110 :: 		LATB = ~LATB; // Invert PORTB value
 	COM	LATB
-;paola1.c,95 :: 		Glcd_Write_TEXT("Laboratorio 1",31,0,1);
+;paola1.c,111 :: 		Glcd_Write_TEXT("Laboratorio 1",31,0,1);
 	MOV.B	#1, W13
 	CLR	W12
 	MOV.B	#31, W11
 	MOV	#lo_addr(?lstr6_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,96 :: 		Glcd_Image(camion);
-	MOV	#___Lib_System_DefaultPage, W0
-	MOV	#lo_addr(_camion), W10
-	MOV	W0, W11
-	CALL	_Glcd_Image
-;paola1.c,97 :: 		animate_kirby();
+;paola1.c,113 :: 		animate_kirby();
 	CALL	_animate_kirby
-;paola1.c,98 :: 		delay_ms(3000);
+;paola1.c,114 :: 		delay_ms(3000);
 	MOV	#46, W8
 	MOV	#50906, W7
 L_main74:
@@ -1187,9 +1182,9 @@ L_main74:
 	NOP
 	NOP
 	NOP
-;paola1.c,99 :: 		animate_bullet();
+;paola1.c,115 :: 		animate_bullet();
 	CALL	_animate_bullet
-;paola1.c,100 :: 		delay_ms(3000);
+;paola1.c,116 :: 		delay_ms(3000);
 	MOV	#46, W8
 	MOV	#50906, W7
 L_main76:
@@ -1201,9 +1196,9 @@ L_main76:
 	NOP
 	NOP
 	NOP
-;paola1.c,101 :: 		animate_blooper_20s();
+;paola1.c,117 :: 		animate_blooper_20s();
 	CALL	_animate_blooper_20s
-;paola1.c,102 :: 		delay_ms(3000);
+;paola1.c,118 :: 		delay_ms(3000);
 	MOV	#46, W8
 	MOV	#50906, W7
 L_main78:
@@ -1215,9 +1210,9 @@ L_main78:
 	NOP
 	NOP
 	NOP
-;paola1.c,103 :: 		animate_dog_20s();
+;paola1.c,119 :: 		animate_dog_20s();
 	CALL	_animate_dog_20s
-;paola1.c,104 :: 		delay_ms(3000);
+;paola1.c,120 :: 		delay_ms(3000);
 	MOV	#46, W8
 	MOV	#50906, W7
 L_main80:
@@ -1229,9 +1224,9 @@ L_main80:
 	NOP
 	NOP
 	NOP
-;paola1.c,105 :: 		animate_shell_20s();
+;paola1.c,121 :: 		animate_shell_20s();
 	CALL	_animate_shell_20s
-;paola1.c,106 :: 		delay_ms(3000);
+;paola1.c,122 :: 		delay_ms(3000);
 	MOV	#46, W8
 	MOV	#50906, W7
 L_main82:
@@ -1243,9 +1238,9 @@ L_main82:
 	NOP
 	NOP
 	NOP
-;paola1.c,107 :: 		animate_charmander();
+;paola1.c,123 :: 		animate_charmander();
 	CALL	_animate_charmander
-;paola1.c,108 :: 		delay_ms(3000);
+;paola1.c,124 :: 		delay_ms(3000);
 	MOV	#46, W8
 	MOV	#50906, W7
 L_main84:
@@ -1257,34 +1252,34 @@ L_main84:
 	NOP
 	NOP
 	NOP
-;paola1.c,109 :: 		Glcd_Fill(0);
+;paola1.c,125 :: 		Glcd_Fill(0);
 	CLR	W10
 	CALL	_Glcd_Fill
-;paola1.c,110 :: 		Glcd_Write_TEXT("Presione 'A' para Caso 1",0,1,1);
+;paola1.c,126 :: 		Glcd_Write_TEXT("Presione 'A' para Caso 1",0,1,1);
 	MOV.B	#1, W13
 	MOV.B	#1, W12
 	CLR	W11
 	MOV	#lo_addr(?lstr7_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,111 :: 		Glcd_Write_TEXT("Presione 'B' para Caso 2",0,2,1);
+;paola1.c,127 :: 		Glcd_Write_TEXT("Presione 'B' para Caso 2",0,2,1);
 	MOV.B	#1, W13
 	MOV.B	#2, W12
 	CLR	W11
 	MOV	#lo_addr(?lstr8_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,112 :: 		Glcd_Write_TEXT("Presione 'C' para Caso 3",0,3,1);
+;paola1.c,128 :: 		Glcd_Write_TEXT("Presione 'C' para Caso 3",0,3,1);
 	MOV.B	#1, W13
 	MOV.B	#3, W12
 	CLR	W11
 	MOV	#lo_addr(?lstr9_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,113 :: 		Glcd_Write_TEXT("Presione 'D' para WDT   ",0,4,1);
+;paola1.c,129 :: 		Glcd_Write_TEXT("Presione 'D' para WDT   ",0,4,1);
 	MOV.B	#1, W13
 	MOV.B	#4, W12
 	CLR	W11
 	MOV	#lo_addr(?lstr10_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,114 :: 		delay_ms(3000);
+;paola1.c,130 :: 		delay_ms(3000);
 	MOV	#46, W8
 	MOV	#50906, W7
 L_main86:
@@ -1296,7 +1291,7 @@ L_main86:
 	NOP
 	NOP
 	NOP
-;paola1.c,116 :: 		while(op!=34){
+;paola1.c,132 :: 		while(op!=34){
 L_main88:
 	MOV	#34, W1
 	MOV	#lo_addr(_op), W0
@@ -1304,7 +1299,7 @@ L_main88:
 	BRA NZ	L__main128
 	GOTO	L_main89
 L__main128:
-;paola1.c,117 :: 		if(Ps2_Key_Read(&keydata, &special, &down)){
+;paola1.c,133 :: 		if(Ps2_Key_Read(&keydata, &special, &down)){
 	MOV	#lo_addr(_down), W12
 	MOV	#lo_addr(_special), W11
 	MOV	#lo_addr(_keydata), W10
@@ -1313,20 +1308,20 @@ L__main128:
 	BRA NZ	L__main129
 	GOTO	L_main90
 L__main129:
-;paola1.c,118 :: 		Glcd_Fill(0);
+;paola1.c,134 :: 		Glcd_Fill(0);
 	CLR	W10
 	CALL	_Glcd_Fill
-;paola1.c,119 :: 		switch(op){
+;paola1.c,135 :: 		switch(op){
 	GOTO	L_main91
-;paola1.c,120 :: 		case 'a':
+;paola1.c,136 :: 		case 'a':
 L_main93:
-;paola1.c,121 :: 		Glcd_Write_TEXT("Caso A",60,0,1);
+;paola1.c,137 :: 		Glcd_Write_TEXT("Caso A",60,0,1);
 	MOV.B	#1, W13
 	CLR	W12
 	MOV.B	#60, W11
 	MOV	#lo_addr(?lstr11_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,122 :: 		delay_ms(1000);
+;paola1.c,138 :: 		delay_ms(1000);
 	MOV	#16, W8
 	MOV	#16968, W7
 L_main94:
@@ -1338,21 +1333,21 @@ L_main94:
 	NOP
 	NOP
 	NOP
-;paola1.c,123 :: 		op=keydata;
+;paola1.c,139 :: 		op=keydata;
 	MOV	#lo_addr(_keydata), W0
 	ZE	[W0], W0
 	MOV	W0, _op
-;paola1.c,124 :: 		break;
+;paola1.c,140 :: 		break;
 	GOTO	L_main92
-;paola1.c,126 :: 		case 'b':
+;paola1.c,142 :: 		case 'b':
 L_main96:
-;paola1.c,127 :: 		Glcd_Write_TEXT("Caso B ",60,0,1);
+;paola1.c,143 :: 		Glcd_Write_TEXT("Caso B ",60,0,1);
 	MOV.B	#1, W13
 	CLR	W12
 	MOV.B	#60, W11
 	MOV	#lo_addr(?lstr12_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,128 :: 		delay_ms(1000);
+;paola1.c,144 :: 		delay_ms(1000);
 	MOV	#16, W8
 	MOV	#16968, W7
 L_main97:
@@ -1364,21 +1359,21 @@ L_main97:
 	NOP
 	NOP
 	NOP
-;paola1.c,129 :: 		op=keydata;
+;paola1.c,145 :: 		op=keydata;
 	MOV	#lo_addr(_keydata), W0
 	ZE	[W0], W0
 	MOV	W0, _op
-;paola1.c,130 :: 		break;
+;paola1.c,146 :: 		break;
 	GOTO	L_main92
-;paola1.c,132 :: 		case 'c':
+;paola1.c,148 :: 		case 'c':
 L_main99:
-;paola1.c,133 :: 		Glcd_Write_TEXT("Caso C ",60,0,1);
+;paola1.c,149 :: 		Glcd_Write_TEXT("Caso C ",60,0,1);
 	MOV.B	#1, W13
 	CLR	W12
 	MOV.B	#60, W11
 	MOV	#lo_addr(?lstr13_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,134 :: 		delay_ms(1000);
+;paola1.c,150 :: 		delay_ms(1000);
 	MOV	#16, W8
 	MOV	#16968, W7
 L_main100:
@@ -1390,23 +1385,23 @@ L_main100:
 	NOP
 	NOP
 	NOP
-;paola1.c,135 :: 		casoC();
+;paola1.c,151 :: 		casoC();
 	CALL	_casoC
-;paola1.c,136 :: 		op=keydata;
+;paola1.c,152 :: 		op=keydata;
 	MOV	#lo_addr(_keydata), W0
 	ZE	[W0], W0
 	MOV	W0, _op
-;paola1.c,137 :: 		break;
+;paola1.c,153 :: 		break;
 	GOTO	L_main92
-;paola1.c,139 :: 		case 'd':
+;paola1.c,155 :: 		case 'd':
 L_main102:
-;paola1.c,140 :: 		Glcd_Write_TEXT("Caso D ",60,0,1);
+;paola1.c,156 :: 		Glcd_Write_TEXT("Caso D ",60,0,1);
 	MOV.B	#1, W13
 	CLR	W12
 	MOV.B	#60, W11
 	MOV	#lo_addr(?lstr14_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,141 :: 		delay_ms(1000);
+;paola1.c,157 :: 		delay_ms(1000);
 	MOV	#16, W8
 	MOV	#16968, W7
 L_main103:
@@ -1418,21 +1413,21 @@ L_main103:
 	NOP
 	NOP
 	NOP
-;paola1.c,142 :: 		op=keydata;
+;paola1.c,158 :: 		op=keydata;
 	MOV	#lo_addr(_keydata), W0
 	ZE	[W0], W0
 	MOV	W0, _op
-;paola1.c,143 :: 		break;
+;paola1.c,159 :: 		break;
 	GOTO	L_main92
-;paola1.c,145 :: 		case 34:
+;paola1.c,161 :: 		case 34:
 L_main105:
-;paola1.c,146 :: 		Glcd_Write_TEXT("Menu Principal ",60,0,1);
+;paola1.c,162 :: 		Glcd_Write_TEXT("Menu Principal ",60,0,1);
 	MOV.B	#1, W13
 	CLR	W12
 	MOV.B	#60, W11
 	MOV	#lo_addr(?lstr15_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,147 :: 		delay_ms(1000);
+;paola1.c,163 :: 		delay_ms(1000);
 	MOV	#16, W8
 	MOV	#16968, W7
 L_main106:
@@ -1444,21 +1439,21 @@ L_main106:
 	NOP
 	NOP
 	NOP
-;paola1.c,148 :: 		op=keydata;
+;paola1.c,164 :: 		op=keydata;
 	MOV	#lo_addr(_keydata), W0
 	ZE	[W0], W0
 	MOV	W0, _op
-;paola1.c,149 :: 		break;
+;paola1.c,165 :: 		break;
 	GOTO	L_main92
-;paola1.c,150 :: 		default:
+;paola1.c,166 :: 		default:
 L_main108:
-;paola1.c,151 :: 		Glcd_Write_TEXT("Erroneo ",60,0,1);
+;paola1.c,167 :: 		Glcd_Write_TEXT("Erroneo ",60,0,1);
 	MOV.B	#1, W13
 	CLR	W12
 	MOV.B	#60, W11
 	MOV	#lo_addr(?lstr16_paola1), W10
 	CALL	_Glcd_Write_Text
-;paola1.c,152 :: 		delay_ms(1000);
+;paola1.c,168 :: 		delay_ms(1000);
 	MOV	#16, W8
 	MOV	#16968, W7
 L_main109:
@@ -1470,9 +1465,9 @@ L_main109:
 	NOP
 	NOP
 	NOP
-;paola1.c,153 :: 		break;
+;paola1.c,169 :: 		break;
 	GOTO	L_main92
-;paola1.c,154 :: 		}
+;paola1.c,170 :: 		}
 L_main91:
 	MOV	#97, W1
 	MOV	#lo_addr(_op), W0
@@ -1506,14 +1501,14 @@ L__main133:
 L__main134:
 	GOTO	L_main108
 L_main92:
-;paola1.c,155 :: 		}
+;paola1.c,171 :: 		}
 L_main90:
-;paola1.c,156 :: 		}
+;paola1.c,172 :: 		}
 	GOTO	L_main88
 L_main89:
-;paola1.c,157 :: 		}
+;paola1.c,173 :: 		}
 	GOTO	L_main72
-;paola1.c,158 :: 		}
+;paola1.c,174 :: 		}
 L_end_main:
 	POP	W13
 	POP	W12

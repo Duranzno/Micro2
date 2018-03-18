@@ -49,7 +49,7 @@ const int KEYBOARD_PPS_LOCATIONS[2]={100,101};//RF4,RF5
 //const int LED_PPS_LOCATIONS[3]={85,87,118};//3 posiciones para 3 LEDS de salida    RE5,RE7,RG6
 //Variables de trabajo
 int counters[5]={0,0,0,0,0};
-int valores_cn[4]={0,0,0,0}
+int valores_cn[4]={0,0,0,0};
 unsigned short keydata = 0, special = 0, down = 0;
 int op=0;
 //____________________________________________________________________________________________________________________________________
@@ -59,10 +59,7 @@ int op=0;
 
 
 
-unsigned short keydata = 0;
-unsigned short special = 0;
-unsigned short down = 0;
-    int op=0;
+
 
 
 
@@ -112,7 +109,7 @@ PS2_Config();
 while(1){
          LATB = ~LATB; // Invert PORTB value
          Glcd_Write_TEXT("Laboratorio 1",31,0,1);
-         Glcd_Image(camion);
+
           animate_kirby();
           delay_ms(3000);
           animate_bullet();

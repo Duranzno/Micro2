@@ -24,12 +24,6 @@ main
 				Delay_1us
 				Delay_10us
 			Glcd_Write_Data
-	Glcd_Image
-		Glcd_Set_Side
-		Glcd_Set_Page
-		Glcd_Set_X
-		Glcd_Write_Data
-		__AddToFarPointer
 	animate_kirby
 		Glcd_Rectangle
 			Glcd_H_Line
@@ -63,6 +57,11 @@ main
 		Glcd_PartialImage
 	animate_charmander
 		Glcd_Image
+			Glcd_Set_Side
+			Glcd_Set_Page
+			Glcd_Set_X
+			Glcd_Write_Data
+			__AddToFarPointer
 	Ps2_Key_Read
 		Keyboard_Active
 			Clock_Enable
