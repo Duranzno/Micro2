@@ -1,4 +1,4 @@
-#include <math.h>
+//#include <math.h>
 
 const int BAR_HEIGHT=4;
 const int BAR_WIDTH=5;
