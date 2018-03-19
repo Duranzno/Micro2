@@ -1,90 +1,10 @@
 #line 1 "C:/Users/Alejandro/Documents/Git/Micro2/paola/paola1.c"
-#line 1 "c:/users/alejandro/documents/git/micro2/paola/barras.h"
-#line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for dspic/include/math.h"
 
 
 
-
-
-double fabs(double d);
-double floor(double x);
-double ceil(double x);
-double frexp(double value, int * eptr);
-double ldexp(double value, int newexp);
-double modf(double val, double * iptr);
-double sqrt(double x);
-double atan(double f);
-double asin(double x);
-double acos(double x);
-double atan2(double y,double x);
-double sin(double f);
-double cos(double f);
-double tan(double x);
-double exp(double x);
-double log(double x);
-double log10(double x);
-double pow(double x, double y);
-double sinh(double x);
-double cosh(double x);
-double tanh(double x);
-#line 3 "c:/users/alejandro/documents/git/micro2/paola/barras.h"
-const int BAR_HEIGHT=4;
-const int BAR_WIDTH=5;
 const int WHITE=0;
 const int BLACK=1;
 
-const int MAX_BAR_HEIGHT=BAR_HEIGHT*25;
-const int BARS_H_LOCATIONS[]={0,1,2,3,4};
-char txt[3];
-
-void bar_drawer(unsigned short x_left,unsigned short contador_barra);
-int DrawableBars(int real_number_of_bars);
-
-
-void barras(int INTx,int contador_barra) {
-
- bar_drawer(BARS_H_LOCATIONS[INTx],contador_barra);
- IntToStr(contador_barra,txt);
- Glcd_Write_Text(txt,BARS_H_LOCATIONS[INTx],0,1);
-}
-
-void bar_drawer(unsigned short x_left,unsigned short contador_barra){
-
-
- int x_right=x_left+BAR_WIDTH;
- int y_bottom,y_top;
- int contador_reset=DrawableBars(contador_barra);
- if(contador_barra>1){
- if (contador_reset==1){
-
- Glcd_Box(x_left,MAX_BAR_HEIGHT,x_right,BAR_HEIGHT,WHITE);
- }
- else{
-
- y_bottom=DrawableBars(contador_barra)*BAR_HEIGHT;
- y_top=y_bottom+BAR_HEIGHT;
- Glcd_Box(x_left,y_top,x_right,y_bottom,BLACK);
- }
- }
-}
-int DrawableBars(int real_number_of_bars){
-
-
- if(real_number_of_bars>25){
- int quotient=real_number_of_bars/25;
- quotient=floor(quotient);
- return real_number_of_bars-25*quotient;
- }else{
- return real_number_of_bars;
- }
-}
-#line 1 "c:/users/alejandro/documents/git/micro2/paola/sprites.h"
-void animate_kirby();
-void animate_bullet();
-void animate_blooper_20s();
-void animate_dog_20s();
-void animate_shell_20s();
-void animate_charmander();
 const code char charmander_1[1024] = {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 192, 32, 16, 0, 8, 8, 8, 8, 0, 16, 16, 160, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 128, 64, 64, 64, 64, 64, 128, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -120,236 +40,8 @@ void animate_charmander(){
  delay_ms(500);
 }
 
-const code char blooper_1[175] = {
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 127, 63, 63, 63, 63, 127, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 239, 231, 227, 1, 128, 128, 128, 128, 128, 128, 128, 128, 1, 227, 231, 239, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 7, 9, 198, 6, 9, 143, 143, 9, 6, 198, 9, 7, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 252, 224, 255, 240, 192, 255, 255, 192, 240, 255, 224, 252, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
-};
-
-const code char blooper_2[175] = {
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 127, 63, 31, 15, 7, 3, 3, 3, 3, 7, 15, 31, 63, 127, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 142, 6, 6, 0, 196, 4, 4, 204, 204, 4, 4, 196, 0, 6, 6, 142, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 254, 252, 252, 255, 252, 255, 255, 252, 255, 252, 252, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
-};
-
-const code char blooper_3[175] = {
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 127, 63, 31, 15, 15, 15, 15, 31, 63, 127, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 251, 249, 248, 64, 160, 160, 96, 224, 224, 96, 160, 160, 64, 248, 249, 251, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 1, 2, 241, 1, 2, 227, 227, 2, 1, 241, 2, 1, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 248, 255, 252, 240, 255, 255, 240, 252, 255, 248, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
-};
-
-const code char blooper_4[175] = {
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 191, 159, 143, 7, 3, 1, 0, 0, 0, 0, 1, 3, 7, 143, 159, 191, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 227, 193, 129, 0, 49, 193, 1, 243, 243, 1, 193, 49, 0, 129, 193, 227, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
-3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
-};
- void animate_blooper_20s(){
- Glcd_Rectangle(0,8,127,64,1);
- Glcd_PartialImage(63,16,35,34,35,34,blooper_1);
- delay_ms(5000);
- Glcd_Rectangle(0,8,127,64,1);
- Glcd_PartialImage(63,16,35,34,35,34,blooper_2);
- delay_ms(5000);
- Glcd_Rectangle(0,8,127,64,1);
- Glcd_PartialImage(63,16,35,34,35,34,blooper_3);
- delay_ms(5000);
- Glcd_Rectangle(0,8,127,64,1);
- Glcd_PartialImage(63,16,35,34,35,34,blooper_4);
- delay_ms(5000);
-}
 
 
-
-
-
-const code char bullet[54] = {
- 0, 0, 128, 64, 32, 240, 240, 216, 232, 232, 232, 232, 232, 248, 0, 232, 232, 0,
- 0, 15, 30, 61, 126, 255, 243, 227, 225, 227, 240, 248, 249, 255, 0, 255, 255, 0,
- 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0
-};
-void animate_bullet(){
- int i;
- for(i=108;i-10;i<19){
- Glcd_Fill(00);
- Glcd_PartialImage(i,24,18,18,18,18,bullet);
- delay_ms(250);
- }
-}
-
-
-
-
-
-
-const code char shell_1[32] = {
-0, 176, 184, 60, 126, 254, 254, 255, 255, 231, 198, 206, 252, 248, 192, 0,
-14, 31, 29, 15, 0, 15, 31, 63, 63, 31, 31, 15, 15, 15, 15, 0
-};
-
-const code char shell_2[32] = {
-0, 128, 240, 248, 252, 252, 238, 198, 198, 238, 252, 252, 248, 240, 128, 0,
-0, 31, 31, 31, 31, 63, 63, 127, 127, 63, 63, 31, 31, 31, 31, 0
-};
-
-const code char shell_3[32] = {
-0, 192, 248, 252, 206, 198, 231, 255, 255, 254, 254, 126, 60, 184, 176, 0,
-0, 15, 15, 15, 15, 31, 31, 63, 63, 31, 15, 0, 15, 29, 31, 14
-};
-
-
-
-
-void animate_shell_20s(){
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(125,56,16,16,16,16,shell_1);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(100,56,16,16,16,16,shell_2);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(75,56,16,16,16,16,shell_3);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(50,56,16,16,16,16,shell_1);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(25,56,16,16,16,16,shell_2);
- delay_ms(4000);
-
-}
-
-const code char dog_1[155] = {
-224, 248, 252, 254, 254, 31, 7, 7, 254, 254, 14, 7, 103, 254, 254, 103, 7, 14, 254, 254, 7, 7, 31, 62, 60, 124, 124, 62, 30, 0, 0,
- 1, 7, 15, 15, 0, 0, 0, 136, 1, 65, 11, 34, 135, 203, 203, 135, 34, 11, 65, 1, 136, 0, 128, 192, 192, 224, 240, 240, 248, 252, 0,
- 0, 128, 192, 224, 240, 248, 252, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 63, 31, 15, 7, 3, 129, 240, 0,
-254, 255, 255, 255, 111, 3, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 8, 6, 3, 1, 0,
- 1, 3, 3, 3, 0, 0, 7, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0
-};
-
-
-
-
-
-const code char dog_2[155] = {
-224, 248, 252, 254, 254, 31, 7, 7, 254, 254, 14, 39, 71, 254, 254, 71, 39, 14, 254, 254, 7, 7, 31, 62, 60, 124, 124, 62, 30, 0, 0,
- 1, 7, 15, 143, 192, 192, 64, 136, 1, 65, 11, 34, 135, 75, 75, 135, 34, 11, 65, 1, 136, 64, 192, 192, 128, 0, 0, 0, 0, 0, 0,
- 0, 252, 255, 255, 255, 255, 252, 254, 245, 225, 229, 207, 196, 192, 192, 228, 255, 253, 253, 253, 254, 252, 255, 255, 255, 255, 252, 224, 0, 0, 0,
- 0, 0, 7, 15, 31, 31, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 31, 63, 63, 63, 31, 7, 0, 0, 0,
- 0, 0, 0, 0, 0, 0, 7, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0
-};
-
-
-
-
-
-const code char dog_3[155] = {
- 0, 224, 248, 252, 254, 254, 31, 14, 30, 252, 248, 56, 156, 28, 248, 248, 28, 156, 56, 248, 252, 30, 14, 31, 62, 60, 124, 124, 62, 30, 0,
- 0, 1, 7, 15, 143, 192, 192, 0, 32, 7, 7, 44, 136, 29, 47, 47, 29, 136, 44, 7, 7, 32, 0, 192, 192, 128, 0, 0, 0, 0, 0,
- 0, 0, 252, 255, 255, 255, 255, 249, 250, 228, 229, 196, 220, 194, 193, 193, 250, 252, 252, 253, 252, 254, 249, 255, 255, 255, 255, 252, 224, 0, 0,
- 0, 0, 0, 7, 15, 31, 31, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 31, 63, 63, 63, 31, 7, 0, 0,
- 0, 0, 0, 0, 0, 0, 0, 7, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 7, 0, 0, 0, 0, 0, 0, 0, 0
-};
-
-
-
-
-void animate_dog_20s(){
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(45,16,31,40,31,40,dog_1);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(45,16,31,40,31,40,dog_2);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(45,16,31,40,31,40,dog_3);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(45,16,31,40,31,40,dog_1);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(45,16,31,40,31,40,dog_2);
- delay_ms(4000);
-}
-const code char kirby_1[63] = {
-128, 64, 96, 32, 56, 12, 6, 2, 3, 1, 41, 241, 1, 43, 242, 6, 12, 48, 32, 96, 192,
- 3, 4, 8, 8, 24, 240, 224, 192, 192, 192, 192, 224, 152, 132, 194, 226, 226, 124, 60, 4, 3,
- 0, 0, 0, 0, 0, 1, 3, 7, 7, 7, 7, 3, 1, 1, 1, 1, 0, 0, 0, 0, 0
-};
-
-
-
-
-
-const code char kirby_2[63] = {
- 0, 0, 0, 128, 224, 56, 12, 4, 6, 2, 2, 210, 226, 2, 22, 228, 12, 56, 224, 128, 0,
- 0, 30, 63, 33, 224, 224, 192, 128, 128, 0, 0, 0, 129, 64, 68, 65, 192, 224, 161, 49, 30,
- 0, 0, 0, 0, 3, 7, 7, 6, 7, 3, 3, 7, 6, 6, 6, 6, 6, 7, 3, 0, 0
-};
-
-
-
-
-
-const code char kirby_3[63] = {
- 0, 128, 224, 48, 24, 8, 12, 4, 4, 4, 4, 84, 228, 4, 84, 232, 8, 48, 224, 128, 0,
- 0, 31, 48, 104, 208, 160, 160, 224, 48, 32, 32, 32, 33, 64, 196, 193, 192, 96, 56, 31, 0,
- 0, 0, 0, 0, 0, 0, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 0, 0, 0, 0, 0
-};
-#line 236 "c:/users/alejandro/documents/git/micro2/paola/sprites.h"
-const code char kirby_4[63] = {
- 0, 0, 192, 240, 24, 12, 4, 6, 2, 2, 2, 82, 226, 6, 84, 236, 24, 112, 192, 0, 0,
- 0, 0, 15, 248, 224, 160, 32, 48, 48, 48, 68, 192, 193, 128, 196, 129, 224, 56, 31, 0, 0,
- 0, 0, 0, 0, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 0, 0, 0, 0, 0
-};
-
-
-
-
-
-const code char kirby_5[63] = {
- 0, 0, 0, 224, 56, 12, 4, 6, 2, 2, 2, 2, 2, 22, 230, 20, 236, 120, 224, 0, 0,
- 0, 0, 192, 255, 48, 32, 32, 64, 192, 128, 128, 144, 128, 132, 129, 196, 193, 176, 239, 0, 0,
- 0, 0, 1, 3, 3, 7, 7, 7, 7, 7, 3, 3, 3, 3, 3, 3, 1, 1, 0, 0, 0
-};
-
-
-
-
-
-const code char kirby_6[63] = {
- 0, 0, 240, 60, 14, 6, 3, 1, 1, 1, 1, 1, 129, 11, 54, 230, 28, 240, 0, 0, 0,
-240, 184, 15, 56, 96, 192, 192, 192, 128, 128, 132, 128, 193, 192, 192, 224, 242, 255, 226, 126, 60,
- 1, 3, 7, 6, 7, 7, 7, 3, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0
-};
-void animate_kirby(){
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_1);
- delay_ms(300);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_2);
- delay_ms(300);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_3);
- delay_ms(300);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_4);
- delay_ms(300);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_5);
- delay_ms(300);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_6);
- delay_ms(300);
-}
-#line 7 "C:/Users/Alejandro/Documents/Git/Micro2/paola/paola1.c"
 sbit PS2_Data at RF4_bit;
 sbit PS2_Clock at RF5_bit;
 sbit PS2_Data_Direction at TRISF4_bit;
@@ -398,7 +90,23 @@ int counters[5]={0,0,0,0,0};
 int valores_cn[4]={0,0,0,0};
 unsigned short keydata = 0, special = 0, down = 0;
 int op=0;
-#line 75 "C:/Users/Alejandro/Documents/Git/Micro2/paola/paola1.c"
+
+
+
+
+void config_IO(){
+ ANSELB=0;
+ ANSELC=0;
+ ANSELD=0;
+ ANSELE=0;
+ ANSELG=0;
+
+ TRISB = 1;
+ TRISE=0;
+ TRISG=0;
+
+
+}
 void casoC(){
  Glcd_Write_TEXT("Ultimo Reset",60,0,1);
  do{
@@ -420,75 +128,54 @@ void casoC(){
  op='c';
 }
 void main(){
- ANSELC=0; ANSELD=0; ANSELE=0;
+ ANSELB=0;
+ ANSELC=0;
+ ANSELD=0;
+ ANSELE=0;
+ ANSELG=0;
 
+ TRISB = 1;
+ TRISE=0;
+ TRISG=0;
 
-
- LATB = 0;
- ANSELB = 0;
- TRISB = 0;
  Glcd_Init();
  Glcd_Set_Font(font5x7 , 5, 7, 32);
  Glcd_Fill(0);
-PS2_Config();
- Glcd_Write_TEXT("Laboratorio 1",31,0,1);
- delay_ms(3000);
-while(1){
- LATB = ~LATB;
- Glcd_Write_TEXT("Laboratorio 1",31,0,1);
-
- animate_kirby();
- delay_ms(3000);
- animate_bullet();
- delay_ms(3000);
- animate_blooper_20s();
- delay_ms(3000);
- animate_dog_20s();
- delay_ms(3000);
- animate_shell_20s();
- delay_ms(3000);
+ PS2_Config();
  animate_charmander();
- delay_ms(3000);
+ delay_ms(1000);
+ while(1){
  Glcd_Fill(0);
+ Glcd_Write_TEXT("Laboratorio 1",31,0,1);
  Glcd_Write_TEXT("Presione 'A' para Caso 1",0,1,1);
  Glcd_Write_TEXT("Presione 'B' para Caso 2",0,2,1);
  Glcd_Write_TEXT("Presione 'C' para Caso 3",0,3,1);
  Glcd_Write_TEXT("Presione 'D' para WDT   ",0,4,1);
- delay_ms(3000);
-
- while(op!=34){
  if(Ps2_Key_Read(&keydata, &special, &down)){
- Glcd_Fill(0);
- switch(op){
+ if(down &&!special){
+ switch(keydata){
  case 'a':
  Glcd_Write_TEXT("Caso A",60,0,1);
  delay_ms(1000);
- op=keydata;
+
  break;
 
  case 'b':
  Glcd_Write_TEXT("Caso B ",60,0,1);
  delay_ms(1000);
- op=keydata;
+
  break;
 
  case 'c':
  Glcd_Write_TEXT("Caso C ",60,0,1);
  delay_ms(1000);
  casoC();
- op=keydata;
  break;
 
  case 'd':
  Glcd_Write_TEXT("Caso D ",60,0,1);
  delay_ms(1000);
- op=keydata;
- break;
 
- case 34:
- Glcd_Write_TEXT("Menu Principal ",60,0,1);
- delay_ms(1000);
- op=keydata;
  break;
  default:
  Glcd_Write_TEXT("Erroneo ",60,0,1);
@@ -497,5 +184,5 @@ while(1){
  }
  }
  }
-}
+ }
 }

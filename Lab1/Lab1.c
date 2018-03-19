@@ -46,7 +46,7 @@ const int KEYBOARD_PPS_LOCATIONS[2]={100,101};//RF4,RF5
 //const int LED_PPS_LOCATIONS[3]={85,87,118};//3 posiciones para 3 LEDS de salida    RE5,RE7,RG6
 //Variables de trabajo
 int counters[5]={0,0,0,0,0};
-int valores_cn[4]={0,0,0,0}
+int valores_cn[4]={0,0,0,0};
 unsigned short keydata = 0, special = 0, down = 0;
 int op=0;
 //extern sbit POR_LED at PORTE.E5
@@ -73,13 +73,13 @@ void INT4() org 0x80{
 }
 void INT_CN() org 0x3A{
   if(PORTBbits.RB0==1){
-
+      valores_cn[0]=1;
   }else if(PORTBbits.RB1==1){
-  
+      valores_cn[1]=1;
   }else if(PORTBbits.RB6==1){
-  
+      valores_cn[2]=1;
   }else if(PORTBbits.RB7==1){
-  
+      valores_cn[3]=1;
   }
   IFS1bits.CNIF = 0;
 }
@@ -106,11 +106,11 @@ void config_INT(){
   IFS3bits.INT3IF =0; //INTERRUPCION DE INT3 ACTIVADA
   IFS3bits.INT4IF =0; // INTERRUPCION DE INT4 ACTIVADA
 //Prioridad de Interrupciones
-  IPC0bits.INT0IP= 5;
-  IPC5BITS.INT1IP= 4;
-  IPC7bits.INT2IP =3;
-  IPC13bits.INT3IP=2;
-  IPC13bits.INT4IP=1;
+   counters[0]=0;
+  counters[1]=0;
+  counters[2]=0;
+  counters[3]=0;
+  counters[4]=0;
 //--------------------interrupcion flanco positivo
   INTCON2bits.INT0EP=0;
   INTCON2bits.INT1EP=0;
@@ -173,7 +173,40 @@ void config_LCD(){
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos del Menu~~~~~~~~~~~~~~~~~~~~
 
 void casoA(){
-
+  counters[0]=0;
+  counters[1]=0;
+  counters[2]=0;
+  counters[3]=0;
+  counters[4]=0;
+  IPC0bits.INT0IP= 5;
+  IPC5BITS.INT1IP= 4;
+  IPC7bits.INT2IP =3;
+  IPC13bits.INT3IP=2;
+  IPC13bits.INT4IP=1;
+  //cambiar prioridad
+  do{
+    Ps2_Key_Read(&keydata, &special, &down);
+  }while(keydata!=34 && down & special);
+  disable_INT();
+}
+void casoB(){
+  valores_cn[0]=0;
+  valores_cn[1]=0;
+  valores_cn[2]=0;
+  valores_cn[3]=0;
+  do{
+          if(valores_cn[0]==1){
+          animate_kirby();
+    }else if(valores_cn[1]==1){
+          animate_bullet();
+    }else if(valores_cn[2]==1){
+          animate_charmander();
+    }else if(valores_cn[3]==1){
+          animate_blooper_20s();
+    }
+    Ps2_Key_Read(&keydata, &special, &down);
+  }while(keydata!=34 && down & special);
+  
 }
 
 void casoC(){

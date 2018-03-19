@@ -1,5 +1,3 @@
-#include <math.h>
-
 const int BAR_HEIGHT=2;
 const int BAR_WIDTH=20;
 const int WHITE=0;
@@ -8,7 +6,7 @@ const int BLACK=1;
 const int MAX_BAR_HEIGHT=BAR_HEIGHT*25;
 const int BARS_H_LOCATIONS[]={4,29,54,79,104};
 char txt[3];
-
+int x_right,y_bottom,y_top,contador_reset,quotient;
 void bar_drawer(unsigned short x_left,unsigned short contador_barra);
 int DrawableBars(int real_number_of_bars);
 //Las barras se usan calculando la posicion X mas a la izquierda, todos tienen un alto y un ancho definidos
@@ -23,9 +21,8 @@ void barras(int INTx,int contador_barra) {
 void bar_drawer(unsigned short x_left,unsigned short contador_barra){
 //        contador_barra=contador_barra==0?1:contador_barra;//Contador de barras nunca puede ser cero al momento de usar esta funcion
 //se debe de haber aumentado antes
-  int x_right=x_left+BAR_WIDTH;
-  int y_bottom,y_top;
-  int contador_reset=DrawableBars(contador_barra);
+     x_right=x_left+BAR_WIDTH;
+     contador_reset=DrawableBars(contador_barra);
   if(contador_barra>1){
     if (contador_reset==1){
     //Se van a borrar todas las barras
@@ -43,7 +40,7 @@ int DrawableBars(int real_number_of_bars){
   //Funcion para devolver el numero necesario de barras a formar si el contador>25 dentro de un rango de [0-25].
   //Ejemplo 80-->5
   if(real_number_of_bars>25){
-    int quotient=real_number_of_bars/25;
+     quotient=real_number_of_bars/25;
      quotient=floor(quotient);
     return real_number_of_bars-25*quotient;
   }else{
