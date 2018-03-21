@@ -1,91 +1,77 @@
-#line 1 "C:/Users/Alejandro/Documents/Git/Micro2/paola/paola1.c"
-#line 1 "c:/users/alejandro/documents/git/micro2/paola/barras.h"
-#line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for dspic/include/math.h"
-
-
-
-
-
-double fabs(double d);
-double floor(double x);
-double ceil(double x);
-double frexp(double value, int * eptr);
-double ldexp(double value, int newexp);
-double modf(double val, double * iptr);
-double sqrt(double x);
-double atan(double f);
-double asin(double x);
-double acos(double x);
-double atan2(double y,double x);
-double sin(double f);
-double cos(double f);
-double tan(double x);
-double exp(double x);
-double log(double x);
-double log10(double x);
-double pow(double x, double y);
-double sinh(double x);
-double cosh(double x);
-double tanh(double x);
-#line 3 "c:/users/alejandro/documents/git/micro2/paola/barras.h"
-const int BAR_HEIGHT=4;
-const int BAR_WIDTH=5;
+#line 1 "C:/Users/Alejandro/Documents/Git/M2/Lab1.c"
+#line 1 "c:/users/alejandro/documents/git/m2/barras.h"
+const int BAR_HEIGHT=2;
+const int BAR_WIDTH=20;
 const int WHITE=0;
 const int BLACK=1;
 
 const int MAX_BAR_HEIGHT=BAR_HEIGHT*25;
-const int BARS_H_LOCATIONS[]={0,1,2,3,4};
-char txt[3];
-
+unsigned short BARS_H_LOCATIONS[5]={4,29,54,79,104};
+char txt[5];
+unsigned short x_left,x_right,y_top,y_bottom,count,contador_reset,Ix;
+int quotient;
 void bar_drawer(unsigned short x_left,unsigned short contador_barra);
 int DrawableBars(int real_number_of_bars);
+ void box(int x_left,int count);
+void barra(int INTx,int contador_barra) {
 
+ box(BARS_H_LOCATIONS[INTx],contador_barra);
+ ShortToStr(contador_barra,txt);
 
-void barras(int INTx,int contador_barra) {
-
- bar_drawer(BARS_H_LOCATIONS[INTx],contador_barra);
- IntToStr(contador_barra,txt);
  Glcd_Write_Text(txt,BARS_H_LOCATIONS[INTx],0,1);
 }
+void box(int x_left,int count){
+ y_top=64-DrawableBars(count)*2;
+ y_bottom=y_top+2;
 
-void bar_drawer(unsigned short x_left,unsigned short contador_barra){
-
-
- int x_right=x_left+BAR_WIDTH;
- int y_bottom,y_top;
- int contador_reset=DrawableBars(contador_barra);
- if(contador_barra>1){
+ x_right=x_left+20;
+ contador_reset=DrawableBars(count);
+ if(count>1){
  if (contador_reset==1){
 
- Glcd_Box(x_left,MAX_BAR_HEIGHT,x_right,BAR_HEIGHT,WHITE);
- }
- else{
+ Glcd_Box(x_left,7,x_right,64,0);
 
- y_bottom=DrawableBars(contador_barra)*BAR_HEIGHT;
- y_top=y_bottom+BAR_HEIGHT;
- Glcd_Box(x_left,y_top,x_right,y_bottom,BLACK);
+ } else {
+ Glcd_Box(x_left,y_top,x_right,y_bottom, 1);}
+ }else {
+ Glcd_Box(x_left,y_top,x_right,y_bottom, 1);
+ }
+}
+void funcionPractica(){
+ Glcd_Fill(0);
+ delay_ms(5000);
+
+
+
+
+
+ for(count=1;count<61;count=count++){
+ for(Ix=0;Ix<5;Ix++){
+ x_left=BARS_H_LOCATIONS[Ix];
+#line 61 "c:/users/alejandro/documents/git/m2/barras.h"
+box(x_left,count);
+
+delay_ms(500) ;
+
+
  }
  }
 }
-int DrawableBars(int real_number_of_bars){
+
+
+ int DrawableBars(int real_number_of_bars){
 
 
  if(real_number_of_bars>25){
- int quotient=real_number_of_bars/25;
+ quotient=real_number_of_bars/25;
  quotient=floor(quotient);
  return real_number_of_bars-25*quotient;
  }else{
  return real_number_of_bars;
  }
-}
-#line 1 "c:/users/alejandro/documents/git/micro2/paola/sprites.h"
-void animate_kirby();
-void animate_bullet();
-void animate_blooper_20s();
-void animate_dog_20s();
-void animate_shell_20s();
-void animate_charmander();
-const code char charmander_1[1024] = {
+ }
+#line 1 "c:/users/alejandro/documents/git/m2/sprites.h"
+ const code char charmander_1[1024] = {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 192, 32, 16, 0, 8, 8, 8, 8, 0, 16, 16, 160, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 128, 64, 64, 64, 64, 64, 128, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 62, 56, 16, 0, 0, 0, 16, 28, 174, 127, 252, 252, 255, 255, 240, 128, 0, 0, 0, 0, 0, 0, 0, 0, 8, 112, 224, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 134, 1, 0, 0, 0, 0, 0, 28, 36, 124, 120, 49, 6, 24, 96, 128, 0, 240, 56, 212, 8, 20, 24, 240, 0, 0, 128, 0, 192, 176, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -95,6 +81,7 @@ const code char charmander_1[1024] = {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 2, 2, 3, 2, 3, 1, 1, 0, 0, 0, 0, 0, 1, 2, 2, 3, 2, 3, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
+
 
 
 
@@ -111,14 +98,6 @@ const code char charmander_2[1024] = {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 10, 15, 23, 23, 23, 15, 23, 23, 31, 7, 3, 0, 0, 0, 0, 0, 8, 21, 23, 31, 47, 47, 47, 31, 47, 39, 23, 15, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 13, 20, 12, 17, 15, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
-void animate_charmander(){
-
- Glcd_Image(charmander_1);
- delay_ms(500);
-
- Glcd_Image(charmander_2);
- delay_ms(500);
-}
 
 const code char blooper_1[175] = {
 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 127, 63, 63, 63, 63, 127, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
@@ -151,20 +130,7 @@ const code char blooper_4[175] = {
 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
 };
- void animate_blooper_20s(){
- Glcd_Rectangle(0,8,127,64,1);
- Glcd_PartialImage(63,16,35,34,35,34,blooper_1);
- delay_ms(5000);
- Glcd_Rectangle(0,8,127,64,1);
- Glcd_PartialImage(63,16,35,34,35,34,blooper_2);
- delay_ms(5000);
- Glcd_Rectangle(0,8,127,64,1);
- Glcd_PartialImage(63,16,35,34,35,34,blooper_3);
- delay_ms(5000);
- Glcd_Rectangle(0,8,127,64,1);
- Glcd_PartialImage(63,16,35,34,35,34,blooper_4);
- delay_ms(5000);
-}
+
 
 
 
@@ -175,14 +141,7 @@ const code char bullet[54] = {
  0, 15, 30, 61, 126, 255, 243, 227, 225, 227, 240, 248, 249, 255, 0, 255, 255, 0,
  0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0
 };
-void animate_bullet(){
- int i;
- for(i=108;i-10;i<19){
- Glcd_Fill(00);
- Glcd_PartialImage(i,24,18,18,18,18,bullet);
- delay_ms(250);
- }
-}
+
 
 
 
@@ -207,24 +166,6 @@ const code char shell_3[32] = {
 
 
 
-void animate_shell_20s(){
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(125,56,16,16,16,16,shell_1);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(100,56,16,16,16,16,shell_2);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(75,56,16,16,16,16,shell_3);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(50,56,16,16,16,16,shell_1);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(25,56,16,16,16,16,shell_2);
- delay_ms(4000);
-
-}
 
 const code char dog_1[155] = {
 224, 248, 252, 254, 254, 31, 7, 7, 254, 254, 14, 7, 103, 254, 254, 103, 7, 14, 254, 254, 7, 7, 31, 62, 60, 124, 124, 62, 30, 0, 0,
@@ -261,23 +202,7 @@ const code char dog_3[155] = {
 
 
 
-void animate_dog_20s(){
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(45,16,31,40,31,40,dog_1);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(45,16,31,40,31,40,dog_2);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(45,16,31,40,31,40,dog_3);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(45,16,31,40,31,40,dog_1);
- delay_ms(4000);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(45,16,31,40,31,40,dog_2);
- delay_ms(4000);
-}
+
 const code char kirby_1[63] = {
 128, 64, 96, 32, 56, 12, 6, 2, 3, 1, 41, 241, 1, 43, 242, 6, 12, 48, 32, 96, 192,
  3, 4, 8, 8, 24, 240, 224, 192, 192, 192, 192, 224, 152, 132, 194, 226, 226, 124, 60, 4, 3,
@@ -303,7 +228,7 @@ const code char kirby_3[63] = {
  0, 31, 48, 104, 208, 160, 160, 224, 48, 32, 32, 32, 33, 64, 196, 193, 192, 96, 56, 31, 0,
  0, 0, 0, 0, 0, 0, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 0, 0, 0, 0, 0
 };
-#line 236 "c:/users/alejandro/documents/git/micro2/paola/sprites.h"
+#line 169 "c:/users/alejandro/documents/git/m2/sprites.h"
 const code char kirby_4[63] = {
  0, 0, 192, 240, 24, 12, 4, 6, 2, 2, 2, 82, 226, 6, 84, 236, 24, 112, 192, 0, 0,
  0, 0, 15, 248, 224, 160, 32, 48, 48, 48, 68, 192, 193, 128, 196, 129, 224, 56, 31, 0, 0,
@@ -329,27 +254,90 @@ const code char kirby_6[63] = {
 240, 184, 15, 56, 96, 192, 192, 192, 128, 128, 132, 128, 193, 192, 192, 224, 242, 255, 226, 126, 60,
  1, 3, 7, 6, 7, 7, 7, 3, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0
 };
-void animate_kirby(){
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_1);
- delay_ms(300);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_2);
- delay_ms(300);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_3);
- delay_ms(300);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_4);
- delay_ms(300);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_5);
- delay_ms(300);
- Glcd_Rectangle(0,8,127,64,0);
- Glcd_PartialImage(21,20,21,19,21,19,kirby_6);
- delay_ms(300);
+void animate_charmander_5s(){
+ Glcd_Image(charmander_1);
+ delay_ms(2500);
+
+ Glcd_Image(charmander_2);
+ delay_ms(2500);
 }
-#line 7 "C:/Users/Alejandro/Documents/Git/Micro2/paola/paola1.c"
+void animate_charmander_20s(){
+ animate_charmander_5s();
+ animate_charmander_5s();
+ animate_charmander_5s();
+ animate_charmander_5s();
+}
+
+void animate_bullet(unsigned int x_left){
+ Glcd_PartialImage(x_left,23,18,18,18,18,bullet);
+}
+
+void animate_bullet_5s(){
+ animate_bullet(109);delay_ms(1000);
+ animate_bullet(91) ;delay_ms(1000);
+ animate_bullet(73) ;delay_ms(1000);
+ animate_bullet(55) ;delay_ms(1000);
+ animate_bullet(37) ;delay_ms(1000);
+ animate_bullet(19) ;delay_ms(1000);
+ animate_bullet(1) ;delay_ms(1000);
+}
+void animate_shell(unsigned int x_left, unsigned int y_top,code const far char * image){
+ Glcd_PartialImage(x_left,y_top,16,16,16,16,image);
+}
+void animate_shell_5s(unsigned int x_left, unsigned int y_top){
+ Glcd_Fill(0);
+ animate_shell(x_left,y_top,shell_1);
+ delay_ms(1667);
+ animate_shell(x_left,y_top,shell_2);
+ delay_ms(1667);
+ animate_shell(x_left,y_top,shell_1);
+ delay_ms(1667);
+}
+void animate_dog(unsigned int x_left, unsigned int y_top,code const far char * image){
+ Glcd_PartialImage(x_left,y_top,31,40,31,40,image);
+}
+void animate_dog_5s(unsigned int x_left, unsigned int y_top){
+ Glcd_Fill(0);
+ animate_shell(x_left,y_top,shell_1);
+ delay_ms(1667);
+ animate_dog(x_left,y_top,dog_2);
+ delay_ms(1667);
+ animate_dog(x_left,y_top,dog_2);
+ delay_ms(1667);
+}
+void animate_dog_20s(){
+ animate_dog_5s(48,12);animate_dog_5s(48,12);animate_dog_5s(48,12);animate_dog_5s(48,12);
+}
+void animate_kirby(unsigned int x_left, unsigned int y_top,code const far char * image){
+ Glcd_PartialImage(x_left,y_top,21,19,19,21,image);
+}
+void animate_kirby_5s(int x_left,int y_top){
+ Glcd_Fill(0);
+ animate_kirby(x_left,y_top,kirby_1);delay_ms(833);
+ animate_kirby(x_left,y_top,kirby_2) ;delay_ms(833);
+ animate_kirby(x_left,y_top,kirby_3) ;delay_ms(833);
+ animate_kirby(x_left,y_top,kirby_4) ;delay_ms(833);
+ animate_kirby(x_left,y_top,kirby_5) ;delay_ms(833);
+ animate_kirby(x_left,y_top,kirby_6);delay_ms(833);
+}
+
+void animate_blooper(unsigned int x_left, unsigned int y_top,code const far char * blooper){
+ Glcd_PartialImage(x_left,y_top,35,34,35,34,blooper);
+}
+void animate_blooper_5s(int x_left,int y_top){
+ Glcd_Fill(1);
+ animate_blooper(x_left,y_top,blooper_1);
+ delay_ms(2500);
+ animate_blooper(x_left,y_top,blooper_2);
+ delay_ms(2500);
+}
+void animate_blooper_20s(){
+ animate_blooper_5s(46,15);
+ animate_blooper_5s(46,15);
+ animate_blooper_5s(46,15);
+ animate_blooper_5s(46,15);
+}
+#line 5 "C:/Users/Alejandro/Documents/Git/M2/Lab1.c"
 sbit PS2_Data at RF4_bit;
 sbit PS2_Clock at RF5_bit;
 sbit PS2_Data_Direction at TRISF4_bit;
@@ -387,115 +375,368 @@ sbit GLCD_RST_Direction at TRISE4_bit;
 
 
 
-
 const int BTN_PPS_LOCATIONS[5]={-1,37,36,35,34};
 
 const int DIP_PPS_LOCATIONS[5]={32,33,38,39,40};
 const int KEYBOARD_PPS_LOCATIONS[2]={100,101};
 
 
+
 int counters[5]={0,0,0,0,0};
 int valores_cn[4]={0,0,0,0};
-unsigned short keydata = 0, special = 0, down = 0;
-int op=0;
-#line 75 "C:/Users/Alejandro/Documents/Git/Micro2/paola/paola1.c"
-void casoC(){
- Glcd_Write_TEXT("Ultimo Reset",60,0,1);
- do{
- if (RCONbits.WDTO==1){
- Glcd_Write_TEXT("WDT",0,1,BLACK);
- delay_ms(500);
- RCONbits.WDTO=0;
- }else if(RCONbits.EXTR==1){
- Glcd_Write_TEXT("MCLR",0,2,1);
- delay_ms(500);
- RCONbits.EXTR=0;
- }else if (RCONbits.POR==1){
- Glcd_Write_TEXT("POR",0,3,1);
- delay_ms(500);
- RCONbits.POR=0;
- }
- while(Ps2_Key_Read(&keydata, &special, &down));
- }while(op!=34);
- op='c';
+unsigned short keydata = 0, special = 0, down = 0,casoQactivo=0;
+
+
+
+
+
+
+void InterrAdapter(int Ix);
+#line 73 "C:/Users/Alejandro/Documents/Git/M2/Lab1.c"
+void bar_drawer(unsigned short x_left,unsigned short contador_barra);
+int DrawableBars(int real_number_of_bars);
+#line 108 "C:/Users/Alejandro/Documents/Git/M2/Lab1.c"
+void INT0() org 0x14{
+
+ InterrAdapter(0);
+ delay_ms(600);
+ IFS0bits.INT0IF=0;
 }
-void main(){
- ANSELC=0; ANSELD=0; ANSELE=0;
+void INT1() org 0x3C{
+
+ InterrAdapter(1);
+ delay_ms(600);
+ IFS1bits.INT1IF=0;
+}
+void INT2() org 0x4E{
+
+ InterrAdapter(2);
+ delay_ms(600);
+ IFS1bits.INT2IF=0;
+}
+void INT3() org 0x7E{
+
+ InterrAdapter(3);
+ delay_ms(600);
+ IFS3bits.INT3IF=0;
+}
+void INT4() org 0x80{
+
+ InterrAdapter(4);
+ delay_ms(600);
+ IFS3bits.INT4IF=0;
+}
+void INT_CN() org 0x3A{
+ IFS1bits.CNIF = 0;
+ if(PORTBbits.RB5 ==1){
+
+ valores_cn[0]=1;
+ valores_cn[1]=0;
+ valores_cn[2]=0;
+ valores_cn[3]=0;
+
+ }else if(PORTBbits.RB4==1){
+
+ valores_cn[0]=0;
+ valores_cn[1]=1;
+ valores_cn[2]=0;
+ valores_cn[3]=0;
+ }else if(PORTBbits.RB3==1){
+
+ valores_cn[0]=0;
+ valores_cn[1]=0;
+ valores_cn[2]=1;
+ valores_cn[3]=0;
+ }else if(PORTBbits.RB2==1){
+
+ valores_cn[0]=0;
+ valores_cn[1]=0;
+ valores_cn[2]=0;
+ valores_cn[3]=1;
+ }
+ if(PORTBbits.RB1==1){
+
+ RCONbits.SWDTEN=1;
+ Glcd_Write_TEXT("INT WDT",0,0,1);
+}
+ delay_ms(1000);
+ Glcd_Fill(0);
+
+}
+void InterrAdapter(int Ix){
+ if(casoQactivo==1){
+ counters[Ix]++;
+ barra(Ix,counters[Ix]);
+ }
+}
 
 
 
- LATB = 0;
- ANSELB = 0;
- TRISB = 0;
+void config_IO(){
+ ANSELB=0;
+ ANSELC=0;
+ ANSELD=0;
+ ANSELE=0;
+ ANSELG=0;
+ TRISB=0xffff;
+ TRISDbits.TRISD0=1;
+ TRISDbits.TRISD11=1;
+ TRISDbits.TRISD10=1;
+ TRISDbits.TRISD9=1;
+ TRISE=0;
+ TRISG=0;
+
+
+}
+void config_LCD(){
  Glcd_Init();
  Glcd_Set_Font(font5x7 , 5, 7, 32);
  Glcd_Fill(0);
-PS2_Config();
- Glcd_Write_TEXT("Laboratorio 1",31,0,1);
- delay_ms(3000);
-while(1){
- LATB = ~LATB;
- Glcd_Write_TEXT("Laboratorio 1",31,0,1);
+}
+void config_CN(){
+ CNENBbits.CNIEB5=1;
+ CNENBbits.CNIEB4=1;
+ CNENBbits.CNIEB3=1;
+ CNENBbits.CNIEB2=1;
+ CNENBbits.CNIEB1=1;
 
- animate_kirby();
- delay_ms(3000);
- animate_bullet();
- delay_ms(3000);
- animate_blooper_20s();
- delay_ms(3000);
- animate_dog_20s();
- delay_ms(3000);
- animate_shell_20s();
- delay_ms(3000);
- animate_charmander();
- delay_ms(3000);
- Glcd_Fill(0);
- Glcd_Write_TEXT("Presione 'A' para Caso 1",0,1,1);
- Glcd_Write_TEXT("Presione 'B' para Caso 2",0,2,1);
- Glcd_Write_TEXT("Presione 'C' para Caso 3",0,3,1);
- Glcd_Write_TEXT("Presione 'D' para WDT   ",0,4,1);
- delay_ms(3000);
+ CNPUBbits.CNPUB5=1;
+ CNPUBbits.CNPUB4=1;
+ CNPUBbits.CNPUB3=1;
+ CNPUBbits.CNPUB2=1;
+ CNPUBbits.CNPUB1=1;
 
- while(op!=34){
- if(Ps2_Key_Read(&keydata, &special, &down)){
- Glcd_Fill(0);
- switch(op){
- case 'a':
- Glcd_Write_TEXT("Caso A",60,0,1);
- delay_ms(1000);
- op=keydata;
- break;
+ IPC4bits.CNIP=7;
+ IFS1bits.CNIF=0;
+ IEC1bits.CNIE=1;
+}
+void config_INT(){
+ SRbits.IPL =0;
+ INTCON1bits.NSTDIS =0;
+ INTCON2bits.GIE=1;
+ CORCONbits.IPL3 = 0;
 
- case 'b':
- Glcd_Write_TEXT("Caso B ",60,0,1);
- delay_ms(1000);
- op=keydata;
- break;
+ IEC0bits.INT0IE=1;
+ IEC1bits.INT1IE=1;
+ IEC1bits.INT2IE=1;
+ IEC3bits.INT3IE=1;
+ IEC3bits.INT4IE=1;
 
- case 'c':
- Glcd_Write_TEXT("Caso C ",60,0,1);
- delay_ms(1000);
- casoC();
- op=keydata;
- break;
 
- case 'd':
- Glcd_Write_TEXT("Caso D ",60,0,1);
- delay_ms(1000);
- op=keydata;
- break;
+ IFS0bits.INT0IF=0;
+ IFS1bits.INT2IF =0;
+ IFS1bits.INT2IF =0 ;
+ IFS3bits.INT3IF =0;
+ IFS3bits.INT4IF =0;
 
- case 34:
- Glcd_Write_TEXT("Menu Principal ",60,0,1);
- delay_ms(1000);
- op=keydata;
- break;
- default:
- Glcd_Write_TEXT("Erroneo ",60,0,1);
- delay_ms(1000);
- break;
+ counters[0]=0;
+ counters[1]=0;
+ counters[2]=0;
+ counters[3]=0;
+ counters[4]=0;
+
+ INTCON2bits.INT0EP=0;
+ INTCON2bits.INT1EP=0;
+ INTCON2bits.INT2EP=0;
+ INTCON2bits.INT3EP=0;
+ INTCON2bits.INT4EP =0;
+
+ RPINR0bits.INT1R=75;
+ RPINR1bits.INT2R=74;
+ RPINR1bits.INT3R=73;
+ RPINR2bits.INT4R=72;
+}
+void disable_INT(){
+ IPC0bits.INT0IP= 0;
+ IPC5BITS.INT1IP=0;
+ IPC7bits.INT2IP =0;
+ IPC13bits.INT3IP=0;
+ IPC13bits.INT4IP=0;
+ counters[0]=0;
+ counters[1]=0;
+ counters[2]=0;
+ counters[3]=0;
+ counters[4]=0;
+ casoQactivo=0;
+}
+
+
+void casoExtra(){
+ int Ix,count;
+ Glcd_Fill(0) ;
+ for(count=0;count<25;count++){
+ for(Ix=0;Ix<5;Ix++){
+ x_right=BARS_H_LOCATIONS[Ix]+20;
+ y_bottom=count*2;
+ y_top=y_bottom+2;
+ Glcd_Box(BARS_H_LOCATIONS[ix],y_top,x_right,y_bottom, 1);
+ delay_ms(750);
  }
- }
+ delay_ms(1000);
  }
 }
+void casoQ(){
+ IPC0bits.INT0IP= 6;
+ IPC5BITS.INT1IP=5;
+ IPC7bits.INT2IP =4;
+ IPC13bits.INT3IP=3;
+ IPC13bits.INT4IP=2;
+ Glcd_Fill(0);
+ casoQactivo=1;
+ do{
+ down=0;special=0;keydata=0;
+ Ps2_Key_Read(&keydata, &special, &down);
+ }while(keydata!=34 && !down & !special);
+ disable_INT();
+ Glcd_Fill(0);
+ disable_INT();
+}
+void casoW(){
+ valores_cn[0]=0;
+ valores_cn[1]=0;
+ valores_cn[2]=0;
+ valores_cn[3]=0;
+ Glcd_Fill(0) ;
+ Glcd_Write_TEXT("Caso 2",0,0,1);
+ delay_ms(1000);
+ do{
+ Glcd_Fill(0);
+
+ down=0;special=0;keydata=0;
+ if(valores_cn[0]==1){
+
+ animate_charmander_5s();
+ }
+ else if(valores_cn[1]==1){
+
+
+ animate_kirby_5s(0,0);
+ }
+ else if(valores_cn[2]==1){
+
+
+ animate_shell_5s(0,0);
+ }
+ else if(valores_cn[3]==1){
+
+
+
+ Glcd_PartialImage(100,23,18,18,18,18,bullet); delay_ms(500);Glcd_Fill(0);
+ Glcd_PartialImage(80,23,18,18,18,18,bullet); delay_ms(500);Glcd_Fill(0);
+ Glcd_PartialImage(60,23,18,18,18,18,bullet); delay_ms(500);Glcd_Fill(0);
+ Glcd_PartialImage(40,23,18,18,18,18,bullet); delay_ms(500);Glcd_Fill(0);
+ }
+ Ps2_Key_Read(&keydata, &special, &down);
+ }while(keydata!=34 && !down & !special);
+}
+
+void casoE(){
+ Glcd_Fill(0);
+ Glcd_Write_TEXT("Caso E",60,0,1);
+ do{
+
+
+ down=0;
+ special=0;
+ if (RCONbits.WDTO==1){
+ Glcd_Write_TEXT("WDT",0,1,1);
+ RCONbits.WDTO=0;
+ PORTEbits.RE5=1;
+ animate_dog_20s();
+ }else if(RCONbits.EXTR==1){
+ Glcd_Write_TEXT("MCLR",0,2,1);
+ RCONbits.EXTR=0;
+ RCONbits.POR=0;
+ PORTEbits.RE7=1;
+ animate_blooper_20s();
+ continue;
+ }else if (RCONbits.POR==1){
+ Glcd_Write_TEXT("POR",0,3,1);
+ RCONbits.POR=0;
+ PORTGbits.RG6=1;
+ animate_charmander_20s();
+ break;
+ }
+
+ Ps2_Key_Read(&keydata, &special, &down);
+ }while(keydata!=34&&!down&&!special);
+ LATEbits.LATE5=0;
+
+ LATEbits.LATE7=0;
+ LATGbits.LATG6=0;
+
+
+
+}
+
+void main(){
+ config_IO();
+ config_LCD();
+ config_INT();
+ config_CN();
+ animate_charmander_5s();
+ PS2_Config();
+ Glcd_Fill(0);
+
+ while(1){
+ Glcd_Write_TEXT("Laboratorio 1",31,0,1);
+ Glcd_Write_TEXT("'Q' para Caso Q",0,1,1);
+ Glcd_Write_TEXT("'W' para Caso W",0,2,1);
+ Glcd_Write_TEXT("'E' para Caso E",0,3,1);
+ Glcd_Write_TEXT("'R' para WDT   ",0,4,1);
+ if(Ps2_Key_Read(&keydata, &special, &down)){
+
+ if(down &&!special){
+ switch(keydata){
+ case 'q':
+ case 'Q':
+ Glcd_Write_TEXT("Caso Q",60,0,1);
+ casoQ();
+ break;
+
+ case 'w':
+ case 'W':
+ Glcd_Write_TEXT("Caso W",60,0,1);
+ casoW();
+ Glcd_Fill(0);
+ break;
+
+ case 'e':
+ case 'E':
+ Glcd_Fill(0);
+ Glcd_Write_TEXT("Ultimo Reset",60,0,1);
+ casoE();
+ Glcd_Fill(0);
+ break;
+
+ case 'r':
+ case 'R':
+ Glcd_Fill(0);
+ Glcd_Write_TEXT("Caso R ",60,0,1);
+
+ break;
+ case 't':
+ case 'T':
+
+
+
+
+
+
+ funcionPractica();
+#line 461 "C:/Users/Alejandro/Documents/Git/M2/Lab1.c"
+ break;
+ case 'C':
+ break;
+ Glcd_Write_TEXT("CUADRO ",60,0,1);
+ Glcd_Box(10,10,20,20,1);
+ default:
+ Glcd_Fill(0);
+ Glcd_Write_TEXT("Erroneo ",60,0,1);
+ delay_ms(2000);
+ break;
+ }
+ }
+ }
+ }
 }

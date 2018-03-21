@@ -32,7 +32,7 @@ unsigned short posicion=0;
 
 void INT0() org 0x14{
 	posicion=1;
-	IFS0bits.INT0IF=0;
+		
 	}
 void INT1() org 0x3C{
 	posicion=2;
@@ -57,6 +57,7 @@ void main(){
 	IEC0bits.INT0IE=1;
 	IEC1bits.INT1IE=1;
 	IEC1bits.INT2IE=1;
+	
 	RPINR0Bits.INT1R=75; //asigna INT1 al puerto rpi75
 	RPINR1Bits.INT2R=74; //asigna INT2 al puerto rpi74
 	
