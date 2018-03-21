@@ -56,31 +56,26 @@ void bar_drawer(unsigned short x_left,unsigned short contador_barra);
 int DrawableBars(int real_number_of_bars);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void INT0() org 0x14{
-  //logi("INT0");
   InterrAdapter(0);
-              delay_ms(600);
+  delay_ms(600);
   IFS0bits.INT0IF=0;
 }
 void INT1() org 0x3C{
-  //logi("INT1");
   InterrAdapter(1);
   delay_ms(600);
   IFS1bits.INT1IF=0;
 }
 void INT2() org 0x4E{
-  //logi("INT2");
   InterrAdapter(2);
   delay_ms(600);
   IFS1bits.INT2IF=0;
 }
 void INT3() org 0x7E{
-  //logi("INT3");
   InterrAdapter(3);
   delay_ms(600);
   IFS3bits.INT3IF=0;
 }
 void INT4() org 0x80{
-  //logi("INT4");
   InterrAdapter(4);
   delay_ms(600);
   IFS3bits.INT4IF=0;
@@ -88,39 +83,33 @@ void INT4() org 0x80{
 void INT_CN() org 0x3A{
   IFS1bits.CNIF = 0;
   if(PORTBbits.RB5 ==1){
-    //logi("INT CN0");  delay_ms(1000);
       valores_cn[0]=1;
       valores_cn[1]=0;
       valores_cn[2]=0;
       valores_cn[3]=0;
 
   }else if(PORTBbits.RB4==1){
-  //logi("INT CN1");  
       valores_cn[0]=0;
       valores_cn[1]=1;
       valores_cn[2]=0;
       valores_cn[3]=0;
   }else if(PORTBbits.RB3==1){
-  //logi("INT CN2");  
       valores_cn[0]=0;
       valores_cn[1]=0;
       valores_cn[2]=1;
       valores_cn[3]=0;
   }else if(PORTBbits.RB2==1){
-  //logi("INT CN3");  
       valores_cn[0]=0;
       valores_cn[1]=0;
       valores_cn[2]=0;
       valores_cn[3]=1;
   }
   if(PORTBbits.RB1==1){
-      // if(RCONbits.SWDTEN==0){//logi("INT WDT");  
       RCONbits.SWDTEN=1;
       Glcd_Write_TEXT("INT WDT",0,0,1);
 }
   delay_ms(1000);
   Glcd_Fill(0);
-  //logi("salida cn_int");
 }
 void InterrAdapter(int Ix){
   if(casoQactivo==1){
@@ -286,8 +275,7 @@ void main(){
     Glcd_Write_TEXT("'E' para Caso E",0,3,1);
     Glcd_Write_TEXT("'R' para WDT   ",0,4,1);
     if(Ps2_Key_Read(&keydata, &special, &down)){
-      //logi(keydata);
-      if(down &&!special){
+ if(down &&!special){
         switch(keydata){
           case 'q':
           case 'Q':
