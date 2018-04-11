@@ -84,7 +84,7 @@ void texto_caso_1(){
   Glcd_Write_Text("5) Alarma",SANGRIA,5,1);
 }
 void texto_caso_2(){
-  // GLCD_FILL(0);
+  GLCD_FILL(0);
   Glcd_Write_Text("Puerto de Entrada",SANGRIA,0,1);
   Glcd_Write_Text("RPx/PORTxy"  ,SANGRIA,1,1);
   Glcd_Write_Text("RPx/PORTxy"  ,SANGRIA,2,1);
@@ -93,11 +93,14 @@ void texto_caso_2(){
   Glcd_Write_Text("5) Volver"   ,SANGRIA,5,1);
 }
 void texto_caso_3(){
-  // GLCD_FILL(0);
-  Glcd_Write_Text("Elegir Ciclo Util:",0,0,1);
-  Glcd_Write_Text("1) 15%"  ,SANGRIA,1,1);
-  Glcd_Write_Text("2) 45%"  ,SANGRIA,2,1);
-  Glcd_Write_Text("3) 60%"  ,SANGRIA,3,1);
-  Glcd_Write_Text("4) 80%"  ,SANGRIA,4,1);
-  Glcd_Write_Text("5) 100%"  ,SANGRIA,4,1);
+  GLCD_FILL(0);
+  Glcd_Write_Text("Puerto de Entrada",SANGRIA,0,1);
+  Glcd_Write_Text("RP101/RG8 80%"  ,SANGRIA,4,1);
+  Glcd_Write_Text("RP85 /RE5 15%"  ,SANGRIA,1,1);
+  Glcd_Write_Text("RP87 /RE7 45%"  ,SANGRIA,2,1);
+  Glcd_Write_Text("RP87 /RG6 60%"  ,SANGRIA,3,1);
+  Glcd_Write_Text("RPx/PORTxy"  ,SANGRIA,1,1);
+  Glcd_Write_Text("RPx/PORTxy"  ,SANGRIA,2,1);
+  Glcd_Write_Text("RPx/PORTxy"  ,SANGRIA,3,1);
+  Glcd_Write_Text("RPx/PORTxy"  ,SANGRIA,4,1);
 }

@@ -6,7 +6,7 @@ Value=-1
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=Lab2.c
+Value=sprites.h
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -118,5 +118,4 @@ File60=Vectors
 [EXPANDED NODES]
 Node1=Sources
 Node2=Header Files
-Node3=Output Files
-Count=3
+Count=2
