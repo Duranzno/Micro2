@@ -74,7 +74,7 @@ void config_captura (){
   IC1CON1bits.ICTSEL=4; //usa como fuente de reloj el timer1
   IC1CON1bits.ICM=5; // captura cada 4 flancos positivos 
   RPINR7bits.IC1R=75; //asigna IC1 al RPI75
-  T1CONbits.TON=1; //enciende timer 1
+ // T1CONbits.TON=1; //enciende timer 1
   IEC0bits.IC1IE=1; //habilita interrupción del IC1
   IFS0bits.IC1IF=0; //limpia la bandera de interrupción
 }

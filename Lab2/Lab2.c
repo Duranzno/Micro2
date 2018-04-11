@@ -20,10 +20,6 @@ float frecuencia,periodo;
 //~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void cron_write();
 void clean_PS2();
-void clean_line(int page){
-  y=page2pos(page)         ;
-  glcd_write_text("                                                                                 ",0,y,1);
-}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // void TIMER1() org 0x1A
 // {
@@ -73,9 +69,10 @@ void clean_line(int page){
 //   IFS0bits.T1IF=0;
 // }
 void captura_onda_ic1() org 0x16{ 
-glcd_write_text("INT IC",0,7,1);
- pulso++;
- IFS0bits.IC1IF=0;
+    pulso++;
+//    inttostr(pulso,txt);
+//    glcd_write_text(txt,0,7,1);
+    IFS0bits.IC1IF=0;
 }
 void int_timer1 () org 0x1A{
   T1CONbits.TON=0; // deshabilita timer1
@@ -92,9 +89,9 @@ void Timer5() org 0x4C{
 
 
 //~~~~~~~~~~~~~~~~~~~~~~Caso 1~~~~~~~~~~~~~~~~~~~~~~~~~~
-int  num_selector(int x_pos){
+int  num_selector(){
   int it=0;
-  num_update(it,x_pos,7);
+
   clean_PS2();
   while(keydata!=ENTER){
     if(Ps2_Key_Read(&keydata, &special, &down)){
@@ -110,10 +107,9 @@ int  num_selector(int x_pos){
           if(it==-1){it=9;}
           clean_PS2();
         }
-        num_update(it,x_pos,7);
+        cron_write();
         clean_PS2();
       }
-      clean_PS2();
       }
     }
   }
@@ -126,7 +122,7 @@ int x_pos=60,i,j;
   clean_PS2();
   for(i=0;i<5;i++){
     if(i!=2){
-      j=num_selector(60+i*5)+'0';
+      j=num_selector()+'0';
       HORA[i]=j;
     }else if(i==2){
       HORA[2]=':' ;
@@ -137,17 +133,17 @@ int x_pos=60,i,j;
 }
 
 void cron_write(){
-  Glcd_Write_TEXT("                                              ",60,7,1);
+  Glcd_Write_TEXT("                                                                ",60,7,1);
   Glcd_Write_TEXT(HORA,60,7,1);
 }
 void frecuencia_pantalla (){
-	Glcd_Write_Text("Frecu.(hz)=", 0, 6, 1);
-    floattostr(frecuencia,txt);
-    Glcd_Write_Text(txt,65, 6, 1);
-    floattostr(periodo,txt);
-    Glcd_Write_Text(txt,65, 7, 1);
+        Glcd_Write_Text("Frecu.(hz)=", 0, 1, 1);
+   floattostr(frecuencia,txt);
+    Glcd_Write_Text(txt,65, 1, 1);
+//    floattostr(periodo,txt);
+//    Glcd_Write_Text(txt,65, 7, 1);
 
-}  	
+}          
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos~~~~~~~~~~~~~~~~~~~~~~~~
 void caso_1(){
@@ -178,10 +174,12 @@ void caso_1(){
   }
 }
 void caso_2(){
-	Glcd_Fill(0);
+	  config_captura();
+   T1CONbits.TON=1; //enciende timer 1
+        Glcd_Fill(0);
   while(keydata!=ESC){
-  	frecuencia_pantalla();
-  	delay_ms(500);
+          frecuencia_pantalla();
+          delay_ms(500);
     // if(!FloatToStr(T1,txt)){Glcd_Write_Text(txt,65,1,1);}
     // if(!FloatToStr(T2,txt)){Glcd_Write_Text(txt,65,2,1);}
     // if(!FloatToStr(T3,txt)){Glcd_Write_Text(txt,65,3,1);}
@@ -190,28 +188,16 @@ void caso_2(){
   }
 }
 void caso_3(){
-	texto_caso_3();
-	while(keydata!=ESC){
-		T5CONbits.TON=1;
-  		T4CONbits.TON=1;
-  		Ps2_Key_Read(&keydata, &special, &down);
-	}
-	T5CONbits.TON=0;
-  	T4CONbits.TON=0;
+        texto_caso_3();
+        while(keydata!=ESC){
+                T5CONbits.TON=1;
+                  T4CONbits.TON=1;
+                  Ps2_Key_Read(&keydata, &special, &down);
+        }
+        T5CONbits.TON=0;
+          T4CONbits.TON=0;
 }
-void glcd_space_test(){
-	Glcd_Write_Char('&',60,7,1);
-	Glcd_Write_Char('&',65,7,1);
-	Glcd_Write_Char('&',70,7,1);
-	Glcd_Write_Char('&',75,7,1);
-	delay_ms(1500);
-	cron_write();
-	Glcd_Write_Char('1',60,7,1);
-	Glcd_Write_Char('2',65,7,1);
-	Glcd_Write_Char('3',70,7,1);
-	Glcd_Write_Char('4',75,7,1);
-	delay_ms(1500);
-}
+
 //~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main(){
   config_IO();  config_LCD();
@@ -219,11 +205,11 @@ void main(){
    // config_TMR_1();
   config_OC();
   config_TMR_45();
-  config_captura();
+ // config_captura();
   config_pin();
 //  config_IC() ;config_timeric ();
   animate_charmander_5s(); Glcd_Fill(0);
-  glcd_space_test();
+//  glcd_space_test();
   PS2_Config();  Glcd_Fill(0);
   while(1){
     texto_menu();
@@ -242,7 +228,7 @@ void main(){
                   caso_1();
                 break;
 
-                case 'W':
+                case 'w':
 
                   clean_PS2();
                   // texto_caso_2();
