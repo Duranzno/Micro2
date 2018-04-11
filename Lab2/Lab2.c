@@ -69,10 +69,11 @@ void clean_PS2();
 //   IFS0bits.T1IF=0;
 // }
 void captura_onda_ic1() org 0x16{ 
-    pulso++;
-//    inttostr(pulso,txt);
-//    glcd_write_text(txt,0,7,1);
-    IFS0bits.IC1IF=0;
+
+glcd_write_text("INT IC",0,7,1);   
+//inttostr(pu
+ pulso++;
+ IFS0bits.IC1IF=0;
 }
 void int_timer1 () org 0x1A{
   T1CONbits.TON=0; // deshabilita timer1
@@ -89,28 +90,35 @@ void Timer5() org 0x4C{
 
 
 //~~~~~~~~~~~~~~~~~~~~~~Caso 1~~~~~~~~~~~~~~~~~~~~~~~~~~
-int  num_selector(){
+char bufferHORA[12]={'0','0',':','0','0',':','0','0',':','0','0','\0'};
+int  cron_cursor(){
   int it=0;
-
   clean_PS2();
-  while(keydata!=ENTER){
+  for(i=0;i<5;i++){
+    it=0;
+    if(i!=2){
+      while(keydata!=ENTER){
     if(Ps2_Key_Read(&keydata, &special, &down)){
       if(down){
        if(keydata==DOWN_ARROW||keydata==UP_ARROW){
         if(keydata==UP_ARROW){
-          it=it+1;
+          Hora[i]=it+1;
           if(it==10){it=0;}
-          clean_PS2();
         }
         if(keydata==DOWN_ARROW){
-          it=it-1;
+          Hora[i]=it-1;
           if(it==-1){it=9;}
-          clean_PS2();
         }
-        cron_write();
-        clean_PS2();
+         cron_write();
       }
       }
+    }
+  }
+    }else if(i==2){
+      HORA[2]=':' ;
+    }
+    clean_PS2();
+    cron_write();
     }
   }
   return it;
@@ -122,7 +130,7 @@ int x_pos=60,i,j;
   clean_PS2();
   for(i=0;i<5;i++){
     if(i!=2){
-      j=num_selector()+'0';
+      j=num_selector(i)+'0';
       HORA[i]=j;
     }else if(i==2){
       HORA[2]=':' ;
@@ -174,12 +182,11 @@ void caso_1(){
   }
 }
 void caso_2(){
-	  config_captura();
+          config_captura();
    T1CONbits.TON=1; //enciende timer 1
         Glcd_Fill(0);
   while(keydata!=ESC){
           frecuencia_pantalla();
-          delay_ms(500);
     // if(!FloatToStr(T1,txt)){Glcd_Write_Text(txt,65,1,1);}
     // if(!FloatToStr(T2,txt)){Glcd_Write_Text(txt,65,2,1);}
     // if(!FloatToStr(T3,txt)){Glcd_Write_Text(txt,65,3,1);}
