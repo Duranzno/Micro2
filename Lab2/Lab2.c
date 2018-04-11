@@ -1,47 +1,27 @@
-//#include "sprites.h"
-//~~~~~~~~~~~~~~~~~~Constantes  del dsPIC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//Variables de PS2
-sbit PS2_Data at RF4_bit;
-sbit PS2_Clock at RF5_bit;
-sbit PS2_Data_Direction at TRISF4_bit;
-sbit PS2_Clock_Direction at TRISF5_bit;
-//Variables de GLCD
-sbit GLCD_D7 at RE1_bit;
-sbit GLCD_D6 at RE0_bit;
-sbit GLCD_D5 at RF1_bit;
-sbit GLCD_D4 at RF0_bit;
-sbit GLCD_D3 at RD7_bit;
-sbit GLCD_D2 at RD6_bit;
-sbit GLCD_D1 at RD5_bit;
-sbit GLCD_D0 at RD4_bit;
-sbit GLCD_D7_Direction at TRISE1_bit;
-sbit GLCD_D6_Direction at TRISE0_bit;
-sbit GLCD_D5_Direction at TRISF1_bit;
-sbit GLCD_D4_Direction at TRISF0_bit;
-sbit GLCD_D3_Direction at TRISD7_bit;
-sbit GLCD_D2_Direction at TRISD6_bit;
-sbit GLCD_D1_Direction at TRISD5_bit;
-sbit GLCD_D0_Direction at TRISD4_bit;
-sbit GLCD_CS1 at LATE3_bit;
-sbit GLCD_CS2 at LATE2_bit;
-sbit GLCD_RS at LATD1_bit;
-sbit GLCD_RW at LATD2_bit;
-sbit GLCD_EN at LATD3_bit;
-sbit GLCD_RST at LATE4_bit;
-sbit GLCD_CS1_Direction at TRISE3_bit;
-sbit GLCD_CS2_Direction at TRISE2_bit;
-sbit GLCD_RS_Direction at TRISD1_bit;
-sbit GLCD_RW_Direction at TRISD2_bit;
-sbit GLCD_EN_Direction at TRISD3_bit;
-sbit GLCD_RST_Direction at TRISE4_bit;
+
+#include "sprites.h"
+#include "extras.h"
+#include "text.h"
+#include "config.h"
+
 
 //____________________________________________________________________________________________________________________________________
 //~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-unsigned short keydata = 0, special = 0, down = 0;
-unsigned short u_seg=0,d_seg=0,u_min=0,d_min=0,u_hora=0,d_hora=0;//Constantes de las ubicaciones de los pines
-char hora[8];
+unsigned short op=0;
+unsigned short d_mseg=0,u_mseg=0,u_seg=0,d_seg=0,u_min=0,d_min=0,u_hora=0,d_hora=0;//Constantes de las ubicaciones de los pines
+char hora[12]  ={'0','0',':','0','0',':','0','0',':','0','0','\0'};
+char alarma[12]={'0','0',':','0','0',':','0','0',':','0','0','\0'};
+char texta=1+'0';
+int ENALARM=0,conta1=0,selected=0;
+float T1,T2,T3,T4;
 //____________________________________________________________________________________________________________________________________
 //~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void cron_write();
+void clean_PS2();
+void clean_line(int page){
+  y=page2pos(page)         ;
+  glcd_write_text("                                                                                 ",0,y,1);
+}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void TIMER1() org 0x1A
 {
@@ -70,6 +50,11 @@ void TIMER1() org 0x1A
                       }
                 }
           }
+  if(ENALARM&&Alarma[0]==HORA[0]&&Alarma[1]==HORA[1]&&Alarma[3]==HORA[3]&&Alarma[4]==HORA[4]){
+    Glcd_Fill(0);
+    animate_bell_5s();
+    ENALARM=0;
+  }
   HORA[0]=d_hora+'0';
   HORA[1]=u_hora+'0';
   HORA[2]=':';
@@ -78,125 +63,162 @@ void TIMER1() org 0x1A
   HORA[5]=':';
   HORA[6]=d_seg+'0';
   HORA[7]=u_seg+'0';
-  HORA[8]='\0';
-  Glcd_Write_Text(HORA,30,3,1);
+  HORA[8]=':';
+  HORA[9]=d_mseg+'0';
+  HORA[10]=u_mseg+'0';
+  HORA[11]='\0';
+  cron_write();
   IFS0bits.T1IF=0;
 }
-//~~~~~~~~~~~~~~~~~~~~~~Configuraciones Iniciales~~~~~~~~~~~~~~~~~~~~~~~~~~
-void config_IO(){
-  ANSELB=0;
-  ANSELC=0;
-  ANSELD=0;
-  ANSELE=0;
-  ANSELG=0;             //ANA//logiCO SON B Y F
-  TRISB=0xffff;
-  TRISE=0;
-  TRISG=0;
-//Entrada Botones y Dipswitches
-//Las entradas del teclado y las salidas de la pantalla son manejadas por las librerias;
+void intercaso2ic1() org 0x16{
+ conta1++;
+ IFS0bits.IC1IF=0; // borra bandera
 }
-void config_LCD(){
-  Glcd_Init();
-  Glcd_set_Font(font5x7 , 5, 7, 32);
-  Glcd_Fill(0);
-}
-void config_TMR(){
-  //TIMER 1 HORA REAL
-    TMR1=0;
-    PR1=57343; //1000ms
-    IEC0bits.T1IE=1;//enable interrupcion
-    IFS0bits.T1IF=0;//limpia bandera
-    IPC0bits.T1IP=3;//prioridad interrupcion
-    T1CON=0;
-    T1CONBits.TCKPS= 2;   //Preescalador 256
-    
-}
-void config_INT(){
-  SRbits.IPL =0;// iNTERRUPCION DE CPU ES DE NIVEL 0
-  INTCON1bits.NSTDIS =0;// INTERRUPCION ANIDADAS ACTIVADAS
-  INTCON2bits.GIE=1; //interrupciones habilitadas
-  CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
-//------------------------- habilitacion de interrupcion
-
-  //prioridad int
-// Banderas de Interrupcion post Reset (Limpieza)
-
-}
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos~~~~~~~~~~~~~~~~~~~~~~~~
- void oscilador_usado(){
-  switch(OSCCONBits.COSC){
-    case 0:
-      glcd_write_text("FRC",0,7,1);
-      delay_ms(2000);
-      glcd_fill(0);
-      break;
-    case 1:
-      glcd_write_text("FRCPLL",0,7,1);
-      delay_ms(2000);
-      glcd_fill(0);
-      break;
-    case 2:
-      glcd_write_text("posc",0,7,1);
-      delay_ms(2000);
-      glcd_fill(0);
-      break;
-    case 3:
-      glcd_write_text("posc_pll",0,7,1);
-      delay_ms(2000);
-      glcd_fill(0);
-      break;
-   case 4:
-      glcd_write_text("sosc",0,7,1);
-      delay_ms(2000);
-      glcd_fill(0);
-      break;
-    case 5:
-      glcd_write_text("lprc",0,7,1);
-      delay_ms(2000);
-      glcd_fill(0);
-      break;
-    case 6:
-      glcd_write_text("frcdiv16",0,7,1);
-      delay_ms(2000);
-      glcd_fill(0);
-      break;
-      case 7:
-      glcd_write_text("frcdivn",0,7,1);
-      delay_ms(2000);
-      glcd_fill(0);
-      break;
-     default:
-      glcd_write_text("none",0,7,1);
-      delay_ms(2000);
-      glcd_fill(0);
-      break;
+//void intercaso2ic2() org 0x1E {
+// conta1++;
+// IFS0bits.IC2IF=0; // borra bandera
+//}
+//void timer2inter() org 0x22{
+// T1=(1/conta1)*1000000;
+// IFS0bits.T2IF=0;  // borra bander
+//}
+//~~~~~~~~~~~~~~~~~~~~~~Caso 1~~~~~~~~~~~~~~~~~~~~~~~~~~
+int  num_selector(int x_pos){
+  int it=0;
+  num_update(it,x_pos,7);
+  clean_PS2();
+  while(keydata!=ENTER){
+    if(Ps2_Key_Read(&keydata, &special, &down)){
+      if(down){
+       if(keydata==DOWN_ARROW||keydata==UP_ARROW){
+        if(keydata==UP_ARROW){
+          it=it+1;
+          if(it==10){it=0;}
+          clean_PS2();
+        }
+        if(keydata==DOWN_ARROW){
+          it=it-1;
+          if(it==-1){it=9;}
+          clean_PS2();
+        }
+        num_update(it,x_pos,7);
+        clean_PS2();
+      }
+      clean_PS2();
+      }
+    }
   }
- }
+  return it;
+}
+void cron_cursor(){
+int x_pos=60,i;
+  //hay 5 variables de hora y alarma
+
+  for(i=0;i<5;i++){
+
+    if(i!=2){
+      HORA[i]='0'+num_selector(60+i*5);
+    }else if(i==2){
+      HORA[2]=':' ;
+    }
+    clean_PS2();
+    cron_write();
+  }
+}
+
+void cron_write(){
+  Glcd_Write_TEXT("                                              ",60,7,1);
+  Glcd_Write_TEXT(HORA,60,7,1);
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos~~~~~~~~~~~~~~~~~~~~~~~~
+void caso_1(){
+  while(keydata!=ESC){
+     selected=cursor_menu();
+      switch(selected){
+      case 1:
+        cron_cursor();
+        clean_PS2();
+        break;
+      case 2:
+        Glcd_Write_Text("PLAY",30,7,1);
+        T1CONBits.TON=1;
+        break;
+      case 3:
+        Glcd_Write_Text("pause",30,7,1);
+        T1CONBits.TON=0;
+        break;
+      case 4:
+      Glcd_Write_Text("RESET",30,7,1);
+//        hora={'0','0',':','0','0',':','0','0',':','0','0','\0'};
+        break;
+      case 5:
+      Glcd_Write_Text("ALARM",30,7,1);
+//        alarm_cursor();
+        break;
+      }
+  }
+}
+void caso_2(){
+  while(keydata!=ESC){
+    if(!FloatToStr(T1,txt)){Glcd_Write_Text(txt,65,1,1);}
+    if(!FloatToStr(T2,txt)){Glcd_Write_Text(txt,65,2,1);}
+    if(!FloatToStr(T3,txt)){Glcd_Write_Text(txt,65,3,1);}
+    if(!FloatToStr(T4,txt)){Glcd_Write_Text(txt,65,4,1);}
+    Ps2_Key_Read(&keydata, &special, &down);
+  }
+}
+//~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main(){
   config_IO();  config_LCD();
   config_INT(); config_TMR();
-//  animate_charmander_5s();
+//  config_IC() ;config_timeric ();
+  animate_charmander_5s(); Glcd_Fill(0);
+
   PS2_Config();  Glcd_Fill(0);
   while(1){
-    Glcd_Write_TEXT("Laboratorio 2",31,0,1);
-    Glcd_Write_TEXT("'Q' Cronometro",0,1,1);
-    oscilador_usado();
+    texto_menu();
     if(Ps2_Key_Read(&keydata, &special, &down)){
-       if(down &&!special){
+       if(down){
+              Glcd_Write_TEXT("Entrar",0,7,1);
+              delay_ms(500);
+              Glcd_Write_TEXT("        ",0,7,1);
+              
+              op=0;
               switch(keydata){
-                case 'q':
-                case 'Q':
-                  T1CONbits.TON=1;
-                  Glcd_Fill(0);
-                  Glcd_Write_Text("HORA:",0,3,1);
-                  delay_ms(2000);
+                case 'x':
+
+                  clean_PS2();
+                  texto_caso_1();
+                  caso_1();
+                break;
+
+                case 'W':
+
+                  clean_PS2();
+                  texto_caso_2();
+                  caso_2();
+                break;
+
+                
+                case UP_ARROW:
+                  Glcd_Write_TEXT("AR",60,7,1);
+                break;
+
+                 case DOWN_ARROW:
+                  Glcd_Write_TEXT("AB",60,7,1);
+                break;
+
+                case 'd':
+                  cron_write();
+                  delay_ms(500);
                   break;
                 default:
-                  Glcd_Fill(0);
-                  Glcd_Write_TEXT("Erroneo ",60,0,1);
-                  delay_ms(2000);
+                  Glcd_Write_TEXT("Erroneo ",60,7,1); delay_ms(500);Glcd_Write_TEXT("        ",60,7,1);
                   break;
+
                 }
+                // Glcd_Fill(0);
               }
             }
     }
