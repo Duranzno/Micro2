@@ -73,7 +73,10 @@ void clean_line(int page){
 //   IFS0bits.T1IF=0;
 // }
 void captura_onda_ic1() org 0x16{ 
+<<<<<<< HEAD
 glcd_write_text("INT IC",0,7,1);
+=======
+>>>>>>> 02991e1eb162565cbdf774f8effef079615b3fd5
  pulso++;
  IFS0bits.IC1IF=0;
 }
@@ -242,7 +245,7 @@ void main(){
                   caso_1();
                 break;
 
-                case 'W':
+                case 'w':
 
                   clean_PS2();
                   // texto_caso_2();
