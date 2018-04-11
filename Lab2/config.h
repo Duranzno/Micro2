@@ -47,7 +47,15 @@ void config_IO(){
   TRISDbits.TRISD10=1;
   TRISDbits.TRISD9=1;
   TRISDbits.TRISD8=1;
-//Entrada Botones y Dipswitches
+  // TRISFbits.TRISF5=0; choca con el ps/2
+  TRISEbits.TRISE5=0;
+  TRISEbits.TRISE7=0;
+  TRISGbits.TRISG6=0;
+  TRISGbits.TRISG8=0;
+  RPOR6bits.RP85R =0b010000;     //pin comparador 1  RE5
+  RPOR6bits.RP87R =0b010001;    //pin comparador 2  RE7
+  RPOR13bits.RP118R=0b010010;  //pin comparador 3 RG6
+  RPOR14bits.RP120R=0b010011;
 //Las entradas del teclado y las salidas de la pantalla son manejadas por las librerias;
 }
 void config_LCD(){
@@ -55,7 +63,22 @@ void config_LCD(){
   Glcd_set_Font(font5x7 , 5, 7, 32);
   Glcd_Fill(0);
 }
-void config_TMR(){
+void config_pin () {
+  TRISDbits.TRISD11=1; // pin D11 como entrada
+  RPINR7bits.IC1R=75; //captura por el D11
+}
+void config_captura (){
+  TMR1=0;
+  T1CON=0X0020; // Prescaler 64:1, modo timer
+  PR1=31250; //1000ms
+  IC1CON1bits.ICTSEL=4; //usa como fuente de reloj el timer1
+  IC1CON1bits.ICM=5; // captura cada 4 flancos positivos 
+  RPINR7bits.IC1R=75; //asigna IC1 al RPI75
+  T1CONbits.TON=1; //enciende timer 1
+  IEC0bits.IC1IE=1; //habilita interrupción del IC1
+  IFS0bits.IC1IF=0; //limpia la bandera de interrupción
+}
+void config_TMR_1(){
   //TIMER 1 HORA REAL
     TMR1=0;
     PR1=31250; //1000ms
@@ -67,12 +90,50 @@ void config_TMR(){
     T1CONBits.TON=0;
     
 }
+void config_TMR_45(){
+  IEC1bits.T4IE=1;
+  IEC1bits.T5IE=1;
+  IFS1bits.T4IF=0;
+  IFS1bits.T5IF=0;
+  T4CONbits.TCKPS=0;            //preescaler 1:1
+  T4CONbits.TCS=0;
+  TMR4=0;
+  PR4=2000;                    // timer a 1ms
+  T5CONbits.TCKPS=5;            //prescaler 256:1
+  T5CONbits.TCS=0;
+  TMR5=0;
+  PR5=49063; // timer a 5s
+
+}
+void config_OC(){
+  OC5CON1bits.OCTSEL=3;
+  OC1CON1bits.OCTSEL=2;        // T4CLK fuente de reloj
+  OC2CON1bits.OCTSEL=2;
+  OC3CON1bits.OCTSEL=2;
+  OC4CON1bits.OCTSEL=2;
+  OC5CON1bits.OCM=5;
+  OC1CON1bits.OCM=5;          //MODO COMPARADOR DUAL DE PULSOS CONTINUOS
+  OC2CON1bits.OCM=5;
+  OC3CON1bits.OCM=5;
+  OC4CON1bits.OCM=5;
+  OC5R=10; OC5RS=2047;
+  OC1R=306; OC1RS=2047;     //CICLO UTIL 15%
+  OC2R=921; OC2RS=2047;     //CICLO UTIL 45%
+  OC3R=1227; OC3RS=2047;     //CICLO UTIL 60%
+  OC4R=1637; OC4RS=2047;     //CICLO UTIL 80%
+  OC1CON2bits.SYNCSEL=0b00101;    //disparo con el OC 5
+  OC2CON2bits.SYNCSEL=0b00101;
+  OC3CON2bits.SYNCSEL=0b00101;
+  OC4CON2bits.SYNCSEL=0b00101;
+  OC5CON2bits.SYNCSEL=0b01111;
+}
 void config_INT(){
   SRbits.IPL =0;// iNTERRUPCION DE CPU ES DE NIVEL 0
   INTCON1bits.NSTDIS =0;// INTERRUPCION ANIDADAS ACTIVADAS
   INTCON2bits.GIE=1; //interrupciones habilitadas
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
 //------------------------- habilitacion de interrupcion
+   
  }
   //prioridad int
 // Banderas de Interrupcion post Reset (Limpieza)
