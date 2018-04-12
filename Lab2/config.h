@@ -1,4 +1,4 @@
-//~~~~~~~~~~~~~~~~~~Constantes  del dsPIC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//_____//~~~~~~~~~~~~~~~~~~Constantes  del dsPIC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Variables de PS2
 sbit PS2_Data at RF4_bit;
 sbit PS2_Clock at RF5_bit;
@@ -47,7 +47,7 @@ void config_IO(){
   TRISDbits.TRISD10=1;
   TRISDbits.TRISD9=1;
   TRISDbits.TRISD8=1;
-  // TRISFbits.TRISF5=0; choca con el ps/2
+  TRISFbits.TRISF3=0;  // salida paola
   TRISEbits.TRISE5=0;
   TRISEbits.TRISE7=0;
   TRISGbits.TRISG6=0;
@@ -55,8 +55,9 @@ void config_IO(){
   RPOR6bits.RP85R =0b010000;     //pin comparador 1  RE5
   RPOR6bits.RP87R =0b010001;    //pin comparador 2  RE7
   RPOR13bits.RP118R=0b010010;  //pin comparador 3 RG6
-  RPOR14bits.RP120R=0b010011;
-//Las entradas del teclado y las salidas de la pantalla son manejadas por las librerias;
+  RPOR14bits.RP120R=0b010011;//Las entradas del teclado y las salidas de la pantalla son manejadas por las librerias;
+  RPOR0bits.RP64R=0b010100;
+
 }
 void config_LCD(){
   Glcd_Init();
@@ -68,27 +69,31 @@ void config_pin () {
   RPINR7bits.IC1R=75; //captura por el D11
 }
 void config_captura (){
-  TMR1=0;
-  T1CON=0X0020; // Prescaler 64:1, modo timer
-  PR1=31250; //1000ms
-  IC1CON1bits.ICTSEL=4; //usa como fuente de reloj el timer1
-  IC1CON1bits.ICM=5; // captura cada 4 flancos positivos 
+  TMR2=0;
+  T2CONbits.TCKPS=2; // Prescaler 64:1, modo timer
+  T2CONbits.TGATE=0;
+  T2CONbits.TCS=0;
+  PR2=31250; //1000ms
+  IEC0bits.T2IE=1;//enable interrupcion
+  IFS0bits.T2IF=0;//limpia bandera
+  IC1CON1bits.ICTSEL=7; //usa como fuente de reloj el timer1
+  IC1CON1bits.ICM=5; // captura cada 4 flancos positivos
   RPINR7bits.IC1R=75; //asigna IC1 al RPI75
  // T1CONbits.TON=1; //enciende timer 1
-  IEC0bits.IC1IE=1; //habilita interrupción del IC1
-  IFS0bits.IC1IF=0; //limpia la bandera de interrupción
+  IEC0bits.IC1IE=1; //habilita interrupciÃ³n del IC1
+  IFS0bits.IC1IF=0; //limpia la bandera de interrupciÃ³n
 }
 void config_TMR_1(){
   //TIMER 1 HORA REAL
-    TMR1=0;
+	TMR1=0;
     PR1=31250; //1000ms
     IEC0bits.T1IE=1;//enable interrupcion
     IFS0bits.T1IF=0;//limpia bandera
-    IPC0bits.T1IP=3;//prioridad interrupcion
+   // IPC0bits.T1IP=3;//prioridad interrupcion
     T1CON=0;
     T1CONBits.TCKPS= 2;   //Preescalador 64
     T1CONBits.TON=0;
-    
+
 }
 void config_TMR_45(){
   IEC1bits.T4IE=1;
@@ -102,29 +107,35 @@ void config_TMR_45(){
   T5CONbits.TCKPS=5;            //prescaler 256:1
   T5CONbits.TCS=0;
   TMR5=0;
-  PR5=49063; // timer a 5s
+  PR5=39062; // timer a 5s
 
 }
 void config_OC(){
-  OC5CON1bits.OCTSEL=3;
+  OC5CON1bits.OCTSEL=7;
   OC1CON1bits.OCTSEL=2;        // T4CLK fuente de reloj
   OC2CON1bits.OCTSEL=2;
   OC3CON1bits.OCTSEL=2;
   OC4CON1bits.OCTSEL=2;
+  OC1CON2bits.OCTRIS=1;
+  OC2CON2bits.OCTRIS=1;
+  OC3CON2bits.OCTRIS=1;
+  OC4CON2bits.OCTRIS=1;
+  OC5CON2bits.OCTRIS=1;
+  
   OC5CON1bits.OCM=5;
   OC1CON1bits.OCM=5;          //MODO COMPARADOR DUAL DE PULSOS CONTINUOS
   OC2CON1bits.OCM=5;
   OC3CON1bits.OCM=5;
   OC4CON1bits.OCM=5;
-  OC5R=10; OC5RS=2047;
+  OC5R=306; OC5RS=2047;
   OC1R=306; OC1RS=2047;     //CICLO UTIL 15%
   OC2R=921; OC2RS=2047;     //CICLO UTIL 45%
   OC3R=1227; OC3RS=2047;     //CICLO UTIL 60%
   OC4R=1637; OC4RS=2047;     //CICLO UTIL 80%
-  OC1CON2bits.SYNCSEL=0b00101;    //disparo con el OC 5
+  OC1CON2bits.SYNCSEL=0b01111;    //disparo con el OC 5
   OC2CON2bits.SYNCSEL=0b00101;
-  OC3CON2bits.SYNCSEL=0b00101;
-  OC4CON2bits.SYNCSEL=0b00101;
+  OC3CON2bits.SYNCSEL=0b01111;
+  OC4CON2bits.SYNCSEL=0b01111;
   OC5CON2bits.SYNCSEL=0b01111;
 }
 void config_INT(){
@@ -133,37 +144,36 @@ void config_INT(){
   INTCON2bits.GIE=1; //interrupciones habilitadas
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
 //------------------------- habilitacion de interrupcion
-   
+  IPC0bits.T1IP=2;
+  IPC1bits.T2IP=4;
+  IPC6bits.T4IP=2;
+  IPC7bits.T5IP=3;
+  IPC0bits.IC1IP=2;
  }
-  //prioridad int
+//prioridad int
 // Banderas de Interrupcion post Reset (Limpieza)
 
  void config_ic() {
+	IC1CON1bits.ICTSEL=1; // reloj timer 3
+	IC2CON1bits.ICTSEL=1 ; // reloj timer 3
+	IC1CON1bits.ICM=2; //captura
+	IC2CON1bits.ICM=2; // captura
+	IC1CON2bits.IC32=1; // modo 32 bits
+	IC2CON2bits.IC32=1; // modo 32 bits
 
-IC1CON1bits.ICTSEL=1; // reloj timer 3
-IC2CON1bits.ICTSEL=1 ; // reloj timer 3
-IC1CON1bits.ICM=2; //captura 
-IC2CON1bits.ICM=2; // captura 
-IC1CON2bits.IC32=1; // modo 32 bits
-IC2CON2bits.IC32=1; // modo 32 bits
-
-IC1CON2bits.SYNCSEL=13; // sincronismo timer 3
-IC2CON2bits.SYNCSEL=13; // sincronismo timer 3
-IEC0bits.IC1IE=1; // habilita interrupciones modulo 1
-IEC0bits.IC2IE=1; // habilita interrupciones modulo 2
-IFS0bits.IC1IF=0; // borra bandera
-IFS0bits.IC2IF=0; // borra bandera
-IC1CON2bits.ICTRIG=0;
-IC2CON2bits.ICTRIG=0;
- IPC0bits.IC1IP=2;
-  IPC0bits.IC1IP=2;
-
+	IC1CON2bits.SYNCSEL=13; // sincronismo timer 3
+	IC2CON2bits.SYNCSEL=13; // sincronismo timer 3
+	IEC0bits.IC1IE=1; // habilita interrupciones modulo 1
+	IEC0bits.IC2IE=1; // habilita interrupciones modulo 2
+	IFS0bits.IC1IF=0; // borra bandera
+	IFS0bits.IC2IF=0; // borra bandera
+	IC1CON2bits.ICTRIG=0;
+	IC2CON2bits.ICTRIG=0;
 }
-
 void config_timeric ()  {
-T3CONbits.TSIDL=1;
-T2CON= 0x8020; // config 64:1 prescaler
-PR2=31250; //1000 ms
-T2CONbits.T32=1; // Modo 32 bits
- IPC1bits.T2IP=3;
+	T3CONbits.TSIDL=1;
+	T2CON= 0x8020; // config 64:1 prescaler
+	PR2=31250; //1000 ms
+	T2CONbits.T32=1; // Modo 32 bits
+	IPC1bits.T2IP=3;
 }

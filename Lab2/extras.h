@@ -1,3 +1,8 @@
+
+#define decena_hora 0
+#define unidad_hora 1
+#define decena_minuto 3
+#define unidad_minuto 4
 int page2pos(int page_num){
 switch(page_num){
     case 0:
@@ -37,6 +42,7 @@ char intToAscii(int fn){
    }
    return t;
 }
+
 void oscilador_usado(){
   switch(OSCCONBits.COSC){
     case 0:
@@ -86,4 +92,3 @@ void oscilador_usado(){
       break;
   }
  }
- 
