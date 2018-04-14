@@ -75,7 +75,7 @@ void captura_onda_ic3() org 0x5E{
   pulso2++;
   inttostr(pulso2,txt);
   glcd_write_text(txt,10,5,1);
-  Glcd_Write_Text("c3",60,5,1);
+ // Glcd_Write_Text("c3",60,5,1);
   IFS2bits.IC3IF=0;
 
 }
@@ -83,7 +83,7 @@ void captura_onda_ic5() org 0x62{
   pulso3++;
   inttostr(pulso3,txt);
   glcd_write_text(txt,20,7,1);
-  Glcd_Write_Text("c5",65,4,1);
+  // Glcd_Write_Text("c5",65,4,1);
   IFS2bits.IC5IF=0;
 
 }
@@ -129,7 +129,7 @@ void cron_write();
 void clean_PS2();
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~Caso 1~~~~~~~~~~~~~~~~~~~~~~~~~~
-unsigned short arreglo_hora_militar_up(int i,unsigned int valor_nuevo){
+/*unsigned short arreglo_hora_militar_up(int i,unsigned int valor_nuevo){
   if(i==decena_hora){
     if(valor_nuevo==4){//Decena de hora solo puede ser 0,1 o 2 2->0
      return 0;
@@ -171,7 +171,7 @@ unsigned short arreglo_hora_militar_dw(int i,unsigned int valor_nuevo){
   if(i==unidad_minuto){
     if(valor_nuevo<0){return 9;}//Arreglo Unidad Hora && Unidad Minuto 9->0
   }
-}
+}*/
 int i=0;
 void cron_write(){
   Glcd_Write_TEXT("                                              ",60,7,1);
@@ -254,15 +254,21 @@ void caso_1(){
   }
 }
 //~~~~~~~~~~~~~~~~~~~~~~Caso 2~~~~~~~~~~~~~~~~~~~~~~~~~~
+int glcd_write_float(float f,unsigned short pos,unsigned short page,unsigned short color){
+  if(floattostr(f,txt)==0){
+  Glcd_Write_Text(txt,pos,page,color);
+  return 0;} else {
+  return 1;
+  }
+}
 void frecuencia_pantalla (){
 
   Glcd_Write_Text("Frecu.(hz)", 0, 1, 1);
   Glcd_Write_Text("Periodo(us)", 65, 1, 1);
   floattostr(frecuencia,txt);
   Glcd_Write_Text(txt,5, 2, 1);
-  floattostr(frecuencia2,txt);
-  Glcd_Write_Text(txt,5, 3, 1);
-  floattostr(frecuencia3,txt);
+  glcd_write_float(frecuencia3,5,4,1);
+ /*floattostr(frecuencia3,txt);
   Glcd_Write_Text(txt,5, 4, 1);
   floattostr(frecuencia4,txt);
   Glcd_Write_Text(txt,5, 5, 1);
@@ -273,10 +279,11 @@ void frecuencia_pantalla (){
   floattostr(T3,txt);
   Glcd_Write_Text(txt,65, 4, 1);
   floattostr(T4,txt);
-  Glcd_Write_Text(txt,65, 5, 1);
+  Glcd_Write_Text(txt,65, 5, 1);*/
 }
+
 void caso_2(){
-        config_captura();
+  config_captura();
   T2CONbits.TON=1; //enciende timer 1
   Glcd_Fill(0);
   while(keydata!=ESC){
@@ -305,12 +312,11 @@ void caso_3(){
 void main(){
   config_IO();  config_LCD();
   config_INT();
-   config_cron();
+  // config_cron();
   config_OC();
   config_TMR_45();
- config_captura();
   config_pin();
-  Glcd_Fill(0);
+
   PS2_Config();  Glcd_Fill(0);
   while(1){
     texto_menu();
