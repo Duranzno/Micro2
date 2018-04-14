@@ -6,7 +6,7 @@ Value=-1
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=Lab2.c
+Value=laboratorio2.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -17,19 +17,18 @@ Value=2000
 Value=
 [FILES]
 Count=1
-File0=Lab2.c
+File0=laboratorio2.c
 [BINARIES]
 Count=0
 [IMAGES]
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=5
-File0=Lab2.c
-File1=sprites.h
+Count=4
+File0=laboratorio2.c
+File1=ui.h
 File2=config.h
-File3=text.h
-File4=extras.h
+File3=extras.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -40,16 +39,14 @@ Count=0
 Count=3
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for dsPIC\defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for dsPIC\uses\
-Path2=C:\Users\Alejandro\Documents\Git\Micro2\Lab2\
+Path2=C:\Users\Gristelia\Documents\Micro II\LAB2\
 [HEADER_PATH]
 Count=1
-Path0=C:\Users\Alejandro\Documents\Git\Micro2\Lab2\
+Path0=C:\Users\Gristelia\Documents\Micro II\LAB2\
 [HEADERS]
-Count=4
-File0=sprites.h
-File1=config.h
-File2=text.h
-File3=extras.h
+Count=2
+File0=config.h
+File1=ui.h
 [PLDS]
 Count=0
 [Useses]
