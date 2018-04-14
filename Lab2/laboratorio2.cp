@@ -1,5 +1,5 @@
-#line 1 "C:/Users/Gristelia/Documents/Micro II/laboratorios/micro2/Lab2/laboratorio2.c"
-#line 1 "c:/users/gristelia/documents/micro ii/laboratorios/micro2/lab2/config.h"
+#line 1 "C:/Users/Alejandro/Documents/Git/Micro2/Lab2/laboratorio2.c"
+#line 1 "c:/users/alejandro/documents/git/micro2/lab2/config.h"
 
 
 sbit PS2_Data at RF4_bit;
@@ -36,7 +36,7 @@ sbit GLCD_RW_Direction at TRISD2_bit;
 sbit GLCD_EN_Direction at TRISD3_bit;
 sbit GLCD_RST_Direction at TRISE4_bit;
 
-void config_IO(){
+ void config_IO(){
  ANSELB=0;
  ANSELC=0;
  ANSELD=0;
@@ -59,7 +59,6 @@ void config_IO(){
  RPOR13bits.RP118R=0b010010;
  RPOR14bits.RP120R=0b010011;
  RPOR0bits.RP64R=0b010100;
-
 }
 void config_LCD(){
  Glcd_Init();
@@ -141,17 +140,16 @@ void config_captura (){
 
  IC5CON2bits.IC32=1;
 }
-void config_TMR_1(){
-
+void config_cron(){
+ PR1=2000;
  TMR1=0;
- PR1=31250;
  IEC0bits.T1IE=1;
  IFS0bits.T1IF=0;
-
- T1CON=0;
- T1CONBits.TCKPS= 2;
- T1CONBits.TON=0;
-
+ IPC0bits.T1IP=3;
+ T1CONBits.TGATE=0;
+ T1CONBits.TSYNC=0;
+ T1CONBits.TCS=0;
+ T1CONBits.TCKPS=00;
 }
 void config_TMR_45(){
  IEC1bits.T4IE=1;
@@ -212,34 +210,7 @@ void config_INT(){
  IPC31bits.IC11IP=2;
 
  }
-
-
-
- void config_ic() {
- IC1CON1bits.ICTSEL=1;
- IC2CON1bits.ICTSEL=1 ;
- IC1CON1bits.ICM=2;
- IC2CON1bits.ICM=2;
- IC1CON2bits.IC32=1;
- IC2CON2bits.IC32=1;
-
- IC1CON2bits.SYNCSEL=13;
- IC2CON2bits.SYNCSEL=13;
- IEC0bits.IC1IE=1;
- IEC0bits.IC2IE=1;
- IFS0bits.IC1IF=0;
- IFS0bits.IC2IF=0;
- IC1CON2bits.ICTRIG=0;
- IC2CON2bits.ICTRIG=0;
-}
-void config_timeric () {
- T3CONbits.TSIDL=1;
- T2CON= 0x8020;
- PR2=31250;
- T2CONbits.T32=1;
- IPC1bits.T2IP=3;
-}
-#line 1 "c:/users/gristelia/documents/micro ii/laboratorios/micro2/lab2/ui.h"
+#line 1 "c:/users/alejandro/documents/git/micro2/lab2/ui.h"
 
 
 
@@ -329,7 +300,7 @@ void texto_caso_3(){
  Glcd_Write_Text("RP87 /RE7 45%" ,0,2,1);
  Glcd_Write_Text("RP87 /RG6 60%" ,0,3,1);
 }
-#line 1 "c:/users/gristelia/documents/micro ii/laboratorios/micro2/lab2/extras.h"
+#line 1 "c:/users/alejandro/documents/git/micro2/lab2/extras.h"
 
 
 
@@ -424,7 +395,7 @@ void oscilador_usado(){
  break;
  }
  }
-#line 6 "C:/Users/Gristelia/Documents/Micro II/laboratorios/micro2/Lab2/laboratorio2.c"
+#line 6 "C:/Users/Alejandro/Documents/Git/Micro2/Lab2/laboratorio2.c"
 unsigned short op=0;
 unsigned short d_mseg=0,u_mseg=0,u_seg=0,d_seg=0,u_min=0,d_min=0,u_hora=0,d_hora=0;
 char hora[12] ={'0','0',':','0','0',':','0','0',':','0','0','\0'};
@@ -436,33 +407,35 @@ int pulso=0, pulso2=0,pulso3=0,pulso4=0;
 float frecuencia,frecuencia2,frecuencia3,frecuencia4;
 void cron_write();
 
-void TIMER1() org 0x1A{
- u_seg++;
- if(u_seg==10)
- { u_seg=0;
- d_seg++;
- if(d_seg==6)
- { d_seg=0;
- u_min++;
- if(u_min==10)
- { u_min=0;
- d_min++;
- if(d_min==6)
- { d_min=0;
- u_hora++;
- if(u_hora==10 && d_hora==0)
- { u_hora=0;
- d_hora++;
- }
- else if(u_hora==3 && d_hora==1)
- { u_hora=1;
- d_hora=0;
+void cron_int() org 0x1A{
+ u_mseg++;
+ if(u_mseg==10){
+ u_mseg=0;d_mseg++;
+ if(d_mseg==6){
+ d_mseg=0;u_seg++;
+ if(u_seg==10){
+ u_seg=0;d_seg++;
+ if(d_seg==6){
+ d_seg=0;u_min++;
+ if(u_min==10){
+ u_min=0;d_min++;
+ if(d_min==6){
+ d_min=0;u_hora++;
+ if((u_hora==10||u_hora==20)&& d_hora==0){
+ u_hora=0;d_hora++;}
+ else if(u_hora==4 && d_hora==2){
+ u_hora=0;d_hora=0;}
  }
  }
  }
  }
  }
- if(ENALARM&&Alarma[0]==HORA[0]&&Alarma[1]==HORA[1]&&Alarma[3]==HORA[3]&&Alarma[4]==HORA[4]){
+ }
+ if(ENALARM &&
+ Alarma[ 0 ]==HORA[ 0 ] &&
+ Alarma[ 1 ]==HORA[ 1 ] &&
+ Alarma[ 3 ]==HORA[ 3 ] &&
+ Alarma[ 4 ]==HORA[ 3 ]){
  Glcd_Fill(0);
 
  ENALARM=0;
@@ -520,8 +493,6 @@ void captura_onda_ic11() org 0x112{
 
 
 
-
-
 void int_timer2 () org 0x22{
  IC1CON1bits.ICM=0;
  IC3CON1bits.ICM=0;
@@ -538,6 +509,8 @@ void int_timer2 () org 0x22{
  T3=(1/frecuencia3)*1000000;
  T4=(1/frecuencia4)*1000000;
 }
+
+
 void Timer4() org 0x4A{
  IFS1bits.T4IF=0;
 }
@@ -614,12 +587,12 @@ int num_selector(int x_pos,int indice){
  if(keydata== 108 ||keydata== 111 ){
  if(keydata== 111 ){
  it=it+1;
- it=arreglo_hora_militar_up(indice,it);
+
  clean_PS2();
  }
  if(keydata== 108 ){
  it=it-1;
- it=arreglo_hora_militar_dw(indice,it);
+
  clean_PS2();
  }
  num_update(it,x_pos,7);
@@ -675,6 +648,7 @@ void caso_1(){
 }
 
 void frecuencia_pantalla (){
+
  Glcd_Write_Text("Frecu.(hz)", 0, 1, 1);
  Glcd_Write_Text("Periodo(us)", 65, 1, 1);
  floattostr(frecuencia,txt);
@@ -724,15 +698,12 @@ void caso_3(){
 void main(){
  config_IO(); config_LCD();
  config_INT();
-
+ config_cron();
  config_OC();
  config_TMR_45();
-
+ config_captura();
  config_pin();
-
-
  Glcd_Fill(0);
-
  PS2_Config(); Glcd_Fill(0);
  while(1){
  texto_menu();

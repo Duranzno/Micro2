@@ -17,8 +17,10 @@ main
 				Strobe
 					Delay_10us
 	config_INT
+	config_cron
 	config_OC
 	config_TMR_45
+	config_captura
 	config_pin
 	Glcd_Fill
 		Glcd_Set_Page
@@ -197,8 +199,6 @@ main
 						Wait_Falling
 						Clock_Disable
 					Ps2_Get_Value
-				arreglo_hora_militar_up
-				arreglo_hora_militar_dw
 			cron_write
 				Glcd_Write_Text
 					Glcd_Write_Char
@@ -453,7 +453,7 @@ int_timer2
 	_Long2Float
 	_Div_FP
 	_Mul_FP
-TIMER1
+cron_int
 	Glcd_Fill
 		Glcd_Set_Page
 			Write_To_Pins

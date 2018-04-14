@@ -14,33 +14,35 @@ int pulso=0, pulso2=0,pulso3=0,pulso4=0;
 float frecuencia,frecuencia2,frecuencia3,frecuencia4;
 void cron_write();
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void TIMER1() org 0x1A{
-  u_seg++;
-          if(u_seg==10)
-          { u_seg=0;
-          d_seg++;
-                if(d_seg==6)
-                { d_seg=0;
-                u_min++;
-                      if(u_min==10)
-                      { u_min=0;
-                      d_min++;
-                            if(d_min==6)
-                            { d_min=0;
-                            u_hora++;
-                                  if(u_hora==10 && d_hora==0)
-                                  { u_hora=0;
-                                  d_hora++;
-                                  }
-                                  else if(u_hora==3 && d_hora==1)
-                                  { u_hora=1;
-                                  d_hora=0;
-                                  }
-                            }
-                      }
-                }
+void cron_int() org 0x1A{
+  u_mseg++;
+  if(u_mseg==10){
+    u_mseg=0;d_mseg++;
+    if(d_mseg==6){
+      d_mseg=0;u_seg++;
+      if(u_seg==10){
+        u_seg=0;d_seg++;
+        if(d_seg==6){
+        d_seg=0;u_min++;
+          if(u_min==10){
+          u_min=0;d_min++;
+            if(d_min==6){
+            d_min=0;u_hora++;
+              if((u_hora==10||u_hora==20)&& d_hora==0){
+                u_hora=0;d_hora++;}
+              else if(u_hora==4 && d_hora==2){
+                u_hora=0;d_hora=0;}
+            }
           }
-  if(ENALARM&&Alarma[0]==HORA[0]&&Alarma[1]==HORA[1]&&Alarma[3]==HORA[3]&&Alarma[4]==HORA[4]){
+        }
+      }
+    }
+  }
+  if(ENALARM &&
+      Alarma[decena_hora]==HORA[decena_hora] &&
+      Alarma[unidad_hora]==HORA[unidad_hora] &&
+      Alarma[decena_minuto]==HORA[decena_minuto] &&
+      Alarma[unidad_minuto]==HORA[decena_minuto]){
     Glcd_Fill(0);
 //    animate_bell_5s();
     ENALARM=0;
@@ -98,8 +100,6 @@ void captura_onda_ic11() org 0x112{
 //  inttostr(pulso,txt);
 //  glcd_write_text(txt,0,7,1);
 //    Glcd_Write_Text("cap2",0,5,1);
-//  IFS0bits.IC2IF=0;
-//}
 void int_timer2 () org 0x22{
   IC1CON1bits.ICM=0;
    IC3CON1bits.ICM=0;
@@ -116,6 +116,8 @@ void int_timer2 () org 0x22{
   T3=(1/frecuencia3)*1000000;
   T4=(1/frecuencia4)*1000000;
 }
+//  IFS0bits.IC2IF=0;
+//}
 void Timer4() org 0x4A{
   IFS1bits.T4IF=0;
 }
@@ -192,12 +194,12 @@ int  num_selector(int x_pos,int indice){
        if(keydata==DOWN_ARROW||keydata==UP_ARROW){
         if(keydata==UP_ARROW){
           it=it+1;
-          it=arreglo_hora_militar_up(indice,it);
+          // it=arreglo_hora_militar_up(indice,it);
           clean_PS2();
         }
         if(keydata==DOWN_ARROW){
           it=it-1;
-          it=arreglo_hora_militar_dw(indice,it);
+          // it=arreglo_hora_militar_dw(indice,it);
           clean_PS2();
         }
         num_update(it,x_pos,7);
@@ -253,6 +255,7 @@ void caso_1(){
 }
 //~~~~~~~~~~~~~~~~~~~~~~Caso 2~~~~~~~~~~~~~~~~~~~~~~~~~~
 void frecuencia_pantalla (){
+
   Glcd_Write_Text("Frecu.(hz)", 0, 1, 1);
   Glcd_Write_Text("Periodo(us)", 65, 1, 1);
   floattostr(frecuencia,txt);
@@ -302,15 +305,12 @@ void caso_3(){
 void main(){
   config_IO();  config_LCD();
   config_INT();
-   // config_TMR_1();
+   config_cron();
   config_OC();
   config_TMR_45();
- // config_captura();
+ config_captura();
   config_pin();
-//  config_IC() ;config_timeric ();
-//  animate_charmander_5s();
   Glcd_Fill(0);
-//  glcd_space_test();
   PS2_Config();  Glcd_Fill(0);
   while(1){
     texto_menu();

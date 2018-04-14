@@ -6,7 +6,7 @@ Value=-1
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=laboratorio2.c
+Value=config.h
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -39,12 +39,12 @@ Count=0
 Count=4
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for dsPIC\defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for dsPIC\uses\
-Path2=C:\Users\Gristelia\Documents\Micro II\laboratorios\micro2\Lab2\
+Path2=C:\Users\Alejandro\Documents\Git\Micro2\Lab2\
 Path3=C:\Users\Gristelia\Documents\Micro II\LAB2\
 [HEADER_PATH]
 Count=2
 Path0=C:\Users\Gristelia\Documents\Micro II\LAB2\
-Path1=C:\Users\Gristelia\Documents\Micro II\laboratorios\micro2\Lab2\
+Path1=C:\Users\Alejandro\Documents\Git\Micro2\Lab2\
 [HEADERS]
 Count=2
 File0=config.h
