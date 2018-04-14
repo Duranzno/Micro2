@@ -90,7 +90,7 @@ void main(){
 	TRISFbits.TRISF4=0;
 	PORTFbits.RF4=0;
 	TMR1=0;
-	T1CON=0X8020; Prescaler 64:1, modo timer
+	T1CON=0X8020; //Prescaler 64:1, modo timer
 	PR1=31250; //1000ms
 	TMR2=0;
 	T2CON =0X8010; Prescaler 16:1, modo timer

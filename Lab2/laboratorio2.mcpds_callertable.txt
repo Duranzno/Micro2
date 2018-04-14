@@ -450,6 +450,24 @@ captura_onda_ic3
 Timer5
 Timer4
 int_timer2
+	Glcd_Write_Text
+		Glcd_Write_Char
+			Glcd_Set_X
+				Write_To_Pins
+				Strobe
+					Delay_10us
+			Glcd_Set_Page
+				Write_To_Pins
+				Strobe
+					Delay_10us
+			Glcd_Set_Side
+			Glcd_Read_Data
+				Delay_1us
+				Delay_10us
+			Glcd_Write_Data
+				Write_To_Pins
+				Strobe
+					Delay_10us
 	_Long2Float
 	_Div_FP
 	_Mul_FP

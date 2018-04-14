@@ -1,5 +1,5 @@
-#line 1 "C:/Users/Gristelia/Documents/Micro II/laboratorios/micro2/Lab2/laboratorio2.c"
-#line 1 "c:/users/gristelia/documents/micro ii/laboratorios/micro2/lab2/config.h"
+#line 1 "C:/Users/Gristelia/Documents/Micro II/LAB2/laboratorio2.c"
+#line 1 "c:/users/gristelia/documents/micro ii/lab2/config.h"
 
 
 sbit PS2_Data at RF4_bit;
@@ -239,7 +239,7 @@ void config_timeric () {
  T2CONbits.T32=1;
  IPC1bits.T2IP=3;
 }
-#line 1 "c:/users/gristelia/documents/micro ii/laboratorios/micro2/lab2/ui.h"
+#line 1 "c:/users/gristelia/documents/micro ii/lab2/ui.h"
 
 
 
@@ -329,7 +329,7 @@ void texto_caso_3(){
  Glcd_Write_Text("RP87 /RE7 45%" ,0,2,1);
  Glcd_Write_Text("RP87 /RG6 60%" ,0,3,1);
 }
-#line 1 "c:/users/gristelia/documents/micro ii/laboratorios/micro2/lab2/extras.h"
+#line 1 "c:/users/gristelia/documents/micro ii/lab2/extras.h"
 
 
 
@@ -424,7 +424,7 @@ void oscilador_usado(){
  break;
  }
  }
-#line 6 "C:/Users/Gristelia/Documents/Micro II/laboratorios/micro2/Lab2/laboratorio2.c"
+#line 6 "C:/Users/Gristelia/Documents/Micro II/LAB2/laboratorio2.c"
 unsigned short op=0;
 unsigned short d_mseg=0,u_mseg=0,u_seg=0,d_seg=0,u_min=0,d_min=0,u_hora=0,d_hora=0;
 char hora[12] ={'0','0',':','0','0',':','0','0',':','0','0','\0'};
@@ -433,7 +433,7 @@ char texta=1+'0';
 int ENALARM=0,conta1=0,selected=0;
 float T1,T2,T3,T4;
 int pulso=0, pulso2=0,pulso3=0,pulso4=0;
-float frecuencia,frecuencia2,frecuencia3,frecuencia4;
+float frecuencia,periodo;
 void cron_write();
 
 void TIMER1() org 0x1A{
@@ -527,16 +527,11 @@ void int_timer2 () org 0x22{
  IC3CON1bits.ICM=0;
  IC5CON1bits.ICM=0;
  IC11CON1bits.ICM=0;
+ Glcd_Write_Text("t2",0,4,1);
  T2CONbits.TON=1;
  IFS0bits.T2IF=0;
  frecuencia=pulso*4*2;
- frecuencia2=pulso2*4*2;
- frecuencia3=pulso3*4*2;
- frecuencia4=pulso4*4*2;
- T1=(1/frecuencia)*1000000;
- T2=(1/frecuencia2)*1000000;
- T3=(1/frecuencia3)*1000000;
- T4=(1/frecuencia4)*1000000;
+ periodo=(1/frecuencia)*1000000;
 }
 void Timer4() org 0x4A{
  IFS1bits.T4IF=0;
@@ -675,24 +670,11 @@ void caso_1(){
 }
 
 void frecuencia_pantalla (){
- Glcd_Write_Text("Frecu.(hz)", 0, 1, 1);
- Glcd_Write_Text("Periodo(us)", 65, 1, 1);
+ Glcd_Write_Text("Frecu.(hz)=", 0, 1, 1);
  floattostr(frecuencia,txt);
- Glcd_Write_Text(txt,5, 2, 1);
- floattostr(frecuencia2,txt);
- Glcd_Write_Text(txt,5, 3, 1);
- floattostr(frecuencia3,txt);
- Glcd_Write_Text(txt,5, 4, 1);
- floattostr(frecuencia4,txt);
- Glcd_Write_Text(txt,5, 5, 1);
- floattostr(T1,txt);
+ Glcd_Write_Text(txt,65, 1, 1);
+ floattostr(periodo,txt);
  Glcd_Write_Text(txt,65, 2, 1);
- floattostr(T2,txt);
- Glcd_Write_Text(txt,65, 3, 1);
- floattostr(T3,txt);
- Glcd_Write_Text(txt,65, 4, 1);
- floattostr(T4,txt);
- Glcd_Write_Text(txt,65, 5, 1);
 }
 void caso_2(){
  config_captura();
