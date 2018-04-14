@@ -75,7 +75,7 @@ void config_pin () {
 
 }
 void config_captura (){
-	//-------------timer2-----------------------
+        //-------------timer2-----------------------
   TMR2=0;
   T2CONbits.TCKPS=2; // Prescaler 64:1, modo timer
   T2CONbits.TGATE=0;
@@ -148,6 +148,7 @@ void config_cron(){
   T1CONBits.TSYNC=0;
   T1CONBits.TCS=0;//TGATE, TSYNC Y TCS Habilitan modo TEMP
   T1CONBits.TCKPS=00;//Prescaler 64:1
+  T1conbits.TON=0;
 }
 void config_TMR_45(){
   IEC1bits.T4IE=1;

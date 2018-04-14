@@ -31,17 +31,6 @@ switch(page_num){
     break;
   }
 }
-char intToAscii(int fn){
-   char t=0;
-   if(fn>0&&fn<=9){
-      intToStr(fn,t);
-   }else if(fn==10){
-      intToStr(0,t);
-   }else{
-    t='0';
-   }
-   return t;
-}
 
 void oscilador_usado(){
   switch(OSCCONBits.COSC){
