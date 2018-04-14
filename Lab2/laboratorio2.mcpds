@@ -24,11 +24,10 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=4
+Count=3
 File0=laboratorio2.c
 File1=ui.h
 File2=config.h
-File3=extras.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
