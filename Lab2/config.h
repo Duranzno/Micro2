@@ -34,30 +34,29 @@ sbit GLCD_RW_Direction at TRISD2_bit;
 sbit GLCD_EN_Direction at TRISD3_bit;
 sbit GLCD_RST_Direction at TRISE4_bit;
 //~~~~~~~~~~~~~~~~~~~~~~Configuraciones Iniciales~~~~~~~~~~~~~~~~~~~~~~~~~~
-void config_IO(){
-  ANSELB=0;
-  ANSELC=0;
-  ANSELD=0;
-  ANSELE=0;
-  ANSELG=0;             //ANA//logiCO SON B Y F
-  TRISB=0xffff;
-  TRISE=0;
-  TRISG=0;
-  TRISDbits.TRISD11=1;  // desde rd11 a rd8 son  entradas del modulo captura
-  TRISDbits.TRISD10=1;
-  TRISDbits.TRISD9=1;
-  TRISDbits.TRISD8=1;
-  TRISFbits.TRISF3=0;  // salida paola
-  TRISEbits.TRISE5=0;
-  TRISEbits.TRISE7=0;
-  TRISGbits.TRISG6=0;
-  TRISGbits.TRISG8=0;
-  RPOR6bits.RP85R =0b010000;     //pin comparador 1  RE5
-  RPOR6bits.RP87R =0b010001;    //pin comparador 2  RE7
-  RPOR13bits.RP118R=0b010010;  //pin comparador 3 RG6
-  RPOR14bits.RP120R=0b010011;//Las entradas del teclado y las salidas de la pantalla son manejadas por las librerias;
-  RPOR0bits.RP64R=0b010100;
-
+  void config_IO(){
+    ANSELB=0;
+    ANSELC=0;
+    ANSELD=0;
+    ANSELE=0;
+    ANSELG=0;             //ANA//logiCO SON B Y F
+    TRISB=0xffff;
+    TRISE=0;
+    TRISG=0;
+    TRISDbits.TRISD11=1;  // desde rd11 a rd8 son  entradas del modulo captura
+    TRISDbits.TRISD10=1;
+    TRISDbits.TRISD9=1;
+    TRISDbits.TRISD8=1;
+    TRISFbits.TRISF3=0;  // salida paola
+    TRISEbits.TRISE5=0;
+    TRISEbits.TRISE7=0;
+    TRISGbits.TRISG6=0;
+    TRISGbits.TRISG8=0;
+    RPOR6bits.RP85R =0b010000;     //pin comparador 1  RE5
+    RPOR6bits.RP87R =0b010001;    //pin comparador 2  RE7
+    RPOR13bits.RP118R=0b010010;  //pin comparador 3 RG6
+    RPOR14bits.RP120R=0b010011;//Las entradas del teclado y las salidas de la pantalla son manejadas por las librerias;
+    RPOR0bits.RP64R=0b010100;
 }
 void config_LCD(){
   Glcd_Init();
@@ -139,17 +138,16 @@ void config_captura (){
   //------------configuracion captura 1 como 32 bits------------
   IC5CON2bits.IC32=1; //configuracion 32 bits;
 }
-void config_TMR_1(){
-  //TIMER 1 HORA REAL
-        TMR1=0;
-    PR1=31250; //1000ms
-    IEC0bits.T1IE=1;//enable interrupcion
-    IFS0bits.T1IF=0;//limpia bandera
-   // IPC0bits.T1IP=3;//prioridad interrupcion
-    T1CON=0;
-    T1CONBits.TCKPS= 2;   //Preescalador 64
-    T1CONBits.TON=0;
-
+void config_cron(){
+  PR1=2000; //1000ms
+  TMR1=0;
+  IEC0bits.T1IE=1;
+  IFS0bits.T1IF=0;
+  IPC0bits.T1IP=3;
+  T1CONBits.TGATE=0;
+  T1CONBits.TSYNC=0;
+  T1CONBits.TCS=0;//TGATE, TSYNC Y TCS Habilitan modo TEMP
+  T1CONBits.TCKPS=00;//Prescaler 64:1
 }
 void config_TMR_45(){
   IEC1bits.T4IE=1;
@@ -210,30 +208,3 @@ void config_INT(){
   IPC31bits.IC11IP=2;
  // IPC1bits.IC2IP=2;
  }
-//prioridad int
-// Banderas de Interrupcion post Reset (Limpieza)
-
- void config_ic() {
-        IC1CON1bits.ICTSEL=1; // reloj timer 3
-        IC2CON1bits.ICTSEL=1 ; // reloj timer 3
-        IC1CON1bits.ICM=2; //captura
-        IC2CON1bits.ICM=2; // captura
-        IC1CON2bits.IC32=1; // modo 32 bits
-        IC2CON2bits.IC32=1; // modo 32 bits
-
-        IC1CON2bits.SYNCSEL=13; // sincronismo timer 3
-        IC2CON2bits.SYNCSEL=13; // sincronismo timer 3
-        IEC0bits.IC1IE=1; // habilita interrupciones modulo 1
-        IEC0bits.IC2IE=1; // habilita interrupciones modulo 2
-        IFS0bits.IC1IF=0; // borra bandera
-        IFS0bits.IC2IF=0; // borra bandera
-        IC1CON2bits.ICTRIG=0;
-        IC2CON2bits.ICTRIG=0;
-}
-void config_timeric ()  {
-        T3CONbits.TSIDL=1;
-        T2CON= 0x8020; // config 64:1 prescaler
-        PR2=31250; //1000 ms
-        T2CONbits.T32=1; // Modo 32 bits
-        IPC1bits.T2IP=3;
-}
