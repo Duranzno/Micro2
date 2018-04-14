@@ -12,7 +12,7 @@ Value=0
 [USE_HEAP]
 Value=0
 [HEAP_SIZE]
-Value=0
+Value=2000
 [EEPROM_DEFINITION]
 Value=
 [FILES]
@@ -36,13 +36,15 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=3
+Count=4
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for dsPIC\defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for dsPIC\uses\
-Path2=C:\Users\Gristelia\Documents\Micro II\LAB2\
+Path2=C:\Users\Gristelia\Documents\Micro II\laboratorios\micro2\Lab2\
+Path3=C:\Users\Gristelia\Documents\Micro II\LAB2\
 [HEADER_PATH]
-Count=1
+Count=2
 Path0=C:\Users\Gristelia\Documents\Micro II\LAB2\
+Path1=C:\Users\Gristelia\Documents\Micro II\laboratorios\micro2\Lab2\
 [HEADERS]
 Count=2
 File0=config.h
