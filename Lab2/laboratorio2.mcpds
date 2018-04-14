@@ -12,7 +12,7 @@ Value=0
 [USE_HEAP]
 Value=0
 [HEAP_SIZE]
-Value=0
+Value=2000
 [EEPROM_DEFINITION]
 Value=
 [FILES]
