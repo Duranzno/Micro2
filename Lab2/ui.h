@@ -26,6 +26,7 @@ int cursor_menu(int max_n_options){
 //SIEMPRE HAY 5 OPCIONES
 
   int it=1;
+   clean_PS2();
   while(keydata!=ENTER){
     cursor_animation(it);
     if(Ps2_Key_Read(&keydata, &special, &down)){
@@ -57,13 +58,14 @@ int cursor_menu(int max_n_options){
 
 //Texto del laboratorio
 void texto_menu(){
+  glcd_fill(0);
   Glcd_Write_TEXT("Laboratorio 2",60,0,1);
   Glcd_Write_TEXT("1) Cronometro",SANGRIA,1,1);
-  Glcd_Write_TEXT("1) Captura"   ,SANGRIA,2,1);
+  Glcd_Write_TEXT("2) Captura"   ,SANGRIA,2,1);
   Glcd_Write_TEXT("3) PWM  "     ,SANGRIA,3,1);
 }
 void texto_caso_1(){
-  // GLCD_FILL(0);
+  GLCD_FILL(0);
   Glcd_Write_Text("Cronometro",60,0,1);
   Glcd_Write_Text("1) Programar Hora",SANGRIA,1,1);
   Glcd_Write_Text("2) PLAY"  ,SANGRIA,2,1);

@@ -1,11 +1,11 @@
 #include "config.h"
 #include "ui.h"
-#include "extras.h"
+//#include "extras.h"
 
 //~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-unsigned short op=0;
-unsigned short d_mseg=0,u_mseg=0,u_seg=0,d_seg=0,u_min=0,d_min=0,u_hora=0,d_hora=0;//Constantes de las ubicaciones de los pines
-char hora[12]  ={'0','0',':','0','0',':','0','0',':','0','0','\0'};
+
+unsigned short unidad_segundo=0, decena_segundo=0, unidad_minuto=0,decena_minuto=0, unidad_hora=0, decena_hora=0,decena_milisegundo=0,unidad_milisegundo=0;
+char hora[10];
 char alarma[12]={'0','0',':','0','0',':','0','0',':','0','0','\0'};
 char texta=1+'0';
 int ENALARM=0,conta1=0,selected=0;
@@ -14,52 +14,53 @@ int pulso=0, pulso2=0,pulso3=0,pulso4=0;
 float frecuencia,frecuencia2,frecuencia3,frecuencia4;
 void cron_write();
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void cron_int() org 0x1A{
-  u_mseg++;
-  if(u_mseg==10){
-    u_mseg=0;d_mseg++;
-    if(d_mseg==6){
-      d_mseg=0;u_seg++;
-      if(u_seg==10){
-        u_seg=0;d_seg++;
-        if(d_seg==6){
-        d_seg=0;u_min++;
-          if(u_min==10){
-          u_min=0;d_min++;
-            if(d_min==6){
-            d_min=0;u_hora++;
-              if((u_hora==10||u_hora==20)&& d_hora==0){
-                u_hora=0;d_hora++;}
-              else if(u_hora==4 && d_hora==2){
-                u_hora=0;d_hora=0;}
+
+void tee() org 0x1A{
+  unidad_milisegundo=unidad_milisegundo+5;
+  if(unidad_milisegundo==10){
+  unidad_milisegundo=0;
+  decena_milisegundo++;
+  if(decena_milisegundo==10){
+    decena_milisegundo=0;
+    unidad_segundo++;
+    if(unidad_segundo==10){
+      unidad_segundo=0;
+      decena_segundo++;
+      if(decena_segundo==6){
+        decena_segundo=0;
+        unidad_minuto++;
+        if(unidad_minuto==10){
+          unidad_minuto=0;
+          decena_minuto++;
+          if(decena_minuto==6){
+            decena_minuto=0;
+            unidad_hora++;
+            if(unidad_hora==10 && decena_hora==0){
+              unidad_hora=0;
+              decena_hora++;
+            }
+            else if(unidad_hora==1 && decena_hora==3){
+              unidad_hora=0;
+              decena_hora=0;
             }
           }
         }
       }
     }
   }
-  if(ENALARM &&
-      Alarma[decena_hora]==HORA[decena_hora] &&
-      Alarma[unidad_hora]==HORA[unidad_hora] &&
-      Alarma[decena_minuto]==HORA[decena_minuto] &&
-      Alarma[unidad_minuto]==HORA[decena_minuto]){
-    Glcd_Fill(0);
-//    animate_bell_5s();
-    ENALARM=0;
   }
-  HORA[0]=d_hora+'0';
-  HORA[1]=u_hora+'0';
-  HORA[2]=':';
-  HORA[3]=d_min+'0';
-  HORA[4]=u_min+'0';
-  HORA[5]=':';
-  HORA[6]=d_seg+'0';
-  HORA[7]=u_seg+'0';
-  HORA[8]=':';
-  HORA[9]=d_mseg+'0';
-  HORA[10]=u_mseg+'0';
-  HORA[11]='\0';
-  cron_write();
+  hora[0]=decena_hora+'0';
+  hora[1]=unidad_hora+'0';
+  hora[2]= ':';
+  hora[3]=decena_minuto+'0';
+  hora[4]=unidad_minuto+'0';
+  hora[5]= ':';
+  hora[6]=decena_segundo+'0';
+  hora[7]=unidad_segundo+'0';
+  hora[8]=decena_milisegundo+'0';
+  hora[9]=unidad_milisegundo+'0';
+  hora[10]= '\0';
+  Glcd_Write_Text(hora, 30, 3, 1);
   IFS0bits.T1IF=0;
 }
 void captura_onda_ic1() org 0x16{
@@ -130,55 +131,57 @@ void cron_write();
 void clean_PS2();
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~Caso 1~~~~~~~~~~~~~~~~~~~~~~~~~~
-unsigned short arreglo_hora_militar_up(int i,unsigned int valor_nuevo){
-  if(i==decena_hora){
-    if(valor_nuevo==4){//Decena de hora solo puede ser 0,1 o 2 2->0
-     return 0;
-    }
-  }
-  if(i==unidad_hora){
-    if(HORA[decena_hora]==2&&valor_nuevo>3){//Arreglo Hora 23->00
-      HORA[decena_hora]=0;
-      return 0;
-    }
-    if(valor_nuevo>=9){return 0;}//Arreglo Unidad Hora && Unidad Minuto 9->0
-  }
-  if(i==decena_minuto){
-    if(valor_nuevo>5){//Decena minuto llega hasta 5->0
-      return 0;
-    }
-  }
-  if(i==unidad_minuto){
-    if(valor_nuevo>9){return 0;}//Arreglo Unidad Hora && Unidad Minuto 9->0
-  }
-}
-unsigned short arreglo_hora_militar_dw(int i,unsigned int valor_nuevo){
-  if(i==decena_hora){
-    if(valor_nuevo==-1){//Decena de hora solo puede ser 0,1 o 2 2->0;
-     return 2;
-    }
-  }
-  if(i==unidad_hora){
-    if(HORA[decena_hora]==0&&valor_nuevo<0){//Arreglo Hora 23->00
-      HORA[decena_hora]=2;
-      return 3;
-    }else if(valor_nuevo<0){return 9;}//Arreglo Unidad Hora && Unidad Minuto 9->0
-  }
-  if(i==decena_minuto){
-    if(valor_nuevo<0){//Decena minuto llega hasta 5
-      return 5;
-    }
-  }
-  if(i==unidad_minuto){
-    if(valor_nuevo<0){return 9;}//Arreglo Unidad Hora && Unidad Minuto 9->0
-  }
-}
+//unsigned short arreglo_hora_militar_up(int i,unsigned int valor_nuevo){
+//  if(i==decena_hora){
+//    if(valor_nuevo==4){//Decena de hora solo puede ser 0,1 o 2 2->0
+//     return 0;
+//    }
+//  }
+//  if(i==unidad_hora){
+//    if(HORA[decena_hora]==2&&valor_nuevo>3){//Arreglo Hora 23->00
+//      HORA[decena_hora]=0;
+//      return 0;
+//    }
+//    if(valor_nuevo>=9){return 0;}//Arreglo Unidad Hora && Unidad Minuto 9->0
+//  }
+//  if(i==decena_minuto){
+//    if(valor_nuevo>5){//Decena minuto llega hasta 5->0
+//      return 0;
+//    }
+//  }
+//  if(i==unidad_minuto){
+//    if(valor_nuevo>9){return 0;}//Arreglo Unidad Hora && Unidad Minuto 9->0
+//  }
+//}
+//unsigned short arreglo_hora_militar_dw(int i,unsigned int valor_nuevo){
+//  if(i==decena_hora){
+//    if(valor_nuevo==-1){//Decena de hora solo puede ser 0,1 o 2 2->0;
+//     return 2;
+//    }
+//  }
+//  if(i==unidad_hora){
+//    if(HORA[decena_hora]==0&&valor_nuevo<0){//Arreglo Hora 23->00
+//      HORA[decena_hora]=2;
+//      return 3;
+//    }else if(valor_nuevo<0){return 9;}//Arreglo Unidad Hora && Unidad Minuto 9->0
+//  }
+//  if(i==decena_minuto){
+//    if(valor_nuevo<0){//Decena minuto llega hasta 5
+//      return 5;
+//    }
+//  }
+//  if(i==unidad_minuto){
+//    if(valor_nuevo<0){return 9;}//Arreglo Unidad Hora && Unidad Minuto 9->0
+//  }
+//}
 int i=0;
 void cron_write(){
-  Glcd_Write_TEXT("                                              ",60,7,1);
+//  Glcd_Write_TEXT("                                              ",60,7,1);
   i=0;
-  for(i=0;i<12;i++){
+  for(i=0;i<11;i++){
+    if(i!=2||i!=5||i!=8){
     Glcd_Write_Char(HORA[i],50+i*5,7,1);
+    }
   }
 }
 void num_update(int it,int x_pos,int page){
@@ -213,13 +216,13 @@ int  num_selector(int x_pos,int indice){
   return it;
 }
 void cron_cursor(){
-int x_pos=50,i,j;
+int i=0;
   //hay 5 variables de hora y alarma
   clean_PS2();
   for(i=0;i<5;i++){
     if(i!=2){
-      j=num_selector(50+i*5,i)+'0';
-      HORA[i]=j;
+      HORA[i]=num_selector(50+i*5,i)+'0';
+
     }else if(i==2){
       HORA[2]=':' ;
     }
@@ -228,7 +231,7 @@ int x_pos=50,i,j;
   }
 }
 void caso_1(){
-  while(keydata!=ESC){
+  while(selected!=ESC){
      selected=cursor_menu(5);
       switch(selected){
       case 1:
@@ -251,6 +254,7 @@ void caso_1(){
       Glcd_Write_Text("ALARM",30,7,1);
 //        alarm_cursor();
         break;
+
       }
   }
 }
@@ -285,14 +289,12 @@ void frecuencia_pantalla (){
 
 void caso_2(){
   config_captura();
+  config_pin();
   T2CONbits.TON=1; //enciende timer 1
   Glcd_Fill(0);
+  frecuencia_pantalla();
+  clean_PS2();
   while(keydata!=ESC){
-    frecuencia_pantalla();
-    // if(!FloatToStr(T1,txt)){Glcd_Write_Text(txt,65,1,1);}
-    // if(!FloatToStr(T2,txt)){Glcd_Write_Text(txt,65,2,1);}
-    // if(!FloatToStr(T3,txt)){Glcd_Write_Text(txt,65,3,1);}
-    // if(!FloatToStr(T4,txt)){Glcd_Write_Text(txt,65,4,1);}
     Ps2_Key_Read(&keydata, &special, &down);
   }
 }
@@ -317,26 +319,30 @@ void main(){
   config_TMR_45();
   config_pin();
 
+
   PS2_Config();  Glcd_Fill(0);
+  
+  glcd_write_text("a",1,1,1);
+  T1conbits.Ton=1;
   while(1){
-    texto_menu();
-    selected=cursor_menu(3);
-    switch(selected){
-      case 1:
-        clean_PS2();
-        texto_caso_1();
-        caso_1();
-        break;
-      case 2:
-        clean_PS2();
-        // texto_caso_2();
-        caso_2();
-        break;
-      case 3:
-        clean_PS2();
-        texto_caso_3();
-        caso_3();
-        break;
-    }
+   // texto_menu();
+//    selected=cursor_menu(3);
+//    switch(selected){
+//      case 1:
+//        clean_PS2();
+//        texto_caso_1();
+//        caso_1();
+//        break;
+//      case 2:
+//        clean_PS2();
+//        // texto_caso_2();
+//        caso_2();
+//        break;
+//      case 3:
+//        clean_PS2();
+//        texto_caso_3();
+//        caso_3();
+//        break;
+//    }
   }
 }
