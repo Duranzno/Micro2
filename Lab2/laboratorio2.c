@@ -4,8 +4,13 @@
 
 //~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+<<<<<<< HEAD
 unsigned short unidad_segundo=0, decena_segundo=0, unidad_minuto=0,decena_minuto=0, unidad_hora=0, decena_hora=0,decena_milisegundo=0,unidad_milisegundo=0;
 char hora[10];
+=======
+unsigned short unidad_segundo=0, decena_segundo=0, unidad_minuto=0,decena_minuto=0, unidad_hora=0, decena_hora=0,decena_milisegundo=0;
+char hora[9];
+>>>>>>> a3c556b7c1d9b1c239535c5975b38244ee21dfa6
 char alarma[12]={'0','0',':','0','0',':','0','0',':','0','0','\0'};
 char texta=1+'0';
 int ENALARM=0,conta1=0,selected=0;
@@ -16,9 +21,12 @@ void cron_write();
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 void tee() org 0x1A{
+<<<<<<< HEAD
   unidad_milisegundo=unidad_milisegundo+5;
   if(unidad_milisegundo==10){
   unidad_milisegundo=0;
+=======
+>>>>>>> a3c556b7c1d9b1c239535c5975b38244ee21dfa6
   decena_milisegundo++;
   if(decena_milisegundo==10){
     decena_milisegundo=0;
@@ -48,7 +56,10 @@ void tee() org 0x1A{
       }
     }
   }
+<<<<<<< HEAD
   }
+=======
+>>>>>>> a3c556b7c1d9b1c239535c5975b38244ee21dfa6
   hora[0]=decena_hora+'0';
   hora[1]=unidad_hora+'0';
   hora[2]= ':';
@@ -58,8 +69,12 @@ void tee() org 0x1A{
   hora[6]=decena_segundo+'0';
   hora[7]=unidad_segundo+'0';
   hora[8]=decena_milisegundo+'0';
+<<<<<<< HEAD
   hora[9]=unidad_milisegundo+'0';
   hora[10]= '\0';
+=======
+  hora[9]= '\0';
+>>>>>>> a3c556b7c1d9b1c239535c5975b38244ee21dfa6
   Glcd_Write_Text(hora, 30, 3, 1);
   IFS0bits.T1IF=0;
 }
