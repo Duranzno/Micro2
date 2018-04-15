@@ -139,16 +139,19 @@ void config_captura (){
   IC5CON2bits.IC32=1; //configuracion 32 bits;
 }
 void config_cron(){
-  PR1=2000; //1000ms
-  TMR1=0;
+  //PR1=22938; //1000ms
+//  TMR1=0;
   IEC0bits.T1IE=1;
   IFS0bits.T1IF=0;
   IPC0bits.T1IP=3;
-  T1CONBits.TGATE=0;
-  T1CONBits.TSYNC=0;
-  T1CONBits.TCS=0;//TGATE, TSYNC Y TCS Habilitan modo TEMP
-  T1CONBits.TCKPS=00;//Prescaler 64:1
-  T1conbits.TON=0;
+//  T1CONBits.TGATE=0;
+//  T1CONBits.TSYNC=0;
+//  T1CONBits.TCS=0;//TGATE, TSYNC Y TCS Habilitan modo TEMP
+//  T1CONBits.TCKPS=1;
+//  T1conbits.TON=0;
+  TMR1=0;
+	T1CON=0X8020; //Prescaler 64:1, modo timer
+	PR1=3125;
 }
 void config_TMR_45(){
   IEC1bits.T4IE=1;
