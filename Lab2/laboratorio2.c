@@ -4,31 +4,23 @@
 
 //~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-<<<<<<< HEAD
 unsigned short unidad_segundo=0, decena_segundo=0, unidad_minuto=0,decena_minuto=0, unidad_hora=0, decena_hora=0,decena_milisegundo=0,unidad_milisegundo=0;
 char hora[10];
-=======
-unsigned short unidad_segundo=0, decena_segundo=0, unidad_minuto=0,decena_minuto=0, unidad_hora=0, decena_hora=0,decena_milisegundo=0;
-char hora[9];
->>>>>>> a3c556b7c1d9b1c239535c5975b38244ee21dfa6
 char alarma[12]={'0','0',':','0','0',':','0','0',':','0','0','\0'};
 char texta=1+'0';
 int ENALARM=0,conta1=0,selected=0;
 float T1,T2,T3,T4;
 int pulso=0, pulso2=0,pulso3=0,pulso4=0;
-float frecuencia,frecuencia2,frecuencia3,frecuencia4;
+ float frecuencia=0,frecuencia2=0,frecuencia3=0,frecuencia4=0;
 void cron_write();
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 void tee() org 0x1A{
-<<<<<<< HEAD
   unidad_milisegundo=unidad_milisegundo+5;
   if(unidad_milisegundo==10){
   unidad_milisegundo=0;
-=======
->>>>>>> a3c556b7c1d9b1c239535c5975b38244ee21dfa6
   decena_milisegundo++;
-  if(decena_milisegundo==10){
+    if(decena_milisegundo==10){
     decena_milisegundo=0;
     unidad_segundo++;
     if(unidad_segundo==10){
@@ -55,11 +47,8 @@ void tee() org 0x1A{
         }
       }
     }
+   }
   }
-<<<<<<< HEAD
-  }
-=======
->>>>>>> a3c556b7c1d9b1c239535c5975b38244ee21dfa6
   hora[0]=decena_hora+'0';
   hora[1]=unidad_hora+'0';
   hora[2]= ':';
@@ -69,19 +58,15 @@ void tee() org 0x1A{
   hora[6]=decena_segundo+'0';
   hora[7]=unidad_segundo+'0';
   hora[8]=decena_milisegundo+'0';
-<<<<<<< HEAD
   hora[9]=unidad_milisegundo+'0';
   hora[10]= '\0';
-=======
+
   hora[9]= '\0';
->>>>>>> a3c556b7c1d9b1c239535c5975b38244ee21dfa6
-  Glcd_Write_Text(hora, 30, 3, 1);
+  Glcd_Write_Text(hora, 30, 6, 1);
   IFS0bits.T1IF=0;
 }
 void captura_onda_ic1() org 0x16{
   pulso++;
-  inttostr(pulso,txt);
-  glcd_write_text(txt,0,7,1);
   IFS0bits.IC1IF=0;
 
 }
@@ -89,32 +74,24 @@ void captura_onda_ic1() org 0x16{
 
 void captura_onda_ic3() org 0x5E{
   pulso2++;
-  inttostr(pulso2,txt);
-  glcd_write_text(txt,10,5,1);
- // Glcd_Write_Text("c3",60,5,1);
+
   IFS2bits.IC3IF=0;
 
 }
 void captura_onda_ic5() org 0x62{
   pulso3++;
-  inttostr(pulso3,txt);
-  glcd_write_text(txt,20,7,1);
-  // Glcd_Write_Text("c5",65,4,1);
   IFS2bits.IC5IF=0;
 
 }
 void captura_onda_ic11() org 0x112{
   pulso4++;
-  inttostr(pulso4,txt);
-  glcd_write_text(txt,40,7,1);
- // Glcd_Write_Text("ca",80,4,1);
   IFS7bits.IC11IF=0;
 
 }
 // void captura_onda_ic2() org 0x1E{
 //  pulso++;
 //  inttostr(pulso,txt);
-//  glcd_write_text(txt,0,7,1);
+//  Glcd_Write_Text(txt,0,7,1);
 //    Glcd_Write_Text("cap2",0,5,1);
 void int_timer2 () org 0x22{
   IC1CON1bits.ICM=0;
@@ -122,7 +99,7 @@ void int_timer2 () org 0x22{
    IC5CON1bits.ICM=0;
    IC11CON1bits.ICM=0;
   // Glcd_Write_Text("T2",0,7,1);
-  T2CONbits.TON=1;
+  T2CONbits.TON=0;
   IFS0bits.T2IF=0; // limpia bandera de interrupcion
   frecuencia=pulso*4*2;
   frecuencia2=pulso2*4*2;
@@ -132,6 +109,24 @@ void int_timer2 () org 0x22{
   T2=(1/frecuencia2)*1000000;
   T3=(1/frecuencia3)*1000000;
   T4=(1/frecuencia4)*1000000;
+    Glcd_Write_Text("Entrada", 0, 1, 1);
+    Glcd_Write_Text("2)", 5, 3, 1);
+    Glcd_Write_Text("3)", 5, 4, 1);
+  Glcd_Write_Text("4)", 5, 5, 1);
+  Glcd_Write_Text("Periodo (us)", 50, 1, 1);
+  Glcd_Write_Text("1)", 5, 2, 1);
+    floattostr(T1,txt);
+  Glcd_Write_Text(txt,65, 2, 1);
+
+   floattostr(T2,txt);
+  Glcd_Write_Text(txt,65, 3, 1);
+
+  floattostr(T3,txt);
+  Glcd_Write_Text(txt,65, 4, 1);
+
+floattostr(T4,txt);
+  Glcd_Write_Text(txt,65, 5, 1);
+  IFS0bits.IC2IF=0;
 }
 //  IFS0bits.IC2IF=0;
 //}
@@ -139,7 +134,9 @@ void Timer4() org 0x4A{
   IFS1bits.T4IF=0;
 }
 void Timer5() org 0x4C{
-  IFS1bits.T5IF=0;
+     T4CONbits.TON=1;
+
+     IFS1bits.T5IF=0;
 }
 //~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void cron_write();
@@ -246,6 +243,7 @@ int i=0;
   }
 }
 void caso_1(){
+  clean_PS2();
   while(selected!=ESC){
      selected=cursor_menu(5);
       switch(selected){
@@ -255,7 +253,7 @@ void caso_1(){
         break;
       case 2:
         Glcd_Write_Text("PLAY",30,7,1);
-        T1CONBits.TON=1;
+        T1CONbits.TON=1;
         break;
       case 3:
         Glcd_Write_Text("pause",30,7,1);
@@ -284,10 +282,18 @@ int glcd_write_float(float f,unsigned short pos,unsigned short page,unsigned sho
 void frecuencia_pantalla (){
 
   Glcd_Write_Text("Frecu.(hz)", 0, 1, 1);
-  Glcd_Write_Text("Periodo(us)", 65, 1, 1);
-  floattostr(frecuencia,txt);
-  Glcd_Write_Text(txt,5, 2, 1);
+  Glcd_Write_Text("Periodo(ms)", 65, 1, 1);
+     inttostr(pulso,txt);
+  glcd_write_text(txt,5,2,1);
+    inttostr(pulso2,txt);
+  glcd_write_text(txt,5,3,1);
+    inttostr(pulso3,txt);
+  glcd_write_text(txt,5,4,1);
+    inttostr(pulso4,txt);
+  glcd_write_text(txt,5,5,1);
+/*glcd_write_float(frecuencia2,5,3,1);
   glcd_write_float(frecuencia3,5,4,1);
+  glcd_write_float(frecuencia4,5,4,1);*/
  /*floattostr(frecuencia3,txt);
   Glcd_Write_Text(txt,5, 4, 1);
   floattostr(frecuencia4,txt);
@@ -303,11 +309,16 @@ void frecuencia_pantalla (){
 }
 
 void caso_2(){
-  config_captura();
+pulso=0;
+pulso2=0;
+pulso3=0;
+pulso4=0;
+Glcd_Write_Text("Caso 2",65, 0, 1);
   config_pin();
-  T2CONbits.TON=1; //enciende timer 1
+  config_captura();
+  T2CONbits.TON=1; //enciende timer 2
   Glcd_Fill(0);
-  frecuencia_pantalla();
+
   clean_PS2();
   while(keydata!=ESC){
     Ps2_Key_Read(&keydata, &special, &down);
@@ -316,9 +327,61 @@ void caso_2(){
 //~~~~~~~~~~~~~~~~~~~~~~Caso 3~~~~~~~~~~~~~~~~~~~~~~~~~~
 void caso_3(){
   texto_caso_3();
-  T5CONbits.TON=1;
-  T4CONbits.TON=1;
-  delay_ms(300);
+    ANSELE=0;
+  ANSELG=0;
+  ANSELD=0;
+  TRISEbits.TRISE5=0;
+  TRISEbits.TRISE7=0;
+  TRISGbits.TRISG6=0;
+  TRISGbits.TRISG8=0;
+  TRISGbits.TRISG8=0;
+  RPOR6bits.RP85R =0b010000;     //pin comparador 1  RE5
+  RPOR6bits.RP87R =0b010001;    //pin comparador 2  RE7
+ RPOR13bits.RP118R=0b010010;  //pin comparador 3 RG6
+ RPOR14bits.RP120R=0b010011;
+ RPOR0bits.RP64R=0b010100;// pin comparador 4 RG8
+   IEC1bits.T4IE=1;
+   IEC1bits.T5IE=1;
+   IFS1bits.T4IF=0;
+   IFS1bits.T5IF=0;
+  T4CON=0;            //preescaler 1:1
+ TMR4=0;
+ PR4=2000;                    // timer a 1ms
+ T5CON=0x8030;            //prescaler 256:1
+ TMR5=0;
+ PR5=39062; // timer a 5s
+  OC5CON1bits.OCTSEL=3;
+ OC1CON1bits.OCTSEL=2;        // T4CLK fuente de reloj
+ OC2CON1bits.OCTSEL=2;
+ OC3CON1bits.OCTSEL=2;
+ OC4CON1bits.OCTSEL=2;
+ OC5CON1bits.OCM=5;
+ OC1CON1bits.OCM=5;          //MODO COMPARADOR DUAL DE PULSOS CONTINUOS
+ OC2CON1bits.OCM=5;
+ OC3CON1bits.OCM=5;
+ OC4CON1bits.OCM=5;
+ OC1CON2bits.OCTRIG=1;
+ OC2CON2bits.OCTRIG=1;
+ OC3CON2bits.OCTRIG=1;
+ OC4CON2bits.OCTRIG=1;
+ OC5CON2bits.OCTRIG=0;
+ OC1CON1bits.TRIGMODE=0;
+ OC2CON1bits.TRIGMODE=0;
+ OC3CON1bits.TRIGMODE=0;
+ OC4CON1bits.TRIGMODE=0;
+ OC5R=8000; OC5RS=8200;
+ OC1R=306; OC1RS=2047;     //CICLO UTIL 15%
+ OC2R=921; OC2RS=2047;     //CICLO UTIL 45%
+ OC3R=1227; OC3RS=2047;     //CICLO UTIL 60%
+ OC4R=1637; OC4RS=2047;     //CICLO UTIL 80%
+ OC1CON2bits.SYNCSEL=0b00101;    //disparo con el OC 5
+ OC2CON2bits.SYNCSEL=0b00101;
+ OC3CON2bits.SYNCSEL=0b00101;
+ OC4CON2bits.SYNCSEL=0b00101;
+ OC5CON2bits.SYNCSEL=0b01111;
+
+
+
   while(keydata!=ESC){
     Ps2_Key_Read(&keydata, &special, &down);
   }
@@ -330,34 +393,34 @@ void main(){
   config_IO();  config_LCD();
   config_INT();
   config_cron();
-  config_OC();
-  config_TMR_45();
+ // config_OC();
+ // config_TMR_45();
   config_pin();
 
 
   PS2_Config();  Glcd_Fill(0);
   
-  glcd_write_text("a",1,1,1);
-  T1conbits.Ton=1;
+ // glcd_write_text("a",1,1,1);
+  //T1conbits.Ton=1;
   while(1){
-   // texto_menu();
-//    selected=cursor_menu(3);
-//    switch(selected){
-//      case 1:
-//        clean_PS2();
-//        texto_caso_1();
-//        caso_1();
-//        break;
-//      case 2:
-//        clean_PS2();
-//        // texto_caso_2();
-//        caso_2();
-//        break;
-//      case 3:
-//        clean_PS2();
-//        texto_caso_3();
-//        caso_3();
-//        break;
-//    }
+    texto_menu();
+    selected=cursor_menu(3);
+    switch(selected){
+      case 1:
+        clean_PS2();
+        texto_caso_1();
+        caso_1();
+       break;
+      case 2:
+        clean_PS2();
+        // texto_caso_2();
+        caso_2();
+        break;
+      case 3:
+        clean_PS2();
+        texto_caso_3();
+        caso_3();
+        break;
+  }
   }
 }

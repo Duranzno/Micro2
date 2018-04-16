@@ -55,8 +55,8 @@ sbit GLCD_RST_Direction at TRISE4_bit;
     RPOR6bits.RP85R =0b010000;     //pin comparador 1  RE5
     RPOR6bits.RP87R =0b010001;    //pin comparador 2  RE7
     RPOR13bits.RP118R=0b010010;  //pin comparador 3 RG6
-    RPOR14bits.RP120R=0b010011;//Las entradas del teclado y las salidas de la pantalla son manejadas por las librerias;
-    RPOR0bits.RP64R=0b010100;
+    RPOR14bits.RP120R=0b010011;
+    RPOR0bits.RP64R=0b010100;// pin comparador 4 RG8
 }
 void config_LCD(){
   Glcd_Init();
@@ -75,6 +75,8 @@ void config_pin () {
 
 }
 void config_captura (){
+  Glcd_Write_Text("Captura",65, 4, 1);
+  delay_ms(250);
         //-------------timer2-----------------------
   TMR2=0;
   T2CONbits.TCKPS=2; // Prescaler 64:1, modo timer
@@ -90,7 +92,7 @@ void config_captura (){
   IC2CON2bits.IC32=1; //configuracion 32 bits
   //----------------captura 1------------------
   IC1CON1bits.ICTSEL=7; //usa como fuente de reloj el timer1
-  IC1CON1bits.ICM=5; // captura cada 4 flancos positivos
+
  // T1CONbits.TON=1; //enciende timer 1
   IEC0bits.IC1IE=1; //habilita interrupciÃ³n del IC1
   IFS0bits.IC1IF=0; //limpia la bandera de interrupciÃ³n
@@ -104,7 +106,7 @@ void config_captura (){
   IC4CON2bits.IC32=1; //configuracion 32 bits
   //----------------captura 3------------------
   IC3CON1bits.ICTSEL=7; //usa como fuente de reloj el timer1
-  IC3CON1bits.ICM=5; // captura cada 4 flancos positivos
+
  // T1CONbits.TON=1; //enciende timer 1
   IEC2bits.IC3IE=1; //habilita interrupciÃ³n del IC1
   IFS2bits.IC3IF=0; //limpia la bandera de interrupciÃ³n
@@ -118,7 +120,7 @@ void config_captura (){
   IC6CON2bits.IC32=1; //configuracion 32 bits
   //----------------captura 5------------------
   IC5CON1bits.ICTSEL=7; //usa como fuente de reloj el timer1
-  IC5CON1bits.ICM=5; // captura cada 4 flancos positivos
+
  // T1CONbits.TON=1; //enciende timer 1
   IEC2bits.IC5IE=1; //habilita interrupciÃ³n del IC1
   IFS2bits.IC5IF=0; //limpia la bandera de interrupciÃ³n
@@ -131,12 +133,17 @@ void config_captura (){
   IC12CON2bits.IC32=1; //configuracion 32 bits
   //----------------captura 11------------------
   IC11CON1bits.ICTSEL=7; //usa como fuente de reloj el timer1
-  IC11CON1bits.ICM=5; // captura cada 4 flancos positivos
+
  // T1CONbits.TON=1; //enciende timer 1
   IEC7bits.IC11IE=1; //habilita interrupciÃ³n del IC1
   IFS7bits.IC11IF=0; //limpia la bandera de interrupciÃ³n
   //------------configuracion captura 1 como 32 bits------------
   IC5CON2bits.IC32=1; //configuracion 32 bits;
+  //-------------activacion captura--------------------
+   IC1CON1bits.ICM=5; // captura cada 4 flancos positivos
+   IC3CON1bits.ICM=5; // captura cada 4 flancos positivos
+   IC5CON1bits.ICM=5; // captura cada 4 flancos positivos
+  IC11CON1bits.ICM=5; // captura cada 4 flancos positivos
 }
 void config_cron(){
   //PR1=22938; //1000ms
@@ -150,10 +157,10 @@ void config_cron(){
 //  T1CONBits.TCKPS=1;
 //  T1conbits.TON=0;
   TMR1=0;
-        T1CON=0X8010; //Prescaler 16:1, modo timer
+        T1CON=0X0010; //Prescaler 16:1, modo timer
         PR1=6250;
 }
-void config_TMR_45(){
+/*void config_TMR_45(){
   IEC1bits.T4IE=1;
   IEC1bits.T5IE=1;
   IFS1bits.T4IF=0;
@@ -167,7 +174,7 @@ void config_TMR_45(){
   TMR5=0;
   PR5=39062; // timer a 5s
 
-}
+}*/
 void config_OC(){
   OC5CON1bits.OCTSEL=7;
   OC1CON1bits.OCTSEL=2;        // T4CLK fuente de reloj
@@ -204,8 +211,8 @@ void config_INT(){
 //------------------------- habilitacion de interrupcion
   IPC0bits.T1IP=2;
   IPC1bits.T2IP=4;
-  IPC6bits.T4IP=2;
-  IPC7bits.T5IP=3;
+  IPC6bits.T4IP=5;
+  IPC7bits.T5IP=5;
   IPC0bits.IC1IP=2;
   IPC9bits.IC3IP=2;
   IPC9bits.IC5IP=2;
