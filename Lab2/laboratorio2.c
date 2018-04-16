@@ -49,6 +49,9 @@ void tee() org 0x1A{
     }
    }
   }
+          //unidad milisegundo no se muestra,
+          //entra directamente a programar
+          //config hora
   hora[0]=decena_hora+'0';
   hora[1]=unidad_hora+'0';
   hora[2]= ':';
@@ -60,10 +63,9 @@ void tee() org 0x1A{
   hora[8]=decena_milisegundo+'0';
   hora[9]=unidad_milisegundo+'0';
   hora[10]= '\0';
-
-  hora[9]= '\0';
-  Glcd_Write_Text(hora, 30, 6, 1);
+  Glcd_Write_Text(hora, 30, 7, 1);
   IFS0bits.T1IF=0;
+
 }
 void captura_onda_ic1() org 0x16{
   pulso++;
@@ -248,12 +250,22 @@ void caso_1(){
      selected=cursor_menu(5);
       switch(selected){
       case 1:
-        cron_cursor();
+        //cron_cursor();
+        Glcd_Write_Text("CRON",30,7,1);
+
         clean_PS2();
         break;
       case 2:
         Glcd_Write_Text("PLAY",30,7,1);
         T1CONbits.TON=1;
+        while(keydata!="T"){
+        if(Ps2_Key_Read(&keydata, &special, &down)){
+         if(down){
+                           Glcd_Write_Text("Escape", 0, 1, 2);
+       }
+    }
+  }
+   Glcd_Write_Text("pichur", 0, 1, 2);
         break;
       case 3:
         Glcd_Write_Text("pause",30,7,1);
@@ -267,7 +279,10 @@ void caso_1(){
       Glcd_Write_Text("ALARM",30,7,1);
 //        alarm_cursor();
         break;
-
+      default:
+      Glcd_Write_Text("ERROR",30,7,1);
+//        alarm_cursor();
+        break;
       }
   }
 }
