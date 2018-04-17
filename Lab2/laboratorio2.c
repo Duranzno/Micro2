@@ -56,11 +56,15 @@ unidad_milisegundo=unidad_milisegundo+5;
     alarma[3]==HORA[3] &&
     alarma[4]==HORA[4]){
     Glcd_fill(0);
-    ENALARM=2;
-    IFS0Bits.T1IF=0;
-  }
-  Glcd_Write_Text(hora, 30, 7, 1);
+//    animate_bell_5s();
+//    Glcd_fill(0);
+                  }
+//    texto_menu();
+//    ENALARM=2;
+//    T1CONBITS.TON=0;
 
+  Glcd_Write_Text(hora, 30, 7, 1);
+//  cron_write();
   IFS0bits.T1IF=0;
 
 }

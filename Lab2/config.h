@@ -156,7 +156,7 @@ void config_cron(){
 //  T1CONBits.TCS=0;//TGATE, TSYNC Y TCS Habilitan modo TEMP
 //  T1CONBits.TCKPS=1;
 //  T1conbits.TON=0;
-  TMR1=0;
+        TMR1=0;
         T1CON=0X0010; //Prescaler 16:1, modo timer
         PR1=6250;
 }
