@@ -8,11 +8,11 @@ unsigned short unidad_segundo=0, decena_segundo=0, unidad_minuto=0,decena_minuto
 char hora[12]={'0','0',':','0','0',':','0','0',':','0','0','\0'};
 char alarma[6]={'0','0',':','0','0','\0'};
 char texta=1+'0';
-int ENALARM=1,conta1=0,selected=0;
+int ENALARM=1,conta1=0,selected=0,max_1=1, i=0;
 float T1,T2,T3,T4;
 int pulso=0, pulso2=0,pulso3=0,pulso4=0;
  float frecuencia=0,frecuencia2=0,frecuencia3=0,frecuencia4=0;
-void cron_write();    void cron_inttostr();    void caso_1();
+void cron_inttostr();    void caso_1();
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void cron(){
 unidad_milisegundo=unidad_milisegundo+5;
@@ -142,13 +142,14 @@ void Timer5() org 0x4C{
      IFS1bits.T5IF=0;
 }
 //~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void cron_write();
+
+
 void clean_PS2();
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~Caso 1~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 void cron_inttostr(){
-    hora[0]=decena_hora+'0';
+  hora[0]=decena_hora+'0';
   hora[1]=unidad_hora+'0';
   hora[3]=decena_minuto+'0';
   hora[4]=unidad_minuto+'0';
@@ -158,16 +159,8 @@ void cron_inttostr(){
   hora[10]=unidad_milisegundo+'0';
   hora[11]= '\0';
 }
-int i=0;
-void cron_write(){
-//  Glcd_Write_TEXT("                                              ",60,7,1);
-  i=0;
-  for(i=0;i<5;i++){
-    if(i!=2||i!=5||i!=8){
-    Glcd_Write_Char(HORA[i],50+i*5,7,1);
-    }
-  }
-}
+
+
 void num_update(int it,int x_pos,int page){
   Glcd_Write_Char(it+'0',x_pos,page,1);
 }
@@ -175,19 +168,23 @@ void num_update(int it,int x_pos,int page){
   
 
 int arreglo_hora_militar(int indice,int valor_nuevo){
-    if(indice==1){
+    if(indice==0){
       //DECENA_HORA
-      if(valor_nuevo>2){return 0;}//Decena de hora solo puede ser 0,1 o 2 2->0
-      else if(valor_nuevo<0){return 2;} //Decena de hora solo puede ser 0,1 o 2 2->0;
+      if(max_1==0){
+        if(valor_nuevo>1){return 0;}//Decena de hora solo puede ser 0,1 o si max_1==0 porque unidad hora>3
+        else if(valor_nuevo<0){return 1;} //Decena de hora solo puede ser 0,1 o si max_1==0 porque unidad hora>3
+        else{return valor_nuevo;}
+      }else{
+        if(valor_nuevo>2){return 0;}//Decena de hora solo puede ser 0,1 o 2 2->0
+        else if(valor_nuevo<0){return 2;} //Decena de hora solo puede ser 0,1 o 2 2->0;
+        else{return valor_nuevo;}
+      }
     }
-    else if(indice==2){
+    else if(indice==1){
     //UNIDAD_HORA
       if(valor_nuevo>9){return 0;}//Arreglo Unidad Hora && Unidad Minuto 9->0
       else if(valor_nuevo<0){return 9;}//Arreglo Unidad Hora && Unidad Minuto 0->9
-      else if(HORA[0]=='2'&&valor_nuevo>3){//Arreglo Hora 23->00
-        HORA[0]='0';num_update(0,50,7);return 0;}
-      else if(HORA[0]=='2'&&valor_nuevo<0){//Arreglo Hora 00->23
-        HORA[0]='2';num_update(2,50,7);return 3;}
+      else{return valor_nuevo;}
     }
     else if(indice==3){
     //DECENA_MIN
@@ -219,7 +216,6 @@ int  num_selector(int x_pos,int is){
           clean_PS2();
         }
         if(keydata==DOWN_ARROW){
-          it=it-1;
           inttostr(it,txt) ;
           glcd_write_text(txt,0,0,1);
           inttostr(is,txt) ;
@@ -244,25 +240,32 @@ void cron_cursor(){
   //hay 5 variables de hora y alarma
   num_selector(0,0);
   glcd_write_text("Hora:",0,7,1);
-  decena_hora=num_selector(50,0);
-  unidad_hora=num_selector(56,1);
-  glcd_write_char(':',62,7,1);
-  decena_minuto=num_selector(68,3);
   unidad_minuto=num_selector(74,4);
+  decena_minuto=num_selector(68,3);
+  glcd_write_char(':',62,7,1);
+  unidad_hora=num_selector(56,1);
+  if(unidad_hora>3){max_1=0;}
+  else{max_1=1;}
+  decena_hora=num_selector(50,0);
+
   decena_segundo=0;
   unidad_segundo=0;
   decena_milisegundo=0;
   unidad_milisegundo=0;
   cron_inttostr();
+  max_1=1;
 }
 void cron_alarm(){
   num_selector(0,0);
   glcd_write_text("Alarma:",0,7,1);
-  alarma[0]=num_selector(50,0)+'0';
-  alarma[1]=num_selector(56,0)+'0';
+  alarma[4]=num_selector(74,4)+'0';
+  alarma[3]=num_selector(68,3)+'0';
   glcd_write_char(':',62,7,1);
-  alarma[3]=num_selector(68,0)+'0';
-  alarma[4]=num_selector(74,0)+'0';
+  alarma[1]=num_selector(56,1)+'0';
+  if(alarma[1]>'3'){max_1=0;}
+  else{max_1=1;}
+  alarma[0]=num_selector(50,0)+'0';
+  max_1=1;
   ENALARM=0;
 }
 
