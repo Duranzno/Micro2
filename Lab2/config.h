@@ -158,7 +158,7 @@ void config_cron(){
 //  T1conbits.TON=0;
         TMR1=0;
         T1CON=0X0010; //Prescaler 16:1, modo timer
-        PR1=6250;
+        PR1=12500;
 }
 /*void config_TMR_45(){
   IEC1bits.T4IE=1;

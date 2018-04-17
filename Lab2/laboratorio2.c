@@ -4,20 +4,17 @@
 #include "sprites.h"
 //~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-unsigned short unidad_segundo=0, decena_segundo=0, unidad_minuto=0,decena_minuto=0, unidad_hora=0, decena_hora=0,decena_milisegundo=0,unidad_milisegundo=0;
-char hora[12]={'0','0',':','0','0',':','0','0',':','0','0','\0'};
+unsigned short unidad_segundo=0, decena_segundo=0, unidad_minuto=0,decena_minuto=0, unidad_hora=0, decena_hora=0,decena_milisegundo=0;
+char hora[12]={'0','0',':','0','0',':','0','0',':','0',' ','\0'};
 char alarma[6]={'0','0',':','0','0','\0'};
 char texta=1+'0';
 int ENALARM=1,conta1=0,selected=0,max_1=1, i=0;
 float T1,T2,T3,T4;
 int pulso=0, pulso2=0,pulso3=0,pulso4=0;
  float frecuencia=0,frecuencia2=0,frecuencia3=0,frecuencia4=0;
-void cron_inttostr();    void caso_1();
+void cron_inttostr();    void caso_1();       void cron_alarme();
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void cron(){
-unidad_milisegundo=unidad_milisegundo+5;
-  if(unidad_milisegundo>9){
-  unidad_milisegundo=0;
   decena_milisegundo++;
     if(decena_milisegundo==10){
     decena_milisegundo=0;
@@ -47,27 +44,26 @@ unidad_milisegundo=unidad_milisegundo+5;
       }
     }
    }
-  }
-
    cron_inttostr();
-  if(ENALARM==0 &&
-    alarma[0]==HORA[0] &&
-    alarma[1]==HORA[1] &&
-    alarma[3]==HORA[3] &&
-    alarma[4]==HORA[4]){
-    Glcd_fill(0);
-//    animate_bell_5s();
-//    Glcd_fill(0);
-                  }
-//    texto_menu();
-//    ENALARM=2;
-//    T1CONBITS.TON=0;
-
+   cron_alarme();
   Glcd_Write_Text(hora, 30, 7, 1);
 //  cron_write();
   IFS0bits.T1IF=0;
-
 }
+void cron_alarme(){
+ if(ENALARM==0 &&
+    alarma[0]==HORA[0] &&
+    alarma[1]==HORA[1] &&
+    alarma[3]==HORA[3] &&
+    alarma[4]==HORA[4]){ENALARM=2;
+//      animate_charmander_5s();
+    Glcd_Write_Text("LARELELELE", 0, 0, 0);
+    IFS0bits.T1IF=0;
+
+    }
+}
+
+
 
 void tee() org 0x1A{
   cron();
@@ -160,7 +156,7 @@ void cron_inttostr(){
   hora[6]=decena_segundo+'0';
   hora[7]=unidad_segundo+'0';
   hora[9]=decena_milisegundo+'0';
-  hora[10]=unidad_milisegundo+'0';
+  hora[10]=' ';
   hora[11]= '\0';
 }
 
@@ -212,18 +208,11 @@ int  num_selector(int x_pos,int is){
       if(down){
        if(keydata==DOWN_ARROW||keydata==UP_ARROW){
         if(keydata==UP_ARROW){
-          inttostr(it,txt) ;
-          glcd_write_text(txt,0,0,1);
-          inttostr(is,txt) ;
-          glcd_write_text(txt,60,0,1);
+
           it=arreglo_hora_militar(is,it+1);
           clean_PS2();
         }
         if(keydata==DOWN_ARROW){
-          inttostr(it,txt) ;
-          glcd_write_text(txt,0,0,1);
-          inttostr(is,txt) ;
-          glcd_write_text(txt,60,0,1);
           it=arreglo_hora_militar(is,it-1);
 
           
@@ -255,7 +244,7 @@ void cron_cursor(){
   decena_segundo=0;
   unidad_segundo=0;
   decena_milisegundo=0;
-  unidad_milisegundo=0;
+//  unidad_milisegundo=0;
   cron_inttostr();
   max_1=1;
 }
@@ -289,22 +278,23 @@ void caso_1(){
       case 2:
         T1CONbits.TON=1;
         Glcd_write_text("                                                    ",0,7,1);
+        if(ENALARM==2){T1CONbits.TON=0;}
+        
         break;
       case 3:
         T1CONBits.TON=0;
         Glcd_write_text("                                                    ",0,7,1);
+        Glcd_Write_Text(hora, 30, 7, 1);
         break;
       case 4:
           decena_hora=0;          unidad_hora=0;
           decena_minuto=0;          unidad_minuto=0;
           decena_segundo=0;          unidad_segundo=0;
-          decena_milisegundo=0;          unidad_milisegundo=0;
+          decena_milisegundo=0;          //unidad_milisegundo=0;
           cron_inttostr();
           Glcd_Write_Text(hora, 30, 7, 1);
-          Glcd_write_text("                                                    ",0,7,1);
         break;
       case 5:
-        ENALARM=0;
         cron_alarm();
         Glcd_write_text("                                                                ",0,7,1);
         break;
@@ -314,6 +304,7 @@ void caso_1(){
       Glcd_write_text("                                                    ",0,7,1);
       break;
       }
+//  if(ENALARM==2){T1CONbits.TON=0;}
   }
 }
 //~~~~~~~~~~~~~~~~~~~~~~Caso 2~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -363,6 +354,7 @@ void main(){
   config_cron();
  // config_OC();
  // config_TMR_45();
+//  animate_charmander_5s();
   config_pin();
 
 
