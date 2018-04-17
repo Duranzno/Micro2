@@ -43,15 +43,42 @@ int cursor_menu(int max_n_options){
           clean_PS2();
         }
         cursor_animation(it);
-      } else if(keydata==ESC){
-        Glcd_Write_TEXT("ESC" ,60,7,1);delay_ms(500);
-        break;
-      } else{
-          Glcd_Write_TEXT("ERR" ,60,7,1);delay_ms(500);
-        }
+      }
       }
     }
   }
+  clean_PS2();
+  
+    return it;
+}
+int cursor_menu2(int max_n_options){
+  //aqui se va a estar utilizando el it como iterator, revisando si el teclado
+//ha seleccionado las flechas de arriba o abajo, aumentando o disminuyendo al operador
+//SIEMPRE HAY 5 OPCIONES
+
+  int it=0;
+   clean_PS2();
+  while(keydata!=ENTER){
+    cursor_animation(it);
+    if(Ps2_Key_Read(&keydata, &special, &down)){
+      if(down){
+       if(keydata==DOWN_ARROW||keydata==UP_ARROW){
+        if(keydata==DOWN_ARROW){
+          it=it+1;
+          if(it>max_n_options){it=0;}
+          clean_PS2();
+        }
+        if(keydata==UP_ARROW){
+          it=it-1;
+          if(it==-1){it=max_n_options;}
+          clean_PS2();
+        }
+        cursor_animation(it);
+      }
+      }
+    }
+  }
+    clean_PS2();
     return it;
 }
 //Cursor Numero
@@ -67,8 +94,8 @@ void texto_menu(){
 void texto_caso_1(){
   GLCD_FILL(0);
   Glcd_Write_Text("Cronometro",60,0,1);
-  Glcd_Write_Text("1) Programar Hora",SANGRIA,1,1);
   Glcd_Write_Text("2) PLAY"  ,SANGRIA,2,1);
+  Glcd_Write_Text("1) Programar Hora",SANGRIA,1,1);
   Glcd_Write_Text("3) PAUSE"  ,SANGRIA,3,1);
   Glcd_Write_Text("4) RESET  "  ,SANGRIA,4,1);
   Glcd_Write_Text("5) Alarma",SANGRIA,5,1);

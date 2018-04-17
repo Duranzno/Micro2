@@ -1,37 +1,4 @@
 
-#define decena_hora 0
-#define unidad_hora 1
-#define decena_minuto 3
-#define unidad_minuto 4
-int page2pos(int page_num){
-switch(page_num){
-    case 0:
-    return 0;
-    break;
-    case 1:
-    return 8;
-    break;
-    case 2:
-    return 16;
-    break;
-    case 3:
-    return 24;
-    break;
-    case 4:
-    return 32;
-    break;
-    case 5:
-    return 40;
-    break;
-    case 6:
-    return 48;
-    break;
-    case 7:
-    return 56;
-    break;
-  }
-}
-
 void oscilador_usado(){
   switch(OSCCONBits.COSC){
     case 0:
