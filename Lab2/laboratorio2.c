@@ -8,7 +8,7 @@ unsigned short unidad_segundo=0, decena_segundo=0, unidad_minuto=0,decena_minuto
 char hora[12]={'0','0',':','0','0',':','0','0',':','0','0','\0'};
 char alarma[6]={'0','0',':','0','0','\0'};
 char texta=1+'0';
-int ENALARM=1,conta1=0,selected=0, max_1=1;
+int ENALARM=1,conta1=0,selected=0;
 float T1,T2,T3,T4;
 int pulso=0, pulso2=0,pulso3=0,pulso4=0;
  float frecuencia=0,frecuencia2=0,frecuencia3=0,frecuencia4=0;
@@ -173,43 +173,21 @@ void num_update(int it,int x_pos,int page){
 }
    int it=0;
   
-//int arreglo_hora_militar_dw(int i,unsigned int valor_nuevo){
-//  if(i==0){
-//    if(valor_nuevo<0){//Decena de hora solo puede ser 0,1 o 2 2->0;
-//     return 2;
-//    }
-//  }else  if(i==1){
-//    if(HORA[0]==0&&valor_nuevo<0){//Arreglo Hora 23->00
-//      HORA[0]=2;
-//      return 3;
-//    }else if(valor_nuevo<0){return 9;}//Arreglo Unidad Hora && Unidad Minuto 9->0
-//  }else  if(i==3){
-//    if(valor_nuevo<0){//Decena minuto llega hasta 5
-//      return 5;
-//    }
-//  }else if(i==4){
-//    if(valor_nuevo<0){return 9;}//Arreglo Unidad Hora && Unidad Minuto 9->0
-//  }else{
-//    return valor_nuevo;
-//  }
-//}
 
 int arreglo_hora_militar(int indice,int valor_nuevo){
-    if(indice==0){
+    if(indice==1){
       //DECENA_HORA
-      if(max_1){
-        if(valor_nuevo>1){return 0;}//Decena de hora solo puede ser 0,1 o 2 2->0
-      else if(valor_nuevo<0){return 1;} //Decena de hora solo puede ser 0,1 o 2 2->0;
-      }  else{
-        if(valor_nuevo>2){return 0;}//Decena de hora solo puede ser 0,1 o 2 2->0
-        else if(valor_nuevo<0){return 2;} //Decena de hora solo puede ser 0,1 o 2 2->0;}
-      }
+      if(valor_nuevo>2){return 0;}//Decena de hora solo puede ser 0,1 o 2 2->0
+      else if(valor_nuevo<0){return 2;} //Decena de hora solo puede ser 0,1 o 2 2->0;
     }
-    else if(indice==1){
+    else if(indice==2){
     //UNIDAD_HORA
       if(valor_nuevo>9){return 0;}//Arreglo Unidad Hora && Unidad Minuto 9->0
       else if(valor_nuevo<0){return 9;}//Arreglo Unidad Hora && Unidad Minuto 0->9
-
+      else if(HORA[0]=='2'&&valor_nuevo>3){//Arreglo Hora 23->00
+        HORA[0]='0';num_update(0,50,7);return 0;}
+      else if(HORA[0]=='2'&&valor_nuevo<0){//Arreglo Hora 00->23
+        HORA[0]='2';num_update(2,50,7);return 3;}
     }
     else if(indice==3){
     //DECENA_MIN
@@ -233,19 +211,19 @@ int  num_selector(int x_pos,int is){
       if(down){
        if(keydata==DOWN_ARROW||keydata==UP_ARROW){
         if(keydata==UP_ARROW){
-//          inttostr(it,txt) ;
-//          glcd_write_text(txt,0,0,1);
-//          inttostr(is,txt) ;
-//          glcd_write_text(txt,60,0,1);
+          inttostr(it,txt) ;
+          glcd_write_text(txt,0,0,1);
+          inttostr(is,txt) ;
+          glcd_write_text(txt,60,0,1);
           it=arreglo_hora_militar(is,it+1);
           clean_PS2();
         }
         if(keydata==DOWN_ARROW){
-//          it=it-1;
-//          inttostr(it,txt) ;
-//          glcd_write_text(txt,0,0,1);
-//          inttostr(is,txt) ;
-//          glcd_write_text(txt,60,0,1);
+          it=it-1;
+          inttostr(it,txt) ;
+          glcd_write_text(txt,0,0,1);
+          inttostr(is,txt) ;
+          glcd_write_text(txt,60,0,1);
           it=arreglo_hora_militar(is,it-1);
 
           
@@ -262,32 +240,29 @@ int  num_selector(int x_pos,int is){
   return it;
 }
 void cron_cursor(){
+
   //hay 5 variables de hora y alarma
   num_selector(0,0);
   glcd_write_text("Hora:",0,7,1);
-  unidad_minuto=num_selector(74,4);
-  decena_minuto=num_selector(68,3);
-  unidad_hora=num_selector(56,1);
-  if(unidad_hora>3){max_1=0;}
   decena_hora=num_selector(50,0);
+  unidad_hora=num_selector(56,1);
   glcd_write_char(':',62,7,1);
+  decena_minuto=num_selector(68,3);
+  unidad_minuto=num_selector(74,4);
   decena_segundo=0;
   unidad_segundo=0;
   decena_milisegundo=0;
   unidad_milisegundo=0;
-  max_1=1;
   cron_inttostr();
 }
 void cron_alarm(){
   num_selector(0,0);
   glcd_write_text("Alarma:",0,7,1);
-  alarma[4]=num_selector(74,0)+'0';
-  alarma[3]=num_selector(68,0)+'0';
-  glcd_write_char(':',62,7,1);
-  alarma[1]=num_selector(56,0)+'0';
-  if((alarma[1]-'0')>3){max_1=0;}
   alarma[0]=num_selector(50,0)+'0';
-  max_1=1;
+  alarma[1]=num_selector(56,0)+'0';
+  glcd_write_char(':',62,7,1);
+  alarma[3]=num_selector(68,0)+'0';
+  alarma[4]=num_selector(74,0)+'0';
   ENALARM=0;
 }
 
