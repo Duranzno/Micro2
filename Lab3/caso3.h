@@ -34,15 +34,13 @@ void caso_1_tests(){
 
 
         for(i=0;i<64;i+=3){
-                glcd_fill(0);
-                inttostr(xtoy(i),txt);
+                glcd_fill(0);                inttostr(xtoy(i),txt);
                 Glcd_Write_TEXT(txt2,60,0,1);
                 Glcd_Write_TEXT("LINES",0,0,1);
 
                 Glcd_Line(a,64,i+32,xtoy(i),1);
                 delay_ms(2000);
         }
-        animate_fail_2s("Larelele");
 
         
 }
