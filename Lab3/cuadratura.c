@@ -1,4 +1,4 @@
-valor inicial=5000;
+valor_inicial=5000;
 valor_ini_h=0x0000;
 valor_ini_l=0x84B;
 
@@ -34,4 +34,25 @@ QEI1ICL=valor_ini_h;
 QEI1STATbits.PCHEQIEN=1; //interrupcion por comparacion de cuadratura
 QEI1STATbits.PCLEQIEN=1; // interrupcion por comparacion de cuadratura	
 QEI1STATbits.IDXIEN=1; //interrupcion por INDEX pin
+QEI1CONbits.QEIEN=1; //habilita el módulo de cuadratura
+QEI1IOCbits.FLTREN=1; //Activa filtro digital
+}
+
+float valor_actual,valor_anterior,recorrido;
+
+
+void caso3 () {
+	config_cuadratura();
+	//debido a que POSCNT cuenta con dos registros de 16bits,
+//los unimos en una variable para calcular la distancia
+valor_actual=POS1CNTH;
+valor_actual=(valor_actual<<16)+POS1CNTL;
+recorrido=valor_actual;
+recorrido=recorrido*2.35619; //se divide el poscnt entre 4
+//luego se multiplica por (2.pi.r)/4
+Floattostr(recorrido,txt);
+Glcd_Write_Text(txt, 1, 6, 1);
+if(valor_anterior<valor_actual) Glcd_Write_Text("derecha ", 1, 2, 1);
+else if(valor_anterior>valor_actual) Glcd_Write_Text("izquierda", 1, 2, 1);
+valor_anterior=valor_actual;
 }
