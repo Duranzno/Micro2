@@ -22,29 +22,17 @@ void main() {
   PS2_Config(); Glcd_Fill(0);
   ADC1_Init_Advanced(_ADC_10bit, _ADC_INTERNAL_REF); //Inicializacion del convertidor ADC
   texto_menu(1);
-  while(1){
-//  Glcd_Write_TEXT("1) Motores                                                                  ",0,1,1);
-//  Glcd_Write_TEXT("2) QAD                                                                  "   ,0,2,1);
-//  Glcd_Write_TEXT("3) Potenciometro                                                                  ",0,3,1);
+//  while(1){
 
-  delay_ms(2000);
+  selected=cursor_menu();
 
-//  glcd_fill(0xFF);
-//  delay_ms(2000);
-//  glcd_fill(0);
-//  selected=cursor_menu();
-//  glcd_fill(0xFF);
-//
-//  cursor_menu();
-//    selected=1;
-  selected=2;
    switch(selected){
      case 1:
        clean_PS2();
        caso_1();
       break;
      case 2:
-       
+
       while(keydata!=ESC){
         clean_PS2();
         caso_2();
@@ -57,7 +45,6 @@ void main() {
 //        caso_3();
        break;
    }
-  }
 }
 void caso_1(){
   Glcd_Fill(0);

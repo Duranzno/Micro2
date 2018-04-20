@@ -10,27 +10,22 @@ void clean_PS2(){ keydata = 0, special = 0, down = 0;}
 unsigned short page2pos(int page_num);
 void texto_menu(int i){
   Glcd_Write_TEXT("Laboratorio 3",60,0,1);
-  switch(i){
-      case 1:
-        Glcd_Write_TEXT("1) Motores                                                                  ",0,1,0);
-        Glcd_Write_TEXT("2) QAD                                                                  ",0,2,1);
-        Glcd_Write_TEXT("3) Potenciometro                                                                  ",0,3,1);
-        return;
-      case 2:
-        Glcd_Write_TEXT("1) Motores                                                                  ",0,1,1);
-        Glcd_Write_TEXT("2) QAD                                                                  ",0,2,0);
-        Glcd_Write_TEXT("3) Potenciometro                                                                  ",0,3,1);
-        return;
-      case 3:
-        Glcd_Write_TEXT("1) Motores                                                                  ",0,1,1);
-        Glcd_Write_TEXT("2) QAD                                                                  "   ,0,2,1);
-        Glcd_Write_TEXT("3) Potenciometro                                                                  ",0,3,0);
-        return;
-      default:
-        Glcd_Write_TEXT("1) Motores                                                                  ",0,1,1);
-        Glcd_Write_TEXT("2) QAD                                                                  "   ,0,2,1);
-        Glcd_Write_TEXT("3) Potenciometro                                                                  ",0,3,1);
-        return;
+  if(i==1){
+        Glcd_Write_TEXT("1) Motores",0,1,0);
+        Glcd_Write_TEXT("2) QAD",0,2,1);
+        Glcd_Write_TEXT("3) Potenciometro",0,3,1);
+  }else if(i==2){
+        Glcd_Write_TEXT("1) Motores",0,1,1);
+        Glcd_Write_TEXT("2) QAD",0,2,0);
+        Glcd_Write_TEXT("3) Potenciometro",0,3,1);
+   }else if(i==3){
+        Glcd_Write_TEXT("1) Motores",0,1,1);
+        Glcd_Write_TEXT("2) QAD"   ,0,2,1);
+        Glcd_Write_TEXT("3) Potenciometro",0,3,0);
+   }else{
+        Glcd_Write_TEXT("1) Motores",0,1,1);
+        Glcd_Write_TEXT("2) QAD "   ,0,2,1);
+        Glcd_Write_TEXT("3) Potenciometro",0,3,1);
   }
 }
 int cursor_menu(){
@@ -48,18 +43,20 @@ int cursor_menu(){
         if(keydata==DOWN_ARROW){
           it=it+1;
           if(it>max_n_options){it=1;}
-          texto_menu(it); clean_PS2();
+          texto_menu(it); clean_PS2();glcd_write_text("dw",0,0,1) ;
+
         }
         if(keydata==UP_ARROW){
           it=it-1;
           if(it==0){it=max_n_options;}
-          texto_menu(it); clean_PS2();
+          texto_menu(it); clean_PS2();glcd_write_text("up",0,0,1) ;
         }
 
-      }
-      }
-    }
+      }glcd_write_text("ud",0,0,1);
+      }glcd_write_text("down",0,0,1);
+    } glcd_write_text("while",0,0,1);
   }
+  glcd_write_text("esc",0,0,1) ;
   clean_PS2();
   return it;
 }
