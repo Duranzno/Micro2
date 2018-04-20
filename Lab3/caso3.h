@@ -7,9 +7,8 @@
 char txt2[15];
 
 int xtoy(unsigned short x,unsigned short center_x,unsigned short center_y){
-               int y=sqrt(pow(r,2)-pow(x-center_x,2)+center_y);
-               inttostr(y,txt2);glcd_write_text(strcat(txt2,"y"),0,0,1) ;delay_ms(500); glcd_write_text("         ",0,0,1);
-                return y;
+               int y=floor(sqrt(pow(r,2)-pow(x-center_x,2))+center_y);
+            return y;
 }
 void glcd_draw_pointer(unsigned short x,unsigned short center_x,unsigned short center_y){
         //x_medida va de 0->60
@@ -17,16 +16,19 @@ void glcd_draw_pointer(unsigned short x,unsigned short center_x,unsigned short c
 }
 
 void caso_3_tests(){
+int x;
         glcd_fill(0);
         glcd_circle(32,64,30,1);
         glcd_circle(96,64,30,1);delay_ms(1000);//circulo origen ideal inverso  unitario
-        int x;
+
         
-        for(x=0;x<60;x+=1){
-                glcd_fill(0);  
+        for(x=0;x<61;x+=1){
                 glcd_draw_pointer(x+2,32,64);
                 delay_ms(25);
-
+        }
+        for(x=0;x<61;x+=1){
+                glcd_draw_pointer(x+2,96,64);
+                delay_ms(25);
         }
         glcd_fill(0);
 
