@@ -10,10 +10,10 @@ float recorrido;
 
 void config_cuadratura () {
   QEI1IOCbits.INDEX=1;
-  QEI1ICL=1910;
+   QEI1ICL=1910;
   QEI1ICH=0;
-  QEI1LECH=0;
   QEI1LECL=2335;
+  QEI1LECH=0;
   IEC3bits.QEI1IE=1; //habilita interrupcion de Cuadratura
   IFS3bits.QEI1IF=0; //limpia la bandera de interrupcion
   QEI1CONbits.PIMOD=1; // el contador se inicializa con el valor del registro QEI1IC
@@ -33,9 +33,17 @@ void inter_menor (){
 }
 
 void eduardo (){
+  glcd_fill(0);
+   glcd_write_text("INT2",62,5,1);
               if(QEI1statbits.IDXIEN==1)
            {POS1CNTH=0;
              POS1CNTL=2122;
+             valor_sup= QEI1ICH;
+  valor_sup=(valor_sup<<16)+ QEI1ICL;
+   Floattostr(valor_sup,texto);
+  Glcd_Write_Text(texto, 60, 7, 1);
+  delay_ms(500);
+
              glcd_write_text("INDEEX",0,0,1);
   }
         if(QEI1STATbits.PCHEQIRQ==1)
