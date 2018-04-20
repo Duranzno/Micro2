@@ -18,19 +18,20 @@ void glcd_draw_pointer(unsigned short x,unsigned short center_x,unsigned short c
 void caso_3_tests(){
 int x;
         glcd_fill(0);
-        glcd_circle(32,64,30,1);
-        glcd_circle(96,64,30,1);delay_ms(1000);//circulo origen ideal inverso  unitario
+//        glcd_circle(32,64,30,1);
+//        glcd_circle(96,64,30,1);delay_ms(1000);//circulo origen ideal inverso  unitario
 
         
         for(x=0;x<61;x+=1){
-                glcd_draw_pointer(x+2,32,64);
-                delay_ms(25);
+                inttostr(xtoy(x+2,32,64),txt2);
+                glcd_write_text(strcat(txt2,"nalga1"),0,0,1);
+                delay_ms(500);
         }
-        for(x=0;x<61;x+=1){
-                glcd_draw_pointer(x+2,96,64);
-                delay_ms(25);
-        }
-        glcd_fill(0);
+//        for(x=0;x<61;x+=1){
+//                glcd_draw_pointer(x+2,96,64);
+//                delay_ms(25);
+//        }
+//        glcd_fill(0);
 
         
 }

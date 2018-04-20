@@ -17,16 +17,22 @@ void inter_menor (){
         Glcd_Write_Text(" Limite inferior ", 0, 4, 0);
 }
 void int_captura() org 0x88 {
-        if(QEI1STATbits.PCHEQIRQ==1)
-                inter_mayor();
-        if(QEI1STATbits.PCLEQIRQ==1)
-            inter_menor();// animacion de menor a 4500 cm
-        IFS3bits.QEI1IF=0;
-        if(QEI1statbits.IDXIEN==1)
+	      if(QEI1statbits.IDXIEN==1)
            {POS1CNTH=0;
              POS1CNTL=2122;
-            inttostr(QEI1CONbits.PIMOD,txt);glcd_write_text("_INDEX",0,0,1) ;delay_ms(500); glcd_write_text("             ",0,0,1);
+             //inttostr(QEI1CONbits.PIMOD,txt);glcd_write_text("_INDEX",0,0,1) ;delay_ms(500); glcd_write_text("             ",0,0,1);
   }
+        if(QEI1STATbits.PCHEQIRQ==1)
+       {
+                 inter_mayor(); // animacion de mayor a 5000cm
+       }
+        if(QEI1STATbits.PCLEQIRQ==1)
+           {
+            inter_menor();// animacion de menor a 4500 cm       
+           } 
+       
+  
+   IFS3bits.QEI1IF=0;
 }
 
 
