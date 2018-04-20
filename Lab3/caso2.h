@@ -10,10 +10,10 @@ float recorrido;
 
 void config_cuadratura () {
   QEI1IOCbits.INDEX=1;
-   QEI1ICL=1910;
-  QEI1ICH=0;
-  QEI1LECL=2335;
+  QEI1LECL=1910;
   QEI1LECH=0;
+  QEI1GECL=2335;
+  QEI1GECH=0;
   IEC3bits.QEI1IE=1; //habilita interrupcion de Cuadratura
   IFS3bits.QEI1IF=0; //limpia la bandera de interrupcion
   QEI1CONbits.PIMOD=1; // el contador se inicializa con el valor del registro QEI1IC
