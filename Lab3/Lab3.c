@@ -1,15 +1,29 @@
 #include "config.h"
-//#include "sprites.h"
+#include "sprites.h"
 #include "ui.h"
 #include "caso1.h"
-#include "caso2.h"
-//#include "caso3.h"
+//#include "caso2.h"
+#include "caso3.h"
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void caso_1();
 //~~~~~~~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned adc_value;
 int selected;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void inter_mayor (){
+        Glcd_Write_Text("Limite superior ", 0, 4, 0);
+}
+void inter_menor (){
+        Glcd_Write_Text(" Limite inferior ", 0, 4, 0);
+}
+//void int_captura () ORG 0x88 {
+//        if(QEI1STATbits.PCHEQIRQ==1)
+//                inter_mayor();
+//        if(QEI1STATbits.PCLEQIRQ==1)
+//            inter_menor();// animacion de menor a 4500 cm
+//}
+
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Caso 1~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Caso 2~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -25,17 +39,16 @@ void main() {
 //  while(1){
 
   selected=cursor_menu();
-
    switch(selected){
      case 1:
        clean_PS2();
-       caso_1();
+       caso_3_tests();
       break;
      case 2:
 
       while(keydata!=ESC){
         clean_PS2();
-        caso_2();
+//        caso_2();
         Ps2_Key_Read(&keydata, &special, &down);
       }
        break;

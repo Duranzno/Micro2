@@ -43,20 +43,20 @@ int cursor_menu(){
         if(keydata==DOWN_ARROW){
           it=it+1;
           if(it>max_n_options){it=1;}
-          texto_menu(it); clean_PS2();glcd_write_text("dw",0,0,1) ;
+          texto_menu(it); clean_PS2();glcd_write_text("dw",0,0,1) ;delay_ms(500); glcd_write_text("    ",0,0,1);
 
         }
         if(keydata==UP_ARROW){
           it=it-1;
           if(it==0){it=max_n_options;}
-          texto_menu(it); clean_PS2();glcd_write_text("up",0,0,1) ;
+          texto_menu(it); clean_PS2();glcd_write_text("up",0,0,1) ;delay_ms(500); glcd_write_text("    ",0,0,1);
         }
 
-      }glcd_write_text("ud",0,0,1);
-      }glcd_write_text("down",0,0,1);
-    } glcd_write_text("while",0,0,1);
+      }glcd_write_text("ud",0,0,1);delay_ms(500); glcd_write_text("    ",0,0,1);
+      }glcd_write_text("down",0,0,1);delay_ms(500); glcd_write_text("    ",0,0,1);
+    }
   }
-  glcd_write_text("esc",0,0,1) ;
+  glcd_write_text("esc",0,0,1) ;  delay_ms(500); glcd_write_text("    ",0,0,1);
   clean_PS2();
   return it;
 }

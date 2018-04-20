@@ -14,7 +14,7 @@ void glcd_draw_pointer(unsigned short x_medida){
 }
 char txt2[15];
 int i;
-void caso_1_tests(){
+void caso_3_tests(){
         //circulos
         glcd_fill(0);
        Glcd_Circle_Fill(50, 50, 10, 1);

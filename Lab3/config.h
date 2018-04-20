@@ -40,8 +40,14 @@ sbit GLCD_RST_Direction at TRISC14_bit;
     ANSELBbits.ANSB5=1;
     TRISB=0xffff;
     TRISE=TRISG=0;
+    TRISDbits.TRISD10=1;  // entrada INDEX
+    TRISDbits.TRISD9=1; // entrada fase A
+    TRISDbits.TRISD8=1;  // entrada fase B
     RPINR13bits.FLT4R=75;
     RPINR13bits.FLT3R=64;
+    RPINR15bits.INDX1R=74;  // pin para INDEX
+    RPINR14bits.QEA1R=73;  // fase A
+    RPINR14bits.QEB1R=72; // fase B
 }
 void config_LCD(){
   Glcd_Init();
