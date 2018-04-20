@@ -7,3 +7,6 @@
 *.dct
 *.c.ini
 *.ini
+*.asm
+/Lab2/*.dbg
+/Lab2/*.cp
