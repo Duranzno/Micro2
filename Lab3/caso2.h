@@ -35,6 +35,10 @@ void caso2 () {
   Glcd_Write_Text(" Sentido: ", 0, 0, 0);
   Glcd_Write_Text(" Distancia(cmts.): ", 0, 4, 0);
   config_cuadratura();
+  
+  inttostr(QEI1CONbits.PIMOD,texto);glcd_write_text(txt,0,0,1) ;delay_ms(500); glcd_write_text("         ",0,0,1);
+    if(QEI1CONbits.PIMOD==0){glcd_write_text(strcat("0","pimod"),2,0,1) ;delay_ms(500); glcd_write_text("         ",0,0,1);}
+    else if(QEI1CONbits.PIMOD==2){glcd_write_text(strcat("2","pimod"),2,0,1) ;delay_ms(500); glcd_write_text("         ",0,0,1);}
   //debido a que POSCNT cuenta con dos registros de 16bits,
   //los unimos en una variable para calcular la distancia
   valor_actual=POS1CNTL;

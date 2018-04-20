@@ -23,7 +23,8 @@ void int_captura() org 0x88 {
             inter_menor();// animacion de menor a 4500 cm
         IFS3bits.QEI1IF=0;
         if(QEI1statbits.IDXIEN==1)
-           { Glcd_Write_Text("index", 0, 7, 0);}
+           {inttostr(QEI1CONbits.PIMOD,txt);glcd_write_text("_INDEX",0,0,1) ;delay_ms(500); glcd_write_text("             ",0,0,1);
+  }
 }
 
 
@@ -41,11 +42,10 @@ void main() {
   texto_menu(1);
   while(1){
      selected=cursor_menu(3);
-  selected=2;
    switch(selected){
      case 1:
        clean_PS2();
-       caso_3_tests();
+       caso_1();
       break;
      case 2:
 
@@ -60,7 +60,7 @@ void main() {
      case 3:
        clean_PS2();
 //        texto_caso_3();
-//        caso_3();
+        caso_3_tests();
        break;
        }
    }

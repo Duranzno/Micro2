@@ -1,7 +1,7 @@
 #define ENTER 13
 #define ESC 118//V
 #define UP_ARROW 111//O
-#define DOWN_ARROW 80//L
+#define DOWN_ARROW 112
 
 
 unsigned short keydata = 0, special = 0, down = 0;
@@ -41,24 +41,21 @@ int cursor_menu(int max_n_options){
         if(keydata==DOWN_ARROW){
           it=it+1;
           if(it>max_n_options){it=1;}
-          inttostr(it,txt); glcd_write_text(txt,0,0,1) ;delay_ms(500); glcd_write_text("      ",0,0,1);
+
            texto_menu(it);   
           }
         if(keydata==UP_ARROW){
           it=it-1;
           if(it<=0){it=max_n_options;}
           inttostr(it,txt);
-          clean_PS2();glcd_write_text(txt,0,0,1) ;delay_ms(500); glcd_write_text("      ",0,0,1);
+
           texto_menu(it) ;
         }
 
-      }else{
-         glcd_write_text("marico tecla incorrecta",0,7,1) ;delay_ms(500); glcd_write_text("                       ",0,7,1);
-        }
+       }
       }
     }
   }
-  glcd_write_text("esc",0,0,1) ;  delay_ms(500); glcd_write_text("    ",0,0,1);
   clean_PS2();
   return it;
 }
