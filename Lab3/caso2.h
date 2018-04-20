@@ -12,7 +12,7 @@ void config_cuadratura () {
   QEI1IOCbits.INDEX=1;
   QEI1LECL=1910;
   QEI1LECH=0;
-  QEI1GECL=2335;
+  QEI1GECL=2335; // registro bajo del comparacion mayor
   QEI1GECH=0;
   IEC3bits.QEI1IE=1; //habilita interrupcion de Cuadratura
   IFS3bits.QEI1IF=0; //limpia la bandera de interrupcion
