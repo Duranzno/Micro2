@@ -41,13 +41,13 @@ QEI1IOCbits.FLTREN=1; //Activa filtro digital
 float valor_actual,valor_anterior,recorrido;
 
 
-void caso3 () {
+void caso2 () {
 	config_cuadratura();
 	//debido a que POSCNT cuenta con dos registros de 16bits,
 //los unimos en una variable para calcular la distancia
-valor_actual=POS1CNTH;
+valor_actual=POS1CNTL;
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-valor_actual=(valor_actual<<16)+POS1CNTL;
+valor_actual=(valor_actual>>16)+POS1HLD;
 recorrido=valor_actual;
 recorrido=recorrido*2.35619; //se divide el poscnt entre 4
 //luego se multiplica por (2.pi.r)/4
