@@ -26,7 +26,21 @@ void config_cuadratura () {
   QEI1IOCbits.FLTREN=1; //Activa filtro digital
 }
 
-
+void eduardo (){
+              if(QEI1statbits.IDXIEN==1)
+           {POS1CNTH=0;
+             POS1CNTL=2122;
+             glcd_write_text("INDEEX",0,0,1);
+  }
+        if(QEI1STATbits.PCHEQIRQ==1)
+       {
+                 inter_mayor(); // animacion de mayor a 5000cm
+       }
+        if(QEI1STATbits.PCLEQIRQ==1)
+           {
+            inter_menor();// animacion de menor a 4500 cm       
+           } 
+}
 void caso2 () {
 
   char texto[12];
