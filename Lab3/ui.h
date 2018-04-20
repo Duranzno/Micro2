@@ -1,7 +1,7 @@
 #define ENTER 13
 #define ESC 118//V
 #define UP_ARROW 111//O
-#define DOWN_ARROW 108//L
+#define DOWN_ARROW 80//L
 
 
 unsigned short keydata = 0, special = 0, down = 0;
@@ -28,14 +28,12 @@ void texto_menu(int i){
         Glcd_Write_TEXT("3) Potenciometro",0,3,1);
   }
 }
-int cursor_menu(){
+int cursor_menu(int max_n_options){
   //aqui se va a estar utilizando el it como iterator, revisando si el teclado
 //ha seleccionado las flechas de arriba o abajo, aumentando o disminuyendo al operador
   int it=0;
-  int max_n_options=3;
   clean_PS2();
   texto_menu(0);
-  delay_ms(2000);
   while(keydata!=ENTER){
     if(Ps2_Key_Read(&keydata, &special, &down)){
       if(down){
@@ -43,17 +41,21 @@ int cursor_menu(){
         if(keydata==DOWN_ARROW){
           it=it+1;
           if(it>max_n_options){it=1;}
-          texto_menu(it); clean_PS2();glcd_write_text("dw",0,0,1) ;delay_ms(500); glcd_write_text("    ",0,0,1);
-
-        }
+          inttostr(it,txt); glcd_write_text(txt,0,0,1) ;delay_ms(500); glcd_write_text("      ",0,0,1);
+           texto_menu(it);   
+          }
         if(keydata==UP_ARROW){
           it=it-1;
-          if(it==0){it=max_n_options;}
-          texto_menu(it); clean_PS2();glcd_write_text("up",0,0,1) ;delay_ms(500); glcd_write_text("    ",0,0,1);
+          if(it<=0){it=max_n_options;}
+          inttostr(it,txt);
+          clean_PS2();glcd_write_text(txt,0,0,1) ;delay_ms(500); glcd_write_text("      ",0,0,1);
+          texto_menu(it) ;
         }
 
-      }glcd_write_text("ud",0,0,1);delay_ms(500); glcd_write_text("    ",0,0,1);
-      }glcd_write_text("down",0,0,1);delay_ms(500); glcd_write_text("    ",0,0,1);
+      }else{
+         glcd_write_text("marico tecla incorrecta",0,7,1) ;delay_ms(500); glcd_write_text("                       ",0,7,1);
+        }
+      }
     }
   }
   glcd_write_text("esc",0,0,1) ;  delay_ms(500); glcd_write_text("    ",0,0,1);

@@ -4,11 +4,12 @@
 //         *Si la distancia sobrepasa el 10% por encima o por debajo de su valor inicial debe visualizar una animación referida a esta situación por 5 segundos, utilice el modo comparación del QEI
 #define valor_inicial 5000;
 #define valor_ini_h 0x0000;
-#define valor_ini_l 0x84B;
+#define valor_ini_l 2123;
 long valor_anterior,valor_actual;
 float recorrido;
 
 void config_cuadratura () {
+  QEI1IOCbits.INDEX=1;
   QEI1ICL=1910;
   QEI1ICH=0;
   QEI1LECH=0;
@@ -17,7 +18,7 @@ void config_cuadratura () {
   IFS3bits.QEI1IF=0; //limpia la bandera de interrupcion
   QEI1CONbits.PIMOD=2; // el contador se inicializa con el valor del registro QEI1IC
   QEI1ICH=valor_ini_h;
-  QEI1ICL=valor_ini_h;
+  QEI1ICL=valor_ini_l;
   QEI1STATbits.PCHEQIEN=1; //interrupcion por comparacion de cuadratura
   QEI1STATbits.PCLEQIEN=1; // interrupcion por comparacion de cuadratura
   QEI1STATbits.IDXIEN=1; //interrupcion por INDEX pin
@@ -27,7 +28,9 @@ void config_cuadratura () {
 
 
 void caso2 () {
+
   char texto[12];
+  glcd_fill(0);  ;
   valor_anterior=0;
   Glcd_Write_Text(" Sentido: ", 0, 0, 0);
   Glcd_Write_Text(" Distancia(cmts.): ", 0, 4, 0);

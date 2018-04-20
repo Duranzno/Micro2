@@ -2,7 +2,7 @@
 #include "sprites.h"
 #include "ui.h"
 #include "caso1.h"
-//#include "caso2.h"
+#include "caso2.h"
 #include "caso3.h"
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void caso_1();
@@ -16,12 +16,15 @@ void inter_mayor (){
 void inter_menor (){
         Glcd_Write_Text(" Limite inferior ", 0, 4, 0);
 }
-//void int_captura () ORG 0x88 {
-//        if(QEI1STATbits.PCHEQIRQ==1)
-//                inter_mayor();
-//        if(QEI1STATbits.PCLEQIRQ==1)
-//            inter_menor();// animacion de menor a 4500 cm
-//}
+void int_captura() org 0x88 {
+        if(QEI1STATbits.PCHEQIRQ==1)
+                inter_mayor();
+        if(QEI1STATbits.PCLEQIRQ==1)
+            inter_menor();// animacion de menor a 4500 cm
+        IFS3bits.QEI1IF=0;
+        if(QEI1statbits.IDXIEN==1)
+           { Glcd_Write_Text("index", 0, 7, 0);}
+}
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Casos~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,9 +39,9 @@ void main() {
   PS2_Config(); Glcd_Fill(0);
   ADC1_Init_Advanced(_ADC_10bit, _ADC_INTERNAL_REF); //Inicializacion del convertidor ADC
   texto_menu(1);
-//  while(1){
-
-  selected=cursor_menu();
+  while(1){
+     selected=cursor_menu(3);
+  selected=2;
    switch(selected){
      case 1:
        clean_PS2();
@@ -48,7 +51,9 @@ void main() {
 
       while(keydata!=ESC){
         clean_PS2();
-//        caso_2();
+        caso2();
+
+        delay_ms(2500);
         Ps2_Key_Read(&keydata, &special, &down);
       }
        break;
@@ -57,6 +62,7 @@ void main() {
 //        texto_caso_3();
 //        caso_3();
        break;
+       }
    }
 }
 void caso_1(){
