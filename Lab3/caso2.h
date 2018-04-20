@@ -5,7 +5,7 @@
 #define valor_inicial 5000;
 #define valor_ini_h 0x0000;
 #define valor_ini_l 2123;
-long valor_anterior,valor_actual;
+long valor_anterior,valor_actual,valor_sup;
 float recorrido;
 
 void config_cuadratura () {
@@ -32,7 +32,8 @@ void inter_menor (){
         Glcd_Write_Text(" Limite inferior ", 0, 4, 1);
 }
 
-void eduardo (){
+void QEI(){
+char texto[15];
   glcd_fill(0);
    glcd_write_text("INT2",62,5,1);
               if(QEI1statbits.IDXIEN==1)
