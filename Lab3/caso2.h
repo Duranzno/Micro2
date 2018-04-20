@@ -25,6 +25,12 @@ void config_cuadratura () {
   QEI1CONbits.QEIEN=1; //habilita el módulo de cuadratura
   QEI1IOCbits.FLTREN=1; //Activa filtro digital
 }
+void inter_mayor (){
+        Glcd_Write_Text("Limite superior ", 0, 4, 1);
+}
+void inter_menor (){
+        Glcd_Write_Text(" Limite inferior ", 0, 4, 1);
+}
 
 void eduardo (){
               if(QEI1statbits.IDXIEN==1)

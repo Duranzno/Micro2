@@ -10,12 +10,6 @@ void caso_1();
 unsigned adc_value;
 int selected;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void inter_mayor (){
-        Glcd_Write_Text("Limite superior ", 0, 4, 1);
-}
-void inter_menor (){
-        Glcd_Write_Text(" Limite inferior ", 0, 4, 1);
-}
 void int_captura() org 0x88 {
   void eduardo()
    IFS3bits.QEI1IF=0;
