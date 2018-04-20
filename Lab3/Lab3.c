@@ -2,7 +2,7 @@
 #include "sprites.h"
 #include "ui.h"
 #include "caso1.h"
-//#include "caso2.h"
+#include "caso2.h"
 #include "caso3.h"
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void caso_1();
@@ -53,7 +53,7 @@ void main() {
 
       while(keydata!=ESC){
         clean_PS2();
-//        caso2();
+        caso2();
 
         delay_ms(2500);
         Ps2_Key_Read(&keydata, &special, &down);
