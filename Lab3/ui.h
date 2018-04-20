@@ -29,7 +29,7 @@ int cursor_menu(int max_n_options){
   int it=1;
   clean_PS2();
   while(keydata!=ENTER){
-    cursor_animation(it);
+    cursor_animation(it,max_n_options,ft);
     if(Ps2_Key_Read(&keydata, &special, &down)){
       ft++;
       if(down){

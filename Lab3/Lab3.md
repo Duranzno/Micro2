@@ -9,4 +9,6 @@ Nota1: EL muestreo será cada un segundo por disparo de eventos especiales por p
 	*Si la distancia sobrepasa el 10% por encima o por debajo de su valor inicial debe visualizar una animación referida a esta situación por 5 segundos, utilice el modo comparación del QEI 
 2.3	El diseño debe tener la opción de visualizar en la interfaz gráfica el valor en voltaje de cada uno de los potenciómetros en forma dinámica. 
 	*Use al menos 3 dígitos de precisión para cada caso en la interfaz gráfica o LCD y actualice cada 1 segundo. Dibuje una perilla semicircular que simule el movimiento de cada potenciómetro con sus valores inicio y final y al menos cinco subdivisiones.
+	*Se actualiza solo,c/u segundo no usar boton
+	*3 digitos 
 Nota2:Utilice el modo de Latcheo Simultaneo.
