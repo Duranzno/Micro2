@@ -41,9 +41,8 @@ const code char danger_b[128] = {
 void animate_fail_2s(char *TXT){
   glcd_fill(0);glcd_partialimage(48,32,32,32,32,32,danger_w); 
   glcd_write_text(TXT,0,7,1);
-  delay_ms(1000);
+  delay_ms(2000);
   glcd_fill(0xFF);glcd_partialimage(48,32,32,32,32,32,danger_b);
   glcd_write_text(TXT,0,7,2);
-  delay_ms(1000); 
+  delay_ms(2000);
 }
-
