@@ -5,9 +5,17 @@
 #define r 30//radio
 //hacer un cambio de origen
 
-
+void autolog(char *message,int value){
+        char txt2[15];
+        inttostr(value,txt2);
+        glcd_write_text(strcat(txt2,message),0,7,1);delay_ms(500);glcd_write_text(strcat(txt2,message),0,7,1);
+}
 int xtoy(unsigned short x,unsigned short center_x,unsigned short center_y){
                 int y=floor(center_y-sqrt(pow(r,2)-pow(x-center_x,2)));
+                autolog("r^2",ceil(pow(r,2)));
+                autolog("(x-cx)^2",pow(x-center_x,2));
+                autolog("sqrt(r^2-(x-cx)^2)",sqrt(pow(r,2)-pow(x-center_x,2)));
+                autolog("r^2",center_y-sqrt(pow(r,2)-pow(x-center_x,2)));
             return y;
 }
 void glcd_draw_pointer(unsigned short x,unsigned short center_x,unsigned short center_y){
@@ -21,14 +29,14 @@ int x;     char txt2[15]; int y;
         glcd_circle(32,64,30,1);
         glcd_circle(96,64,30,1);;//circulo origen ideal inverso  unitario
 
-        
-        for(x=0;x<61;x+=1){
+          y=xtoy(0+2,32,64);
+//        for(x=0;x<61;x+=1){
 //                glcd_draw_pointer(x+2,32,64);
-                  y=xtoy(x+2,32,64);
-                   inttostr(y,txt2);
-                   glcd_write_text(strcat(txt2,"_xtoy"),0,0,1);
-                delay_ms(25);
-        }
+//                  y=xtoy(x+2,32,64);
+//                   inttostr(y,txt2);
+//                   glcd_write_text(strcat(txt2,"_xtoy"),0,0,1);
+//                delay_ms(25);
+//        }
         for(x=0;x<61;x+=1){
                 glcd_draw_pointer(x+66,96,64);
                 delay_ms(25);
