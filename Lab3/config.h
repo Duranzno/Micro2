@@ -60,6 +60,7 @@ void config_INT(){
   INTCON1bits.NSTDIS =0;// INTERRUPCION ANIDADAS ACTIVADAS
   INTCON2bits.GIE=1; //interrupciones habilitadas
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
+  IPC14bits.QEI1IP=2; // interrupcion del modulo cuadratura 2
 //------------------------- habilitacion de interrupcion
   
  }

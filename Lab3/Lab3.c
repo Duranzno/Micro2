@@ -10,8 +10,42 @@ void caso_1();
 unsigned adc_value;
 int selected;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void inter_mayor (){
+        Glcd_Write_Text("Limite superior ", 0, 4, 1);
+}
+void inter_menor (){
+        Glcd_Write_Text("Limite inferior ", 0, 4, 1);
+}
 void INT_QEI() org 0x88 {
-  void QEI();
+char texto[15];
+ // void QEI();
+  glcd_fill(0);
+  delay_ms(150);
+   glcd_write_text("INT2",62,5,1);
+              if(QEI1statbits.IDXIEN==1)
+           {
+           POS1CNTH=0;
+             POS1CNTL=2122;
+             valor_sup= QEI1GECH;
+  valor_sup=(valor_sup<<16)+ QEI1GECL;
+   Floattostr(valor_sup,texto);
+  Glcd_Write_Text(texto, 60, 7, 1);
+  glcd_write_text("INDEEX",0,0,1);
+  delay_ms(200);
+  QEI1CONbits.PIMOD=0;
+  QEI1statbits.IDXIEN=0;
+
+  }
+        if(QEI1STATbits.PCHEQIRQ==1)
+       {
+                 inter_mayor(); // animacion de mayor a 5000cm
+         QEI1STATbits.PCHEQIRQ=0;
+       }
+        if(QEI1STATbits.PCLEQIRQ==1)
+           {
+            inter_menor();// animacion de menor a 4500 cm
+            QEI1STATbits.PCLEQIRQ=0;
+           }
    IFS3bits.QEI1IF=0;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -18,3 +18,8 @@ void config_PWM(){
   PHASE4=4000; // periodo de 2ms
   PDC4=4000; //100%
  }
+ config_timer3 () {
+ TMR3=0;
+T3CON=0X0020; //Prescaler 64:1, modo timer
+PR3=31250; //1000ms
+}

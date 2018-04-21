@@ -17,21 +17,20 @@ void config_cuadratura () {
   IEC3bits.QEI1IE=1; //habilita interrupcion de Cuadratura
   IFS3bits.QEI1IF=0; //limpia la bandera de interrupcion
   QEI1CONbits.PIMOD=1; // el contador se inicializa con el valor del registro QEI1IC
-  QEI1ICH=valor_ini_h;
-  QEI1ICL=valor_ini_l;
-  QEI1STATbits.PCHEQIEN=1; //interrupcion por comparacion de cuadratura
+  //QEI1ICH=valor_ini_h;
+  // QEI1ICL=valor_ini_l;
+  QEI1STATbits.PCHEQIEN =1; //interrupcion por comparacion de cuadratura
   QEI1STATbits.PCLEQIEN=1; // interrupcion por comparacion de cuadratura
   QEI1STATbits.IDXIEN=1; //interrupcion por INDEX pin
   QEI1CONbits.QEIEN=1; //habilita el módulo de cuadratura
   QEI1IOCbits.FLTREN=1; //Activa filtro digital
 }
-void inter_mayor (){
+/*void inter_mayor (){
         Glcd_Write_Text("Limite superior ", 0, 4, 1);
 }
 void inter_menor (){
         Glcd_Write_Text(" Limite inferior ", 0, 4, 1);
-}
-
+}*/
 void QEI(){
 char texto[15];
   glcd_fill(0);
@@ -49,12 +48,12 @@ char texto[15];
   }
         if(QEI1STATbits.PCHEQIRQ==1)
        {
-                 inter_mayor(); // animacion de mayor a 5000cm
+        //         inter_mayor(); // animacion de mayor a 5000cm
        }
         if(QEI1STATbits.PCLEQIRQ==1)
            {
-            inter_menor();// animacion de menor a 4500 cm       
-           } 
+          //  inter_menor();// animacion de menor a 4500 cm
+           }
 }
 void caso2 () {
 
