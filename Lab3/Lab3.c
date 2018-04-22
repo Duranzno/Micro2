@@ -3,23 +3,22 @@
 #include "ui.h"
 #include "caso1.h"
 #include "caso2.h"
-#include "caso3.h"
+//#include "caso3.h"
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void caso_1();
 //~~~~~~~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned adc_value;
-int selected;
+float pote1;
+int selected,decimales;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void inter_timer () org 0x24 {
    IFS0bits.T3IF=0;
-   Glcd_Write_Text("timer ", 0, 0, 1);
-   delay_ms(150);
 }
 void inter_adc () org 0x2E {
-  Glcd_Write_Text("Conversion hecha ", 0, 2, 1);
-  delay_ms(230);
-  IFS0bits.AD1IF=0;
-  pot1=adc_value=ADC1BUF0;
+ IFS0bits.AD1IF=0;
+  adc_value=ADC1BUF0;
+  PDC4=adc_value;
+  //pot1=adc_value;
 }
 void inter_mayor (){
         Glcd_Write_Text("Limite superior ", 0, 4, 1);
@@ -66,9 +65,9 @@ void main() {
   config_IO();  config_LCD();
   config_INT();
   PS2_Config(); Glcd_Fill(0);
-  ADC1_Init_Advanced(_ADC_10bit, _ADC_INTERNAL_REF); //Inicializacion del convertidor ADC
-  AD1CON1bits.SSRCG=0;
-  AD1CON1bits.SSRC=2;
+ // ADC1_Init_Advanced(_ADC_10bit, _ADC_INTERNAL_REF); //Inicializacion del convertidor ADC
+/*AD1CON1bits.SSRCG=0;
+  AD1CON1bits.SSRC=2;*/
   texto_menu(1);
   while(1){
      selected=cursor_menu(3);
@@ -90,24 +89,25 @@ void main() {
      case 3:
        clean_PS2();
 //        texto_caso_3();
-        caso_3_tests();
+     //   caso_3_tests();
        break;
        }
    }
 }
 void caso_1(){
+Glcd_fill(0);
+ adc_value=0;
 while (1) {
-  Glcd_Fill(0);
+
   Glcd_Write_Text("PWM3",0,1,1);
   config_timer3();
   config_PWM();
-  IEC0bits.AD1IE=1;
-  IFS0bits.AD1IF=0;
+  config_adc();
   T3CONbits.TON=1;
   // adc_value = ADC1_Get_Sample(5);
-  PDC4=500;
-  Glcd_Write_Text("500 ",30,5,1);
-  delay_ms(1000);
+  //PDC4=500;
+  //Glcd_Write_Text("500 ",30,5,1);
+/*delay_ms(1000);
    PDC4=1000;
   Glcd_Write_Text("1000",30,5,1);
   delay_ms(1000);
@@ -123,9 +123,7 @@ while (1) {
    PDC4=3000;
   Glcd_Write_Text("3000",30,5,1);
   delay_ms(1000);
-   PDC4=3500;
-  Glcd_Write_Text("3500",30,5,1);
-  delay_ms(1000);
+   PDC4=3500;*/
   /*if(adc_value<200){
     PDC4=2100;//75% del ciclo util
     Glcd_Write_Text("SETENTA",30,5,1);
@@ -141,11 +139,13 @@ while (1) {
     PDC4=3000;
     Glcd_Write_Text("DIEZ",0,1,1);
   }*/
-  WordToStr(adc_value, txt);
-  Glcd_Write_Text(txt, 10, 3, 1);
-  adc_value=adc_value*0.003271;
-  WordToStr(adc_value, txt);
+  delay_ms(1000);
+ WordToStr(adc_value, txt);
+ Glcd_Write_Text(txt, 10, 3, 1);
+  pote1=adc_value*0.00339;
+  decimales=1000*pote1;
+  pote1=decimales*(1.00/1000);
+  FloatToStr(pote1, txt);
   Glcd_Write_Text(txt, 10, 4, 1);
-  delay_ms(2000);
   }
 }

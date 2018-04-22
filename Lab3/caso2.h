@@ -31,6 +31,15 @@ void config_cuadratura () {
 void inter_menor (){
         Glcd_Write_Text(" Limite inferior ", 0, 4, 1);
 }*/
+ config_timer2 () {
+ TMR2=0;
+T2CON=0X0030; //Prescaler 256:1, modo timer
+PR2=39063; //1000ms
+IEC0bits.T2IE=1;
+IFS0bits.T2IF=0;
+}
+
+
 void QEI(){
 char texto[15];
   glcd_fill(0);
