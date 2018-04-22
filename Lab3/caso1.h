@@ -42,7 +42,7 @@ config_adc() {
  AD1CON1bits.SAMP=0;
  AD1CON2bits.VCFG=0;// AVdd y AVss como referencias
  AD1CON2bits.CSCNA=0;
- AD1CON2bits.CHPS=0;//CH0 y (por ahora no) CH1 Act.
+ AD1CON2bits.CHPS=1;//CH0 y  CH1 Act.
  AD1CON2bits.SMPI=0;// interrupcion a la primera conversion
  AD1CON2bits.BUFM=0; //llenado desde la primera direccion
  AD1CON2bits.ALTS=0;
@@ -50,8 +50,8 @@ config_adc() {
  AD1CON3bits.SAMC=6; //5TAD del tiempo de muestreo
  AD1CON3bits.ADCS=0; //TAD=Tcy
  AD1CON4bits.ADDMAEN=0; //SIN DMA
-// AD1CHS123bits.CH123NA=0; //entrada negativa es AVss
-// AD1CHS123bits.CH123SA=0;// CH1 entrada positiva AN0(RB0)
+ AD1CHS123bits.CH123NA=0; //entrada negativa es AVss
+ AD1CHS123bits.CH123SA=4;// CH1 entrada positiva AN0(RB0)
  AD1CHS0bits.CH0NA=0; //entrada negativa es AVss
  AD1CHS0bits.CH0SA=5;//ENTRADA positiva AN15(rb15)
  IFS0bits.AD1IF=0;//bandera=0

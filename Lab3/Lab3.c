@@ -7,8 +7,8 @@
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void caso_1();
 //~~~~~~~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-unsigned adc_value;
-float pote1;
+unsigned adc_value,adc_value2;
+float pote1,pote2;
 int selected,decimales;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void inter_timer () org 0x24 {
@@ -17,6 +17,7 @@ void inter_timer () org 0x24 {
 void inter_adc () org 0x2E {
  IFS0bits.AD1IF=0;
   adc_value=ADC1BUF0;
+  adc_value2=ADC1BUF1;
   PDC4=adc_value;
   //pot1=adc_value;
 }
@@ -62,7 +63,6 @@ void PWM4() org 0xD6
 {
  IFS6bits.PWM4IF=0;
  PWMCON4bits.FLTSTAT=0;
- PWMCON4bits.FLTIEN=0;
 
 
 }
@@ -155,6 +155,13 @@ while (1) {
   pote1=decimales*(1.00/1000);
   FloatToStr(pote1, txt);
   Glcd_Write_Text(txt, 10, 4, 1);
+   WordToStr(adc_value2, txt);
+ Glcd_Write_Text(txt, 70, 3, 1);
+  pote1=adc_value*0.00339;
+  decimales=1000*pote2;
+  pote2=decimales*(1.00/1000);
+  FloatToStr(pote2, txt);
+  Glcd_Write_Text(txt, 70, 4, 1);
   if(PWMCON4bits.FLTSTAT==1)
   {Glcd_Write_Text("  BLOQUEADO  ",0,4,1);
   IOCON4bits.FLTDAT=0;
