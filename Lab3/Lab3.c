@@ -13,6 +13,8 @@ int selected;
 void inter_timer () org 0x24 {
    IFS0bits.T3IF=0;
    Glcd_Write_Text("timer ", 0, 0, 1);
+   if (AD1CON1bits.DONE==0){
+      Glcd_Write_Text("nada ", 50, 0, 1); }
    delay_ms(150);
 }
 void inter_adc () org 0x2E {
@@ -101,6 +103,7 @@ while (1) {
   Glcd_Write_Text("PWM3",0,1,1);
   config_timer3();
   config_PWM();
+  AD1CON2bits.CHPS=0;
   IEC0bits.AD1IE=1;
   IFS0bits.AD1IF=0;
   T3CONbits.TON=1;
