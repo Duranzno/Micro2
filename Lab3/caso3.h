@@ -4,48 +4,34 @@
 //Dibuje una perilla semicircular que simule el movimiento de cada
 // potenciómetro con sus valores inicio y final y al menos cinco subdivisiones.
 // Nota2:Utilice el modo de Latcheo Simultaneo.
-#define CX1 32
-#define CX2 96
 #define CENTER_Y 64
 unsigned short center_x,r=30,POT1=0,POT2=0;
 float tmp1,tmp2;
 int y;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CALCULOS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void autolog(char *message,int value){
+void autolog(char *message,float value){
         char txt2[15];
-        inttostr(value,txt2);
-        glcd_write_text(strcat(message,txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+        floattostr(value,txt2);
+        glcd_write_text(strcat(message,txt2),0,7,1);delay_ms(1000);glcd_write_text("                     ",0,7,1);
 }
-int xtoy(unsigned short x){
-char txt2[15];
-    if(x<=64){center_x=CX1;}
-    else{center_x=CX2;}
-    r=30;
-	tmp1=pow(r,2); floattostr(tmp1,txt2); glcd_write_text(strcat("r^2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-	tmp2=pow(x-center_x,2);  floattostr(tmp1,txt2); glcd_write_text(strcat("(x-cx)^2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-	tmp1=tmp1-tmp2;    floattostr(tmp1,txt2); glcd_write_text(strcat("tmp1-tmp2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+float xtoy(unsigned short x){
 
-	tmp1=floor(CENTER_Y-sqrt(tmp1));  floattostr(tmp1,txt2); glcd_write_text(strcat("final",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-
-    return tmp1;
-}
-int xtoy2(unsigned short x){
-    if(x<=64){center_x=CX1;}
-    else{center_x=CX2;}
     r=30;
-    y=CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2));
-    return y;
-}
-int xtoy_small(unsigned short x){
-    if(x<=64) {center_x=CX1;}
-    else {center_x=CX2;}
-    r=5;
-    y=floor(CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
+    tmp1=0;tmp2=0;
+        tmp1=pow(r,2); //floattostr(tmp1,txt2); glcd_write_text(strcat("r^2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+        autolog("r^2 ",tmp1);
+        tmp2=pow(x-center_x,2);//  floattostr(tmp1,txt2); glcd_write_text(strcat("(x-cx)^2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+        autolog("x^2 ",tmp2);
+        tmp1=tmp1-tmp2;    //floattostr(tmp1,txt2); glcd_write_text(strcat("tmp1-tmp2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+        autolog("t1-t2 ",tmp1);
+        tmp1=sqrt(tmp1);//  floattostr(tmp1,txt2); glcd_write_text(strcat("final",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+         autolog("raiz ",tmp1);
+         y=tmp1;
     return y;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GLCD~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void glcd_draw_pointer(unsigned short x,unsigned short center_x){
-        Glcd_Line(center_x,xtoy(x),x,xtoy_small(x),1);
+        Glcd_Line(center_x,xtoy(x),x,64,1);
 }
 void glcd_draw_subdiv(unsigned short startx,int page){
         glcd_circle_fill(startx,64,2,1);
@@ -59,16 +45,24 @@ void glcd_draw_semicircles(int x){
 }
          int x;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CASO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-void caso_3_tests(){
-  char txt2[15];
-        //glcd_fill(0);
+         //glcd_fill(0);
 //        glcd_draw_semicircles(CX1);delay_ms(2500);
 //        glcd_fill(0);
-        r=30;center_x=CX1;
-        x=20;
-        autolog("y=",xtoy(x));
+float lol,ae,be;
+void caso_3_tests(int x){
+  char txt2[15];
 
+    char txt2[15];
+    if(x<=64){center_x=32;}
+    else{center_x=96;}
+     r=30
+     ae=pow(r,2);
+     be=pow(x-center_x,2);
+     ae=ae-be;
+     ae=floor(CENTER_Y-sqrt(ae));
+     x=ae;
+     inttostr(x,txt2); glcd_write_text(txt2,0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+    return x;
 }
 void caso_3(){
         char txt2[15];
