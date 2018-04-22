@@ -14,10 +14,35 @@ int selected,decimales;
 void inter_timer () org 0x24 {
    IFS0bits.T3IF=0;
 }
+/*void config_pdc4 () {
+   if (adc_value=>1&&adc_value<100){
+    PDC4=500; }
+  else if (adc_value=>100&&adc_value<200) {
+    PDC4=750;}
+     else if (adc_value=>200&&adc_value<300){
+     PDC4=1000; }
+       else if (adc_value=>300&&adc_value<400) {
+       PDC4=1500; }
+         else if (adc_value=>400&&adc_value<512) {
+         PDC4=1650; }
+          else  if (adc_value=>512&&adc_value<600){
+    PDC4=2350; }
+  else if (adc_value=>600&&adc_value<700) {
+    PDC4=2750; }
+     else if (adc_value=>700&&adc_value<800) {
+     PDC4=3050; }
+       else if (adc_value=>800&&adc_value<900) {
+       PDC4=3300; }
+         else if (adc_value=>900&&adc_value<1024) {
+         PDC4=3620; }*/
+//}
 void inter_adc () org 0x2E {
  IFS0bits.AD1IF=0;
   adc_value=ADC1BUF0;
   adc_value2=ADC1BUF1;
+  adc_value=(adc_value*3)+500;
+  adc_value2=(adc_value2*3)+500;
+ // config_pdc4 ()
   PDC4=adc_value;
   PDC3=adc_value2;
   //pot1=adc_value;
@@ -86,6 +111,7 @@ void main() {
   AD1CON1bits.SSRC=2;*/
   texto_menu(1);
   while(1){
+  caso_1();
      selected=cursor_menu(3);
    switch(selected){
      case 1:
@@ -105,27 +131,26 @@ void main() {
      case 3:
        clean_PS2();
 
-       caso_3_tests();
+//       caso_3_tests();
        break;
        }
    }
 }
 void caso_1(){
 Glcd_fill(0);
- adc_value=0;
-while (1) {
-
-  Glcd_Write_Text("PWM3",0,1,1);
   config_timer3();
   config_PWM();
   config_PWM3();
   config_adc();
-  inttostr(AD1CON1bits.FORM,txt);
-  glcd_write_text(txt,0,0,1);
-  // T3CONbits.TON=1;
+ adc_value=0;
+while (1) {
+
+  Glcd_Write_Text("PWM3",0,1,1);
+
+   T3CONbits.TON=1;
   // adc_value = ADC1_Get_Sample(5);
-  PDC4=1000;
-  PDC3=3000;
+  //PDC4=1000;
+  //PDC3=3000;
   //Glcd_Write_Text("500 ",30,5,1);
 /*delay_ms(1000);
    PDC4=1000;
