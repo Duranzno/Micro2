@@ -21,12 +21,13 @@ char txt2[15];
     if(x<=64){center_x=CX1;}
     else{center_x=CX2;}
     r=30;
-	tmp1=pow(r,2);
-	tmp2=pow(x-center_x,2);
-	tmp1=tmp1-tmp2;
-	tmp1=floor(CENTER_Y-sqrt(tmp1));
-	inttostr(tmp1,txt2); glcd_write_text(txt2,0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-    return y;
+	tmp1=pow(r,2); floattostr(tmp1,txt2); glcd_write_text(strcat("r^2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+	tmp2=pow(x-center_x,2);  floattostr(tmp1,txt2); glcd_write_text(strcat("(x-cx)^2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+	tmp1=tmp1-tmp2;    floattostr(tmp1,txt2); glcd_write_text(strcat("tmp1-tmp2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+
+	tmp1=floor(CENTER_Y-sqrt(tmp1));  floattostr(tmp1,txt2); glcd_write_text(strcat("final",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+
+    return tmp1;
 }
 int xtoy2(unsigned short x){
     if(x<=64){center_x=CX1;}
