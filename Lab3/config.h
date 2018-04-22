@@ -65,6 +65,7 @@ void config_INT(){
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
   IPC14bits.QEI1IP=2; // interrupcion del modulo cuadratura 2
   IPC2bits.T3IP=3;
+  IPC1bits.T2IP=3;
 //------------------------- habilitacion de interrupcion
   
  }

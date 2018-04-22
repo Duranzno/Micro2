@@ -39,31 +39,6 @@ IEC0bits.T2IE=1;
 IFS0bits.T2IF=0;
 }
 
-
-void QEI(){
-char texto[15];
-  glcd_fill(0);
-   glcd_write_text("INT2",62,5,1);
-              if(QEI1statbits.IDXIEN==1)
-           {POS1CNTH=0;
-             POS1CNTL=2122;
-             valor_sup= QEI1ICH;
-  valor_sup=(valor_sup<<16)+ QEI1ICL;
-   Floattostr(valor_sup,texto);
-  Glcd_Write_Text(texto, 60, 7, 1);
-  delay_ms(500);
-
-             glcd_write_text("INDEEX",0,0,1);
-  }
-        if(QEI1STATbits.PCHEQIRQ==1)
-       {
-        //         inter_mayor(); // animacion de mayor a 5000cm
-       }
-        if(QEI1STATbits.PCLEQIRQ==1)
-           {
-          //  inter_menor();// animacion de menor a 4500 cm
-           }
-}
 void caso2 () {
 
   char texto[12];
@@ -72,10 +47,7 @@ void caso2 () {
   Glcd_Write_Text(" Sentido: ", 0, 0, 0);
   Glcd_Write_Text(" Distancia(cmts.): ", 0, 4, 0);
   config_cuadratura();
-  
-  inttostr(QEI1CONbits.PIMOD,texto);glcd_write_text(txt,0,0,1) ;delay_ms(500); glcd_write_text("         ",0,0,1);
-    if(QEI1CONbits.PIMOD==0){glcd_write_text(strcat("0","pimod"),2,0,1) ;delay_ms(500); glcd_write_text("         ",0,0,1);}
-    else if(QEI1CONbits.PIMOD==2){glcd_write_text(strcat("2","pimod"),2,0,1) ;delay_ms(500); glcd_write_text("         ",0,0,1);}
+  config_timer2();
   //debido a que POSCNT cuenta con dos registros de 16bits,
   //los unimos en una variable para calcular la distancia
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

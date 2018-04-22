@@ -14,28 +14,13 @@ int selected,decimales;
 void inter_timer () org 0x24 {
    IFS0bits.T3IF=0;
 }
-/*void config_pdc4 () {
-   if (adc_value=>1&&adc_value<100){
-    PDC4=500; }
-  else if (adc_value=>100&&adc_value<200) {
-    PDC4=750;}
-     else if (adc_value=>200&&adc_value<300){
-     PDC4=1000; }
-       else if (adc_value=>300&&adc_value<400) {
-       PDC4=1500; }
-         else if (adc_value=>400&&adc_value<512) {
-         PDC4=1650; }
-          else  if (adc_value=>512&&adc_value<600){
-    PDC4=2350; }
-  else if (adc_value=>600&&adc_value<700) {
-    PDC4=2750; }
-     else if (adc_value=>700&&adc_value<800) {
-     PDC4=3050; }
-       else if (adc_value=>800&&adc_value<900) {
-       PDC4=3300; }
-         else if (adc_value=>900&&adc_value<1024) {
-         PDC4=3620; }*/
-//}
+void inter_timer2 () org 0x22 {
+   glcd_fill(0);
+  Glcd_Write_Text(" Sentido: ", 0, 0, 1);
+  Glcd_Write_Text(" Distancia(cmts.): ", 0, 4, 1);
+   IFS0bits.T2IF=0;
+   T2CONbits.TON=0;
+}
 void inter_adc () org 0x2E {
  IFS0bits.AD1IF=0;
   adc_value=ADC1BUF0;
@@ -48,27 +33,22 @@ void inter_adc () org 0x2E {
   //pot1=adc_value;
 }
 void inter_mayor (){
-        Glcd_Write_Text("Limite superior ", 0, 4, 1);
+        Glcd_Image(danger_w);
+        T2CONbits.TON=1;
 }
 void inter_menor (){
-        Glcd_Write_Text("Limite inferior ", 0, 4, 1);
+        Glcd_Image(dw);
+        T2CONbits.TON=1;
 }
 void INT_QEI() org 0x88 {
 char texto[15];
- // void QEI();
-  glcd_fill(0);
-  delay_ms(150);
-   glcd_write_text("INT2",62,5,1);
+
               if(QEI1statbits.IDXIEN==1)
            {
            POS1CNTH=0;
              POS1CNTL=2122;
-             valor_sup= QEI1GECH;
-  valor_sup=(valor_sup<<16)+ QEI1GECL;
-   Floattostr(valor_sup,texto);
-  Glcd_Write_Text(texto, 60, 7, 1);
-  glcd_write_text("INDEEX",0,0,1);
-  delay_ms(200);
+
+  delay_ms(50);
   QEI1CONbits.PIMOD=0;
   QEI1statbits.IDXIEN=0;
 
@@ -111,7 +91,7 @@ void main() {
   AD1CON1bits.SSRC=2;*/
   texto_menu(1);
   while(1){
-  caso_1();
+  caso2();
      selected=cursor_menu(3);
    switch(selected){
      case 1:
@@ -131,7 +111,7 @@ void main() {
      case 3:
        clean_PS2();
 
-       caso_3_tests();
+   //    caso_3_tests();
        break;
        }
    }
