@@ -6,7 +6,7 @@
 void config_PWM(){
   IEC6bits.PWM4IE=1;   // interrupcion pwm4
   IFS6bits.PWM4IF=0;   // limpia bandera pwm4
-  IPC24bits.PWM4IP=6;  // nivel de interrupcion 4
+  IPC24bits.PWM4IP=6;  // nivel de interrupcion pwm4
   PTCONbits.PTEN=1;
   PWMCON4bits.FLTSTAT=0;   //bandera de pin de falla
   PWMCON4bits.FLTIEN=1;
@@ -24,7 +24,7 @@ void config_PWM(){
   IOCON4bits.FLTDAT=0;  // falla en pin pone bajo todo
   FCLCON4=0x0015;//falla indep. act,pin falla 3,act en baj0
  }
- config_timer3 () {
+ void config_timer3 () {
  TMR3=0;
 T3CON=0X0020; //Prescaler 64:1, modo timer
 PR3=31250; //1000ms
@@ -32,7 +32,7 @@ IEC0bits.T3IE=1;
 IFS0bits.T3IF=0;
 }
 
-config_adc() {
+void config_adc() {
   AD1CON1bits.AD12B=0;// ADC de 10 bits
  AD1CON1bits.FORM=0; // ENTERO SIN SIGNO
  AD1CON1bits.SSRCG=0;
@@ -51,7 +51,7 @@ config_adc() {
  AD1CON3bits.ADCS=0; //TAD=Tcy
  AD1CON4bits.ADDMAEN=0; //SIN DMA
  AD1CHS123bits.CH123NA=0; //entrada negativa es AVss
- AD1CHS123bits.CH123SA=4;// CH1 entrada positiva AN0(RB0)
+ AD1CHS123bits.CH123SA=0;// CH1 entrada positiva AN0(RB0)
  AD1CHS0bits.CH0NA=0; //entrada negativa es AVss
  AD1CHS0bits.CH0SA=5;//ENTRADA positiva AN15(rb15)
  IFS0bits.AD1IF=0;//bandera=0

@@ -3,7 +3,7 @@
 #include "ui.h"
 #include "caso1.h"
 #include "caso2.h"
-//#include "caso3.h"
+#include "caso3.h"
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void caso_1();
 //~~~~~~~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,7 +60,7 @@ char texto[15];
    IFS3bits.QEI1IF=0;
 }
 void PWM4() org 0xD6
-{
+{  glcd_write_text("PWM4",0,0,1);
  IFS6bits.PWM4IF=0;
  PWMCON4bits.FLTSTAT=0;
 
@@ -96,8 +96,8 @@ void main() {
        break;
      case 3:
        clean_PS2();
-//        texto_caso_3();
-     //   caso_3_tests();
+
+       caso_3_tests();
        break;
        }
    }

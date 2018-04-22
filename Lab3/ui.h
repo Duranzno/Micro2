@@ -1,7 +1,7 @@
-#define ENTER 13
-#define ESC 118//V
-#define UP_ARROW 111//O
-#define DOWN_ARROW 112
+#define ENTER 3
+#define ESC 4//V
+#define UP_ARROW 1//O
+#define DOWN_ARROW 2
 
 
 unsigned short keydata = 0, special = 0, down = 0;
