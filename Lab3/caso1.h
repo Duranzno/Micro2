@@ -23,6 +23,7 @@ void config_PWM(){
   PDC4=3000; //100%
   IOCON4bits.FLTDAT=0;  // falla en pin pone bajo todo
   FCLCON4=0x0015;//falla indep. act,pin falla 3,act en baj0
+  FCLCON4bits.FLTSRC=3;  // pin de falla 4
  }
  void config_timer3 () {
  TMR3=0;

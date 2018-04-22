@@ -60,9 +60,9 @@ char texto[15];
    IFS3bits.QEI1IF=0;
 }
 void PWM4() org 0xD6
-{  glcd_write_text("PWM4",0,0,1);
+{  glcd_write_text("fallaPWM4",0,0,1);
  IFS6bits.PWM4IF=0;
- PWMCON4bits.FLTSTAT=0;
+  PWMCON4bits.FLTSTAT=0;
 
 
 }
@@ -162,10 +162,12 @@ while (1) {
   pote2=decimales*(1.00/1000);
   FloatToStr(pote2, txt);
   Glcd_Write_Text(txt, 70, 4, 1);
-  if(PWMCON4bits.FLTSTAT==1)
+  if(PWMCON4bits.FLTSTAT==0)
   {Glcd_Write_Text("  BLOQUEADO  ",0,4,1);
   IOCON4bits.FLTDAT=0;
   PWMCON4bits.FLTSTAT=0;}
-
+  else
+      Glcd_Write_Text("           ",0,4,1);
+      delay_ms(450);
   }
 }

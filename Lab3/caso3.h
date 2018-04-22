@@ -51,14 +51,15 @@ void glcd_draw_semicircles(int x){
         glcd_circle(x,64,30,1);//nalga 1
         glcd_draw_subdiv(x,2);
 }
-
+         int x;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CASO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void caso_3_tests(){
         glcd_fill(0);
         glcd_draw_semicircles(CX1);delay_ms(2500);
         glcd_fill(0);
 //        autolog("Numero favorito Eduardo",7);
-        r=30;center_x=CX1;x=20;
+        r=30;center_x=CX1;
+        x=20;
             autolog(" r^2=900= ",pow(r,2));
     autolog(" (x-cx)^2=144= ",pow(x-center_x,2));
     autolog(" sqrt(r^2-(x-cx)^2)=27.495= ",sqrt(pow(r,2)-pow(x-center_x,2)));
@@ -80,4 +81,4 @@ void caso_3_impl_main(){
         Ps2_Key_Read(&keydata, &special, &down);
      }
     glcd_fill(0);
-}                                   1
+}
