@@ -17,6 +17,7 @@ void inter_timer () org 0x24 {
 void inter_adc () org 0x2E {
  IFS0bits.AD1IF=0;
   adc_value=ADC1BUF0;
+  PDC4=adc_value;
   //pot1=adc_value;
 }
 void inter_mayor (){
@@ -104,7 +105,7 @@ while (1) {
   config_adc();
   T3CONbits.TON=1;
   // adc_value = ADC1_Get_Sample(5);
-  PDC4=500;
+  //PDC4=500;
   //Glcd_Write_Text("500 ",30,5,1);
 /*delay_ms(1000);
    PDC4=1000;
