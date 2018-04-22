@@ -14,12 +14,15 @@ void config_PWM(){
   IOCON4bits.PENL=1;
   IOCON4bits.POLH=0;
   IOCON4bits.POLL=0;
-  DTR3=100;
+  DTR4=100;
+  ALTDTR4=100;
   PHASE4=4000; // periodo de 2ms
-  PDC4=4000; //100%
+  PDC4=3000; //100%
  }
  config_timer3 () {
  TMR3=0;
 T3CON=0X0020; //Prescaler 64:1, modo timer
 PR3=31250; //1000ms
+IEC0bits.T3IE=1;
+IFS0bits.T3IF=0;
 }
