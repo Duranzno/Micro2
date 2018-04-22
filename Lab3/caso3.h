@@ -52,17 +52,17 @@ float lol,ae,be;
 void caso_3_tests(int x){
   char txt2[15];
 
-    char txt2[15];
+
     if(x<=64){center_x=32;}
     else{center_x=96;}
-     r=30
+     r=30;
      ae=pow(r,2);
      be=pow(x-center_x,2);
      ae=ae-be;
      ae=floor(CENTER_Y-sqrt(ae));
      x=ae;
      inttostr(x,txt2); glcd_write_text(txt2,0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-    return x;
+    //return x;
 }
 void caso_3(){
         char txt2[15];

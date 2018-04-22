@@ -131,7 +131,7 @@ void main() {
      case 3:
        clean_PS2();
 
-//       caso_3_tests();
+       caso_3_tests();
        break;
        }
    }
