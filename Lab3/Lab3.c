@@ -19,6 +19,7 @@ void inter_adc () org 0x2E {
   adc_value=ADC1BUF0;
   adc_value2=ADC1BUF1;
   PDC4=adc_value;
+  PDC3=adc_value2;
   //pot1=adc_value;
 }
 void inter_mayor (){
