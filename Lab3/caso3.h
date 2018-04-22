@@ -16,10 +16,10 @@ int xtoy(unsigned short x){
         if(x<=64){center_x=32;}
         else{center_x=96;}
    // int y=floor(center_y-sqrt(pow(r,2)-pow(x-center_x,2)));
-    // autolog("r^2",ceil(pow(r,2)));
-    // autolog("(x-cx)^2",pow(x-center_x,2));
-    // autolog("sqrt(r^2-(x-cx)^2)",sqrt(pow(r,2)-pow(x-center_x,2)));
-    // autolog("r^2",center_y-sqrt(pow(r,2)-pow(x-center_x,2)));
+    autolog(" r^2 ",ceil(pow(r,2)));
+    autolog(" (x-cx)^2 ",pow(x-center_x,2));
+    autolog(" sqrt(r^2-(x-cx)^2) ",sqrt(pow(r,2)-pow(x-center_x,2)));
+    autolog(" r^2 ",center_y-sqrt(pow(r,2)-pow(x-center_x,2)));
         return y;
 }
 int xtoy2(unsigned short x){
@@ -27,10 +27,10 @@ int xtoy2(unsigned short x){
         if(x<=64){center_x=32;}
         else{center_x=96;}
     int y=floor(center_y-sqrt(pow(r,2)-pow(x-center_x,2)));
-    // autolog("r^2",ceil(pow(r,2)));
-    // autolog("(x-cx)^2",pow(x-center_x,2));
-    // autolog("sqrt(r^2-(x-cx)^2)",sqrt(pow(r,2)-pow(x-center_x,2)));
-    // autolog("r^2",center_y-sqrt(pow(r,2)-pow(x-center_x,2)));
+    autolog(" r^2 ",ceil(pow(r,2)));
+    autolog(" (x-cx)^2 ",pow(x-center_x,2));
+    autolog(" sqrt(r^2-(x-cx)^2) ",sqrt(pow(r,2)-pow(x-center_x,2)));
+    autolog(" r^2 ",center_y-sqrt(pow(r,2)-pow(x-center_x,2)));
         return y;
 }
 void glcd_draw_pointer(unsigned short x,unsigned short center_x){
