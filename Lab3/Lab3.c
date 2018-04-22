@@ -66,6 +66,13 @@ void PWM4() org 0xD6
 
 
 }
+void PWM3() org 0xD4
+{  glcd_write_text("fallaPWM3",8,0,1);
+ IFS6bits.PWM3IF=0;
+  PWMCON3bits.FLTSTAT=0;
+
+
+}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -110,6 +117,7 @@ while (1) {
   Glcd_Write_Text("PWM3",0,1,1);
   config_timer3();
   config_PWM();
+  config_PWM3();
   config_adc();
   T3CONbits.TON=1;
   // adc_value = ADC1_Get_Sample(5);
