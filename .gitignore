@@ -10,3 +10,15 @@
 *.asm
 /Lab2/*.dbg
 /Lab2/*.cp
+*.cof
+/Lab2/*.dlt
+*.hex
+*.log
+*.lst
+*.mcl
+*.mcpds
+*.txt
+*.dic
+*.cp
+*.dbg
+*.dlt
