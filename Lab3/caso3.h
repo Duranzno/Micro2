@@ -8,7 +8,7 @@
 #define CX2 96
 #define CENTER_Y 64
 unsigned short center_x,r=30,POT1=0,POT2=0;
-float y;
+int y;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CALCULOS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void autolog(char *message,int value){
         char txt2[15];
@@ -20,10 +20,7 @@ int xtoy(unsigned short x){
     else{center_x=CX2;}
     r=30;
     y=floor(CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
-    autolog(" r^2=900= ",pow(r,2));
-    autolog(" (x-cx)^2=900= ",pow(x-center_x,2));
-    autolog(" sqrt(r^2-(x-cx)^2)=0= ",sqrt(pow(r,2)-pow(x-center_x,2)));
-    autolog(" CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2))=64= ",CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
+
     return y;
 }
 int xtoy2(unsigned short x){
@@ -31,11 +28,6 @@ int xtoy2(unsigned short x){
     else{center_x=CX2;}
     r=30;
     y=CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2));
-    autolog(" r^2=900= ",pow(r,2));
-    autolog(" (x-cx)^2=144= ",pow(x-center_x,2));
-    autolog(" sqrt(r^2-(x-cx)^2)=27.495= ",sqrt(pow(r,2)-pow(x-center_x,2)));
-    autolog(" CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2))=36.50= ",CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
-    autolog("floor(CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)))=36= ",floor(CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2))));
     return y;
 }
 int xtoy_small(unsigned short x){
@@ -50,10 +42,10 @@ void glcd_draw_pointer(unsigned short x,unsigned short center_x){
         Glcd_Line(center_x,xtoy(x),x,xtoy_small(x),1);
 }
 void glcd_draw_subdiv(unsigned short startx,int page){
-        glcd_circle_fill(startx,xtoy_small(startx),2,1);
+        glcd_circle_fill(startx,64,2,1);
         glcd_write_text("0V",startx,page,1);
-        glcd_circle_fill(startx+40,xtoy_small(startx+40),2,1);
-        glcd_write_text("3.4V",startx,page,1);
+        glcd_circle_fill(startx+60,64,2,1);
+        glcd_write_text("3.4V",startx+60,page,1);
 }
 void glcd_draw_semicircles(int x){
         glcd_circle(x,64,30,1);//nalga 1
@@ -65,12 +57,12 @@ void caso_3_tests(){
         glcd_fill(0);
         glcd_draw_semicircles(CX1);delay_ms(2500);
         glcd_fill(0);
-        autolog("Numero favorito Eduardo",7);
-        y=xtoy(2);
-        autolog(" Y(2) ",y);
-        y=xtoy2(20);
-        autolog(" Y(20) ",y);
-
+//        autolog("Numero favorito Eduardo",7);
+        r=30;center_x=CX1;x=20;
+            autolog(" r^2=900= ",pow(r,2));
+    autolog(" (x-cx)^2=144= ",pow(x-center_x,2));
+    autolog(" sqrt(r^2-(x-cx)^2)=27.495= ",sqrt(pow(r,2)-pow(x-center_x,2)));
+    autolog(" CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2))=36.46= ",CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
 }
 void caso_3(){
         char txt2[15];
@@ -88,4 +80,4 @@ void caso_3_impl_main(){
         Ps2_Key_Read(&keydata, &special, &down);
      }
     glcd_fill(0);
-}
+}                                   1
