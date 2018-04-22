@@ -1,4 +1,4 @@
-// 2.3        El diseño debe tener la opción de visualizar en la interfaz gráfica el valor en voltaje de cada uno de los potenciómetros en forma dinámica. 
+// 2.3        El diseño detmp2 tener la opción de visualizar en la interfaz gráfica el valor en voltaje de cada uno de los potenciómetros en forma dinámica. 
 //         *Use al menos 3 dígitos de precisión para cada caso en la 
 //interfaz gráfica o LCD y actualice cada 1 segundo. 
 //Dibuje una perilla semicircular que simule el movimiento de cada
@@ -8,19 +8,24 @@
 #define CX2 96
 #define CENTER_Y 64
 unsigned short center_x,r=30,POT1=0,POT2=0;
+float tmp1,tmp2;
 int y;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CALCULOS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void autolog(char *message,int value){
         char txt2[15];
         inttostr(value,txt2);
-        glcd_write_text(strcat(txt2,message),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+        glcd_write_text(strcat(message,txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
 }
 int xtoy(unsigned short x){
+char txt2[15];
     if(x<=64){center_x=CX1;}
     else{center_x=CX2;}
     r=30;
-    y=floor(CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
-
+	tmp1=pow(r,2);
+	tmp2=pow(x-center_x,2);
+	tmp1=tmp1-tmp2;
+	tmp1=floor(CENTER_Y-sqrt(tmp1));
+	inttostr(tmp1,txt2); glcd_write_text(txt2,0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
     return y;
 }
 int xtoy2(unsigned short x){
@@ -53,17 +58,16 @@ void glcd_draw_semicircles(int x){
 }
          int x;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CASO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 void caso_3_tests(){
-        glcd_fill(0);
-        glcd_draw_semicircles(CX1);delay_ms(2500);
-        glcd_fill(0);
-//        autolog("Numero favorito Eduardo",7);
+  char txt2[15];
+        //glcd_fill(0);
+//        glcd_draw_semicircles(CX1);delay_ms(2500);
+//        glcd_fill(0);
         r=30;center_x=CX1;
         x=20;
-            autolog(" r^2=900= ",pow(r,2));
-    autolog(" (x-cx)^2=144= ",pow(x-center_x,2));
-    autolog(" sqrt(r^2-(x-cx)^2)=27.495= ",sqrt(pow(r,2)-pow(x-center_x,2)));
-    autolog(" CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2))=36.46= ",CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
+        autolog("y=",xtoy(x));
+
 }
 void caso_3(){
         char txt2[15];

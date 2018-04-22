@@ -35,7 +35,7 @@ const code char danger_w[128] = {
 
 
 
-const code char down[128] = {
+const code char dw[128] = {
   0,   0,   0,   0,   0,   0,   0,   0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,   0,   0,   0,   0,   0,   0,   0,   0, 
   0,   0,   0,   0,   0,   0,   0,   0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,   0,   0,   0,   0,   0,   0,   0,   0, 
   0,   2,   6,  14,  30,  62, 126, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 254, 126,  62,  30,  14,   6,   2,   0, 
@@ -94,13 +94,7 @@ void animate_fail_UP_1s(){
   glcd_partialimage(48,32,32,32,32,32,danger_w);delay_ms(500);
 }
 void animate_fail_DW_1s(){
-  glcd_partialimage(48,32,32,32,32,32,down);
+  glcd_partialimage(48,32,32,32,32,32,dw);
   glcd_write_text("Falla Subida",0,6,1); delay_ms(500);
   glcd_partialimage(48,32,32,32,32,32,danger_w);delay_ms(500);
 }
-
-
-
-
-
-
