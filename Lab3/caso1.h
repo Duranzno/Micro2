@@ -4,8 +4,11 @@
 //         *El periodo de trabajo será de 2 milisegundos para ambos motores en modo centro alineado.
 // Nota1: EL muestreo será cada un segundo por disparo de eventos especiales por parte de un temporizador. 
 void config_PWM(){
+  IEC6bits.PWM4IE=1;   // interrupcion pwm4
+  IFS6bits.PWM4IF=0;   // limpia bandera pwm4
+  IPC24bits.PWM4IP=6;  // nivel de interrupcion 4
   PTCONbits.PTEN=1;
-  PWMCON4bits.FLTSTAT=1;
+  PWMCON4bits.FLTSTAT=0;   //bandera de pin de falla
   PWMCON4bits.FLTIEN=1;
   PWMCON4bits.ITB=1;
   PWMCON4bits.CAM=1;
@@ -18,6 +21,8 @@ void config_PWM(){
   ALTDTR4=100;
   PHASE4=4000; // periodo de 2ms
   PDC4=3000; //100%
+  IOCON4bits.FLTDAT=0;  // falla en pin pone bajo todo
+  FCLCON4=0x0015;//falla indep. act,pin falla 3,act en baj0
  }
  config_timer3 () {
  TMR3=0;

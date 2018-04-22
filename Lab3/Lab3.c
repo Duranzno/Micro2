@@ -58,6 +58,14 @@ char texto[15];
            }
    IFS3bits.QEI1IF=0;
 }
+void PWM4() org 0xD6
+{
+ IFS6bits.PWM4IF=0;
+ PWMCON4bits.FLTSTAT=0;
+ PWMCON4bits.FLTIEN=0;
+
+
+}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -147,5 +155,10 @@ while (1) {
   pote1=decimales*(1.00/1000);
   FloatToStr(pote1, txt);
   Glcd_Write_Text(txt, 10, 4, 1);
+  if(PWMCON4bits.FLTSTAT==1)
+  {Glcd_Write_Text("  BLOQUEADO  ",0,4,1);
+  IOCON4bits.FLTDAT=0;
+  PWMCON4bits.FLTSTAT=0;}
+
   }
 }
