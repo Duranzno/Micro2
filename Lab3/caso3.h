@@ -53,17 +53,28 @@ void glcd_draw_semicircles(int x){
 }
          int x;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CASO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+float lol,ae,be;
 void caso_3_tests(){
-        glcd_fill(0);
-        glcd_draw_semicircles(CX1);delay_ms(2500);
-        glcd_fill(0);
-//        autolog("Numero favorito Eduardo",7);
+  char txt2[15];
+        //glcd_fill(0);
+//        glcd_draw_semicircles(CX1);delay_ms(2500);
+//        glcd_fill(0);
         r=30;center_x=CX1;
         x=20;
-            autolog(" r^2=900= ",pow(r,2));
-    autolog(" (x-cx)^2=144= ",pow(x-center_x,2));
-    autolog(" sqrt(r^2-(x-cx)^2)=27.495= ",sqrt(pow(r,2)-pow(x-center_x,2)));
-    autolog(" CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2))=36.46= ",CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
+            autolog(" r^2=900= ",ceil(pow(r,2)));
+    autolog(" (x-cx)^2=144= ",ceil(pow(x-center_x,2)));
+     ae=pow(r,2);
+     be=pow(x-center_x,2);
+     ae=ae-be;
+     ae=floor(CENTER_Y-sqrt(ae));
+//     lol=sqrt(a-pow(abs(x-center_x),2));
+//      lol=1.1;
+     floattostr(ae,txt2)  ;
+
+     glcd_write_text(txt2,0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+     x=ae;
+     inttostr(x,txt2); glcd_write_text(txt2,0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+//    autolog(" CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2))=36.46= ",CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
 }
 void caso_3(){
         char txt2[15];
