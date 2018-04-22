@@ -54,7 +54,13 @@ PR3=31250; //1000ms
 IEC0bits.T3IE=1;
 IFS0bits.T3IF=0;
 }
-
+ void config_timer4 () {
+ TMR4=0;
+T4CON=0X0030; //Prescaler 256:1, modo timer
+PR4=65200; //1000ms
+IEC1bits.T4IE=1;
+IFS1bits.T4IF=0;
+}
 void config_adc() {
   AD1CON1bits.AD12B=0;// ADC de 10 bits
  AD1CON1bits.FORM=0; // ENTERO SIN SIGNO

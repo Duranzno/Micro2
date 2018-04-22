@@ -66,6 +66,7 @@ void config_INT(){
   IPC14bits.QEI1IP=2; // interrupcion del modulo cuadratura 2
   IPC2bits.T3IP=3;
   IPC1bits.T2IP=3;
+  IPC6bits.T4IP=3;
 //------------------------- habilitacion de interrupcion
   
  }

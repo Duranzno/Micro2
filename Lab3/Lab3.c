@@ -21,6 +21,12 @@ void inter_timer2 () org 0x22 {
    IFS0bits.T2IF=0;
    T2CONbits.TON=0;
 }
+void inter_timer4 () org 0x4A {
+   glcd_fill(0);
+  Glcd_Write_Text("PWM4", 55, 0, 1);
+   IFS1bits.T4IF=0;
+   T4CONbits.TON=0;
+}
 void inter_adc () org 0x2E {
  IFS0bits.AD1IF=0;
   adc_value=ADC1BUF0;
@@ -48,11 +54,11 @@ char texto[15];
            POS1CNTH=0;
              POS1CNTL=2122;
 
-  delay_ms(50);
-  QEI1CONbits.PIMOD=0;
-  QEI1statbits.IDXIEN=0;
+              delay_ms(50);
+              QEI1CONbits.PIMOD=0;
+             QEI1statbits.IDXIEN=0;
 
-  }
+           }
         if(QEI1STATbits.PCHEQIRQ==1)
        {
                  inter_mayor(); // animacion de mayor a 5000cm
@@ -68,18 +74,31 @@ char texto[15];
 void PWM4() org 0xD6
 {  glcd_write_text("fallaPWM4",0,0,1);
  IFS6bits.PWM4IF=0;
-  PWMCON4bits.FLTSTAT=0;
 
+ if(PORTDbits.RD11==0)
+  {Glcd_Write_Text("  BLOQUEADO  ",0,7,1);
+  IOCON4bits.FLTDAT=0;
+  PWMCON4bits.FLTSTAT=0;
+  T4CONbits.TON=1;
+  }
 
 }
+
+
+
 void PWM3() org 0xD4
 {  glcd_write_text("fallaPWM3",8,0,1);
  IFS6bits.PWM3IF=0;
   PWMCON3bits.FLTSTAT=0;
-
-
+   if(PORTDbits.RD0==0)
+  {Glcd_Write_Text("  BLOQUEADO  ",0,7,1);
+  IOCON4bits.FLTDAT=0;
+  PWMCON4bits.FLTSTAT=0;
+  T4CONbits.TON=1;
+  }
 }
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 void main() {
@@ -91,7 +110,7 @@ void main() {
   AD1CON1bits.SSRC=2;*/
   texto_menu(1);
   while(1){
-  caso2();
+  caso_1();
      selected=cursor_menu(3);
    switch(selected){
      case 1:
@@ -123,6 +142,7 @@ Glcd_fill(0);
   config_PWM3();
   config_adc();
  adc_value=0;
+ config_timer4 ();
 while (1) {
 
   Glcd_Write_Text("PWM3",0,1,1);
@@ -179,12 +199,7 @@ while (1) {
   pote2=decimales*(1.00/1000);
   FloatToStr(pote2, txt);
   Glcd_Write_Text(txt, 70, 4, 1);
-  if(PWMCON4bits.FLTSTAT==0)
-  {Glcd_Write_Text("  BLOQUEADO  ",0,4,1);
-  IOCON4bits.FLTDAT=0;
-  PWMCON4bits.FLTSTAT=0;}
-  else
-      Glcd_Write_Text("           ",0,4,1);
-      delay_ms(450);
+   }
+
+
   }
-}
