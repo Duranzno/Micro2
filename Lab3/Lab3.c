@@ -19,7 +19,7 @@ void inter_adc () org 0x2E {
   Glcd_Write_Text("Conversion hecha ", 0, 2, 1);
   delay_ms(230);
   IFS0bits.AD1IF=0;
-  adc_value=ADC1BUF0;
+  pot1=adc_value=ADC1BUF0;
 }
 void inter_mayor (){
         Glcd_Write_Text("Limite superior ", 0, 4, 1);
