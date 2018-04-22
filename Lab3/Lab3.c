@@ -120,9 +120,10 @@ while (1) {
   config_PWM();
   config_PWM3();
   config_adc();
-  T3CONbits.TON=1;
+  // T3CONbits.TON=1;
   // adc_value = ADC1_Get_Sample(5);
-  //PDC4=500;
+  PDC4=2500;
+  PDC3=2500;
   //Glcd_Write_Text("500 ",30,5,1);
 /*delay_ms(1000);
    PDC4=1000;
