@@ -12,10 +12,11 @@ int selected;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void inter_timer () org 0x24 {
    IFS0bits.T3IF=0;
-
+   Glcd_Write_Text("timer ", 0, 0, 1);
+   delay_ms(150);
 }
 void inter_adc () org 0x2E {
-  Glcd_Write_Text("Conversion hecha ", 0, 4, 1);
+  Glcd_Write_Text("Conversion hecha ", 0, 2, 1);
   delay_ms(230);
   IFS0bits.AD1IF=0;
   adc_value=ADC1BUF0;
