@@ -1,4 +1,4 @@
-// 2.3        El diseño debe tener la opción de visualizar en la interfaz gráfica el valor en voltaje de cada uno de los potenciómetros en forma dinámica. 
+// 2.3        El diseño detmp2 tener la opción de visualizar en la interfaz gráfica el valor en voltaje de cada uno de los potenciómetros en forma dinámica. 
 //         *Use al menos 3 dígitos de precisión para cada caso en la 
 //interfaz gráfica o LCD y actualice cada 1 segundo. 
 //Dibuje una perilla semicircular que simule el movimiento de cada
@@ -8,20 +8,26 @@
 #define CX2 96
 #define CENTER_Y 64
 unsigned short center_x,r=30,POT1=0,POT2=0;
+float tmp1,tmp2;
 int y;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CALCULOS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void autolog(char *message,int value){
         char txt2[15];
         inttostr(value,txt2);
-        glcd_write_text(strcat(txt2,message),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+        glcd_write_text(strcat(message,txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
 }
 int xtoy(unsigned short x){
+char txt2[15];
     if(x<=64){center_x=CX1;}
     else{center_x=CX2;}
     r=30;
-    y=floor(CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
+	tmp1=pow(r,2); floattostr(tmp1,txt2); glcd_write_text(strcat("r^2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+	tmp2=pow(x-center_x,2);  floattostr(tmp1,txt2); glcd_write_text(strcat("(x-cx)^2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+	tmp1=tmp1-tmp2;    floattostr(tmp1,txt2); glcd_write_text(strcat("tmp1-tmp2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
 
-    return y;
+	tmp1=floor(CENTER_Y-sqrt(tmp1));  floattostr(tmp1,txt2); glcd_write_text(strcat("final",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
+
+    return tmp1;
 }
 int xtoy2(unsigned short x){
     if(x<=64){center_x=CX1;}
@@ -53,7 +59,7 @@ void glcd_draw_semicircles(int x){
 }
          int x;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CASO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-float lol,ae,be;
+
 void caso_3_tests(){
   char txt2[15];
         //glcd_fill(0);
@@ -61,20 +67,8 @@ void caso_3_tests(){
 //        glcd_fill(0);
         r=30;center_x=CX1;
         x=20;
-            autolog(" r^2=900= ",ceil(pow(r,2)));
-    autolog(" (x-cx)^2=144= ",ceil(pow(x-center_x,2)));
-     ae=pow(r,2);
-     be=pow(x-center_x,2);
-     ae=ae-be;
-     ae=floor(CENTER_Y-sqrt(ae));
-//     lol=sqrt(a-pow(abs(x-center_x),2));
-//      lol=1.1;
-     floattostr(ae,txt2)  ;
+        autolog("y=",xtoy(x));
 
-     glcd_write_text(txt2,0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-     x=ae;
-     inttostr(x,txt2); glcd_write_text(txt2,0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-//    autolog(" CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2))=36.46= ",CENTER_Y-sqrt(pow(r,2)-pow(x-center_x,2)));
 }
 void caso_3(){
         char txt2[15];
