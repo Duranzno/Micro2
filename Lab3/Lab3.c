@@ -100,7 +100,7 @@ void PWM3() org 0xD4
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
+int j;
 void main() {
   config_IO();  config_LCD();
   config_INT();
@@ -108,10 +108,10 @@ void main() {
  // ADC1_Init_Advanced(_ADC_10bit, _ADC_INTERNAL_REF); //Inicializacion del convertidor ADC
 /*AD1CON1bits.SSRCG=0;
   AD1CON1bits.SSRC=2;*/
-  texto_menu(1);
+//  texto_menu(1);
   while(1){
-  caso_1();
      selected=cursor_menu(3);
+
    switch(selected){
      case 1:
        clean_PS2();
@@ -128,11 +128,11 @@ void main() {
       }
        break;
      case 3:
-       clean_PS2();
 
-   //    caso_3_tests();
+         caso_3_test();
+
        break;
-       }
+              }
    }
 }
 void caso_1(){

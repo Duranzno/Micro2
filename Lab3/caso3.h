@@ -4,80 +4,95 @@
 //Dibuje una perilla semicircular que simule el movimiento de cada
 // potenciómetro con sus valores inicio y final y al menos cinco subdivisiones.
 // Nota2:Utilice el modo de Latcheo Simultaneo.
-#define CENTER_Y 64
-unsigned short center_x,r=30,POT1=0,POT2=0;
+#define CENTER_Y 50
+#define R_BIG 30
+#define R_S 2
+
+
+unsigned short center_x,r,POT1=0,POT2=0;
 float tmp1,tmp2;
-int y;
+int y,old_x1=0,old_x2=0;
+char txt2[15];
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CALCULOS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void autolog(char *message,float value){
         char txt2[15];
         floattostr(value,txt2);
         glcd_write_text(strcat(message,txt2),0,7,1);delay_ms(1000);glcd_write_text("                     ",0,7,1);
 }
-float xtoy(unsigned short x){
-
+int xtoy(int x){
+    if(x<=64){center_x=32;}
+    else{center_x=96;}
     r=30;
-    tmp1=0;tmp2=0;
-        tmp1=pow(r,2); //floattostr(tmp1,txt2); glcd_write_text(strcat("r^2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-        autolog("r^2 ",tmp1);
-        tmp2=pow(x-center_x,2);//  floattostr(tmp1,txt2); glcd_write_text(strcat("(x-cx)^2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-        autolog("x^2 ",tmp2);
-        tmp1=tmp1-tmp2;    //floattostr(tmp1,txt2); glcd_write_text(strcat("tmp1-tmp2",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-        autolog("t1-t2 ",tmp1);
-        tmp1=sqrt(tmp1);//  floattostr(tmp1,txt2); glcd_write_text(strcat("final",txt2),0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-         autolog("raiz ",tmp1);
-         y=tmp1;
-    return y;
+     tmp1=pow(r,2);
+     tmp2=pow(x-center_x,2);
+     tmp1=tmp1-tmp2;
+     tmp1=floor(CENTER_Y-sqrt(tmp1));
+     x=tmp1;
+    return x;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GLCD~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void glcd_draw_pointer(unsigned short x,unsigned short center_x){
-        Glcd_Line(center_x,xtoy(x),x,64,1);
+void glcd_draw_pointer(unsigned short x){
+           if(x<=64){center_x=32;}
+    else{center_x=96;}
+        Glcd_Line(center_x,CENTER_Y,x,xtoy(x),1);
+        if(x<=64){
+            if(old_x1){old_x1=2;}
+            Glcd_Line(center_x,CENTER_Y,old_x1,xtoy(old_x1),0);old_x1=x;
+
+        }else {
+            if(old_x2){old_x2=66;}
+            Glcd_Line(center_x,CENTER_Y,old_x2,xtoy(old_x2),0); old_x2=x;
+        }
 }
-void glcd_draw_subdiv(unsigned short startx,int page){
-        glcd_circle_fill(startx,64,2,1);
-        glcd_write_text("0V",startx,page,1);
-        glcd_circle_fill(startx+60,64,2,1);
-        glcd_write_text("3.4V",startx+60,page,1);
+void glcd_draw_subdiv(unsigned short startx){
+        int page=7;
+        glcd_circle_fill(startx,xtoy(startx)-2,R_S,1);
+        glcd_write_text("0",startx,page-1,1);
+        startx+=15;
+        glcd_circle_fill(startx,xtoy(startx),R_S,1);
+        glcd_write_text(".8",startx-7,page,1);
+        startx+=15;
+        glcd_circle_fill(startx,xtoy(startx),R_S,1);
+        glcd_write_text("1.7",startx-5,page-1,1);
+        startx+=15;
+        glcd_circle_fill(startx,xtoy(startx),R_S,1);
+        glcd_write_text("4.5",startx-2,page,1);
+        startx+=15;
+        glcd_circle_fill(startx,xtoy(startx)-2,R_S,1);
+        glcd_write_text("3.4",startx-10,page-1,1);
 }
-void glcd_draw_semicircles(int x){
-        glcd_circle(x,64,30,1);//nalga 1
-        glcd_draw_subdiv(x,2);
+void glcd_draw_semicircles(){
+        glcd_circle(32,CENTER_Y,30,1);//nalga 1
+          glcd_circle(96,CENTER_Y,30,1);//nalga 2
+          Glcd_Rectangle_Round_Edges_Fill(0,51,127,63,0,0);
+        glcd_draw_subdiv(2);
+
+
+        glcd_draw_subdiv(66);
 }
          int x;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CASO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         //glcd_fill(0);
-//        glcd_draw_semicircles(CX1);delay_ms(2500);
-//        glcd_fill(0);
-float lol,ae,be;
-void caso_3_tests(int x){
-  char txt2[15];
-
-
-    if(x<=64){center_x=32;}
-    else{center_x=96;}
-     r=30;
-     ae=pow(r,2);
-     be=pow(x-center_x,2);
-     ae=ae-be;
-     ae=floor(CENTER_Y-sqrt(ae));
-     x=ae;
-     inttostr(x,txt2); glcd_write_text(txt2,0,7,1);delay_ms(500);glcd_write_text("                     ",0,7,1);
-    //return x;
-}
 void caso_3(){
         char txt2[15];
-        pot1=pot2;//PORQUE POR AHORA SOLO ESTA IMPLEMENTADO UN POTENCIOMETRO
-        glcd_draw_semicircles(32);
-        // glcd_draw_semicircles(96);
-
-        inttostr(pot1,txt2);glcd_write_text(strcat(pot1,"POT1"),0,0,1);
-        glcd_draw_pointer(pot1+2,32);
+//        pot1=pot2;//PORQUE POR AHORA SOLO ESTA IMPLEMENTADO UN POTENCIOMETRO
+        POT1=0;
+        glcd_draw_semicircles();
+        old_x1=old_x2=0;
+         Glcd_set_Font(font5x7 , 5, 7, 32);
 }
-void caso_3_impl_main(){
-        while(keydata!=ESC){
-        clean_PS2();
-        caso_3();
-        Ps2_Key_Read(&keydata, &special, &down);
-     }
-    glcd_fill(0);
+void caso_3_test(){
+    Glcd_Set_Font(Font_Glcd_System3x5 ,3,4,32);
+        glcd_fill(0);
+       glcd_draw_semicircles();
+
+       for(x=2;x<64;x++){
+        glcd_draw_pointer(x);
+       }
+       old_x1=old_x2=0;
+        Glcd_set_Font(font5x7 , 5, 7, 32);
+         //     Glcd_Line(32,64,32,34,1);
+//        Glcd_Line(32,64,10,43,1);
+//        Glcd_Line(32,64,53,xtoy(53),1);
+//       glcd_draw_pointer(pot1+2,32);
 }

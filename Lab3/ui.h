@@ -1,4 +1,4 @@
-#define ENTER 3
+#define ENTER 7
 #define ESC 4//V
 #define UP_ARROW 1//O
 #define DOWN_ARROW 2
@@ -51,8 +51,10 @@ int cursor_menu(int max_n_options){
 
           texto_menu(it) ;
         }
-
        }
+        else{
+          glcd_write_text("ERR",0,7,0);delay_ms(500);glcd_write_text("                     ",0,7,1);
+        }
       }
     }
   }
