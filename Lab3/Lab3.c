@@ -53,7 +53,7 @@ char texto[15];
            {
            POS1CNTH=0;
              POS1CNTL=2122;
-
+               recorrido=5000;
               delay_ms(50);
               QEI1CONbits.PIMOD=0;
              QEI1statbits.IDXIEN=0;
