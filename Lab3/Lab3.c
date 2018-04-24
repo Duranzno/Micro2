@@ -66,6 +66,8 @@ void inter_adc () org 0x2E {
  IFS0bits.AD1IF=0;
   adc_value=ADC1BUF0;
   adc_value2=ADC1BUF1;
+  POT1=adc_value;
+  POT2=adc_value2;
   adc_value=(adc_value*3)+500;
   adc_value2=(adc_value2*3)+500;
  // config_pdc4 ()
@@ -128,9 +130,8 @@ void main() {
   config_IO();  config_LCD();
   config_INT();
   PS2_Config();
-  glcd_image(dw);delay_ms(1000);
-  animate_charmander_2s();
-  Glcd_Fill(0);
+ animate_charmander_2s();
+   Glcd_Fill(0);
   config_timer2();
  // ADC1_Init_Advanced(_ADC_10bit, _ADC_INTERNAL_REF); //Inicializacion del convertidor ADC
 /*AD1CON1bits.SSRCG=0;
@@ -146,7 +147,6 @@ void main() {
       break;
 
      case 2:
-
       while(keydata!=ESC){
         clean_PS2();
         bandera=2;
@@ -156,8 +156,17 @@ void main() {
       break;
      
      case 3:
-  Glcd_Write_Text("PWM3",0,1,1);    //caso_3_test();
-     T2CONbits.TON=1;
+     glcd_fill(0);
+     config_adc();
+     config_timer3();
+     T3Conbits.TON=1;
+     caso_3_setup();
+       while(keydata!=ESC){
+        clean_PS2();
+        caso_3();
+        Ps2_Key_Read(&keydata, &special, &down);
+      }
+      Glcd_set_Font(font5x7 , 5, 7, 32);
       break;
     }
    }
