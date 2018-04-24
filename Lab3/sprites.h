@@ -20,10 +20,10 @@ const code char charmander_2[1024] = {
 };
 void animate_charmander_2s(){
         Glcd_Image(charmander_1);
-        delay_ms(1000);
+        delay_ms(500);
 
         Glcd_Image(charmander_2);
-        delay_ms(1000);
+        delay_ms(500);
 }
 
 const code char danger_w[128] = {

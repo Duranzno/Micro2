@@ -65,8 +65,34 @@ void config_INT(){
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
   IPC14bits.QEI1IP=2; // interrupcion del modulo cuadratura 2
   IPC2bits.T3IP=3;
-  IPC1bits.T2IP=3;
+  IPC1bits.T2IP=7;
   IPC6bits.T4IP=3;
 //------------------------- habilitacion de interrupcion
   
  }
+
+void config_cuadratura () {
+  QEI1IOCbits.INDEX=1;
+  QEI1LECL=1910;
+  QEI1LECH=0;
+  QEI1GECL=2335; // registro bajo del comparacion mayor
+  QEI1GECH=0;
+  IEC3bits.QEI1IE=1; //habilita interrupcion de Cuadratura
+  IFS3bits.QEI1IF=0; //limpia la bandera de interrupcion
+  QEI1CONbits.PIMOD=3; // el contador se inicializa con el valor del registro QEI1IC
+  QEI1CONbits.IMV=3;
+  //QEI1ICH=valor_ini_h;
+  // QEI1ICL=valor_ini_l;
+  QEI1STATbits.PCHEQIEN =1; //interrupcion por comparacion de cuadratura
+  QEI1STATbits.PCLEQIEN=1; // interrupcion por comparacion de cuadratura
+  QEI1STATbits.IDXIEN=1; //interrupcion por INDEX pin
+  QEI1CONbits.QEIEN=1; //habilita el módulo de cuadratura
+  QEI1IOCbits.FLTREN=1; //Activa filtro digital
+}
+ void config_timer2 () {
+  TMR2=0;
+  T2CON=0X0020; //Prescaler 256:1, modo timer
+  PR2=31250; //1000ms
+  IEC0bits.T2IE=1;
+  IFS0bits.T2IF=0;
+}

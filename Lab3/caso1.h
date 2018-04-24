@@ -24,8 +24,8 @@ void config_PWM(){
   IOCON4bits.FLTDAT=0;  // falla en pin pone bajo todo
   FCLCON4=0x0015;//falla indep. act,pin falla 3,act en baj0
   FCLCON4bits.FLTSRC=3;  // pin de falla 4
- }
- void config_PWM3(){
+}
+void config_PWM3(){
   IEC6bits.PWM3IE=1;   // interrupcion pwm4
   IFS6bits.PWM3IF=0;   // limpia bandera pwm4
   IPC24bits.PWM3IP=6;  // nivel de interrupcion pwm4
@@ -46,13 +46,13 @@ void config_PWM(){
   IOCON3bits.FLTDAT=0;  // falla en pin pone bajo todo
   FCLCON3=0x0015;//falla indep. act,pin falla 3,act en baj0
   FCLCON3bits.FLTSRC=2;  // pin de falla 3
-  }
- void config_timer3 () {
- TMR3=0;
-T3CON=0X0020; //Prescaler 64:1, modo timer
-PR3=31250; //1000ms
-IEC0bits.T3IE=1;
-IFS0bits.T3IF=0;
+}
+void config_timer3 () {
+  TMR3=0;
+  T3CON=0X0020; //Prescaler 64:1, modo timer
+  PR3=31250; //1000ms
+  IEC0bits.T3IE=1;
+  IFS0bits.T3IF=0;
 }
  void config_timer4 () {
  TMR4=0;
@@ -62,7 +62,7 @@ IEC1bits.T4IE=1;
 IFS1bits.T4IF=0;
 }
 void config_adc() {
-  AD1CON1bits.AD12B=0;// ADC de 10 bits
+ AD1CON1bits.AD12B=0;// ADC de 10 bits
  AD1CON1bits.FORM=0; // ENTERO SIN SIGNO
  AD1CON1bits.SSRCG=0;
  AD1CON1bits.SSRC=2;//TIMER3 inicia la convercion
@@ -88,5 +88,4 @@ void config_adc() {
  IPC3bits.AD1IP=6;
  AD1CON1bits.ADON=1;// Se act el modulo
  delay_ms(10);
-
 }

@@ -62,7 +62,6 @@ int cursor_menu(int max_n_options){
   return it;
 }
 
-
 unsigned short page2pos(int page_num){
   page_num=64-page_num;
   switch(page_num){

@@ -90,6 +90,10 @@ void caso_3_test(){
         glcd_draw_pointer(x);
        }
        old_x1=old_x2=0;
+       delay_ms(500);
+       for(x=2;x<64;x++){
+            Glcd_Line(32,CENTER_Y,x,xtoy(x)+1,2);
+       }
         Glcd_set_Font(font5x7 , 5, 7, 32);
          //     Glcd_Line(32,64,32,34,1);
 //        Glcd_Line(32,64,10,43,1);
