@@ -5,7 +5,7 @@
 #include "caso2.h"
 #include "caso3.h"
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void caso_1();
+void caso_1();void caso2();
 //~~~~~~~~~~~~~~~~~~~~~~~~Constantes  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned adc_value,adc_value2;
 float pote1,pote2;
@@ -15,31 +15,31 @@ int contador=0,bandera=0;
 void INT_Inicio_Conversion_T3 () org 0x24 {IFS0bits.T3IF=0;}//inicializa conversion del adc
 void INT_Mayor_QEI (){
   /*glcd_partialimage(48,32,32,32,32,32,up);*/
-  Glcd_Image(charmander_1) ;
+  //glcd_partialimage(47,10,32,32,32,32,up);
+
+  glcd_write_text("Falla QEI",0,7,1);
   contador=0;
   T2CONbits.TON=1;
 }
 void INT_Menor_QEI (){
 //  glcd_partialimage(48,32,32,32,32,32,dw);
-  Glcd_Image(charmander_1);
+  //glcd_partialimage(47,10,32,32,32,32,dw);
+  glcd_write_text("Falla QEI",0,7,1);
   contador=0;
   T2CONbits.TON=1;
 }
 void INT_Animacion_1seg_T2 () org 0x22 {
-  Glcd_Write_Text("t2", 55, 7, 1);
-  inttostr(contador,txt);
-  Glcd_Write_Text(txt, 0, 7, 1);
   contador++;
   bandera=1;
   if (contador==3 && bandera==2) {//2 segundos cambio imagen QEI
     glcd_fill(0);
-    Glcd_Image(charmander_2);
+    glcd_partialimage(47,10,32,32,32,32,danger_w);
 
 //    glcd_partialimage(48,32,32,32,32,32,danger_w);
    }
    if (contador==5 && bandera==1) {//Cambio Imagen PWM
     glcd_fill(0);
-    Glcd_Image(charmander_2) ;
+    glcd_partialimage(47,10,32,32,32,32,danger_w);
   }
    if (contador==6 && bandera==2) {//5 segundos, limpia pantalla
     glcd_fill(0);
@@ -62,17 +62,79 @@ void inter_timer4 () org 0x4A {
    IFS1bits.T4IF=0;
    T4CONbits.TON=0;
 }
+void ajuste (unsigned control) {
+
+ if (control<=200) {
+   PDC4=500;
+  }else
+  if (control>200&&control<=350) {
+  PDC4=850;
+  } else
+    if (control>350&&control<=450) {
+  PDC4=1250;
+  } else
+    if (control>450&&control<=480) {
+  PDC4=1450;
+  }     else
+    if (control>480&&control<=530) {
+  PDC4=2000;
+  }         else
+    if (control>530&&control<=600) {
+  PDC4=2450;
+  }    else
+    if (control>600&&control<=750) {
+  PDC4=2850 ;
+  }        else
+    if (control>750&&control<=950) {
+  PDC4=3250;
+  }      else
+    if (control>950&&control<=1023) {
+  PDC4=3800;
+  }
+}
+void ajuste2 (unsigned control2) {
+
+if (control2<=200) {
+   PDC3=500;
+  }else
+  if (control2>200&&control2<=350) {
+  PDC3=850;
+  } else
+    if (control2>350&&control2<=450) {
+  PDC3=1250;
+  } else
+    if (control2>450&&control2<=480) {
+  PDC3=1450;
+  }     else
+    if (control2>480&&control2<=530) {
+  PTCONbits.PTEN=0;
+  }         else
+    if (control2>530&&control2<=600) {
+  PDC3=2450;
+  }    else
+    if (control2>600&&control2<=750) {
+  PDC3=2850 ;
+  }        else
+    if (control2>750&&control2<=950) {
+  PDC3=3250;
+  }      else
+    if (control2>950&&control2<=1023) {
+  PDC3=3800;
+  }
+}
 void inter_adc () org 0x2E {
  IFS0bits.AD1IF=0;
   adc_value=ADC1BUF0;
   adc_value2=ADC1BUF1;
+  delay_ms(5);
+  ajuste(adc_value);
+  ajuste2(adc_value2);
   POT1=adc_value;
   POT2=adc_value2;
-  adc_value=(adc_value*3)+500;
-  adc_value2=(adc_value2*3)+500;
+
  // config_pdc4 ()
-  PDC4=adc_value;
-  PDC3=adc_value2;
+/*PDC4=adc_value;
+  PDC3=adc_value2;*/
   //pot1=adc_value;
 }
 
@@ -101,8 +163,9 @@ void PWM4() org 0xD6{
  IFS6bits.PWM4IF=0;
  if(PORTDbits.RD11==0)
   {
-  Glcd_Image(charmander_1) ;
-  glcd_write_text("Falla Motor 4",0,6,1);
+  glcd_image(stop);
+   //glcd_partialimage(47,10,32,32,32,32,stop2);
+  glcd_write_text("Falla Motor 4",0,7,1);
   IOCON4bits.FLTDAT=0;
   PWMCON4bits.FLTSTAT=0;
   T2CONbits.TON=1;contador=0;
@@ -116,7 +179,7 @@ void PWM3() org 0xD4{
  if(PORTDbits.RD0==0){
   IOCON4bits.FLTDAT=0;
   PWMCON4bits.FLTSTAT=0;
-  Glcd_Image(charmander_1) ;
+   glcd_partialimage(47,10,32,32,32,32,stop);
    glcd_write_text("Falla Motor 3",0,6,1);
   contador=0;
   T2CONbits.TON=1;
@@ -144,18 +207,16 @@ void main() {
 
 
       caso_1();
+      glcd_fill(0);
       break;
 
      case 2:
-      while(keydata!=ESC){
-        clean_PS2();
-        bandera=2;
-        caso2();
-        Ps2_Key_Read(&keydata, &special, &down);
-      }
+      caso2();
+      glcd_fill(0);
       break;
      
      case 3:
+     Glcd_Set_Font(Font_Glcd_System3x5 ,3,5,32);
      glcd_fill(0);
      config_adc();
      config_timer3();
@@ -167,6 +228,7 @@ void main() {
         Ps2_Key_Read(&keydata, &special, &down);
       }
       Glcd_set_Font(font5x7 , 5, 7, 32);
+      glcd_fill(0);
       break;
     }
    }
@@ -214,11 +276,13 @@ void caso_1(){
     Glcd_Write_Text("DIEZ",0,1,1);
   }*/
   while (keydata!=ESC){
-    clean_PS2();
     Glcd_Write_Text("PWM3",0,1,1);
     T3CONbits.TON=1;
     delay_ms(1000);
     WordToStr(adc_value, txt);
+    clean_PS2();
+    Ps2_Key_Read(&keydata, &special, &down);
+    if(keydata==ESC){return;}
     Glcd_Write_Text(txt, 10, 3, 1);
     pote1=adc_value*0.00339;
     decimales=1000*pote1;
@@ -233,5 +297,60 @@ void caso_1(){
     FloatToStr(pote2, txt);
     Glcd_Write_Text(txt, 70, 4, 1);
     Ps2_Key_Read(&keydata, &special, &down);
+  
   }
+}
+void caso2 () {
+  char texto[12];
+    GLCD_FILL(0);
+  Glcd_Write_Text(" Sentido:", 0, 0, 0);
+  Glcd_Write_Text(" Distancia(cmts.): ", 0, 4, 0);
+  Glcd_Write_Text(" Vueltas ", 0, 7, 0);
+
+  valor_anterior=0;
+  cont=0;
+  cont2=0;
+  vueltas=0;
+  config_cuadratura();
+  //debido a que POSCNT cuenta con dos registros de 16bits,
+  //los unimos en una variable para calcular la distancia
+  while(keydata!=ESC){
+        clean_PS2();
+        bandera=2;
+    valor_actual=POS1CNTH;
+  valor_actual=(valor_actual<<16)+POS1CNTL;
+  recorrido=valor_actual;
+  recorrido=recorrido*2.35619; //se divide el poscnt entre 4
+  //luego se multiplica por (2.pi.r)/4
+   if(valor_actual ==2122 )  {
+   recorrido=5000; }
+  Floattostr(recorrido,texto);
+  Ps2_Key_Read(&keydata, &special, &down);
+    if(keydata==ESC){return;}
+
+  Glcd_Write_Text(texto, 1, 5, 1);
+  if(valor_anterior<valor_actual)
+  {
+  Glcd_Write_Text("derecha    ", 1, 2, 1);
+  cont=cont+1;
+  }
+  else if(valor_anterior>valor_actual)
+  {
+   Glcd_Write_Text("izquierda", 1, 2, 1);
+    cont2=cont2+1;
+  }
+    if(cont ==8 )
+    {vueltas++;
+    cont=0; }
+    if(cont2 ==8 )
+    {vueltas=vueltas-1;
+    cont2=0; }
+     Inttostr(vueltas,texto);
+  Glcd_Write_Text(texto, 60, 7, 1);
+   valor_anterior=valor_actual;
+
+        Ps2_Key_Read(&keydata, &special, &down);
+      }
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 }

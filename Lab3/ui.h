@@ -1,5 +1,5 @@
 #define ENTER 7
-#define ESC 4//V
+#define ESC 3//V
 #define UP_ARROW 1//O
 #define DOWN_ARROW 2
 

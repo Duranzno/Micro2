@@ -43,7 +43,7 @@ int xtoy(int x,int a){
 void glcd_draw_pointer(unsigned short x,int a){
            if(a==0){
            center_x=32;
-           Glcd_Line(32,CENTER_Y,old_x1-1,xtoy(old_x1,0)-1,2);
+           Glcd_Line(32,CENTER_Y,old_x1,xtoy(old_x1,0),2);
            Glcd_Line(32,CENTER_Y,x,xtoy(x,0),1);
            old_x1=x;
            }
@@ -54,7 +54,7 @@ void glcd_draw_pointer(unsigned short x,int a){
            old_x2=x;
            
            }
-            glcd_write_text("                                              ",0,0,1);
+            //glcd_write_text("                                              ",0,0,1);
         /*if(x<=64){
             if(old_x1){old_x1=2;}
             //Glcd_Line(center_x,CENTER_Y,old_x1,xtoy(old_x1),0);old_x1=x;
@@ -66,29 +66,48 @@ void glcd_draw_pointer(unsigned short x,int a){
 }
 void glcd_draw_subdiv(unsigned short startx){
         int page=7;
-        for(z2=0;z2<=1;z2++){
-        glcd_circle_fill(startx,xtoy(startx,z2)-2,R_S,1);
+        glcd_circle_fill(startx,xtoy(startx,0),R_S,1);
         glcd_write_text("0",startx,page-1,1);
         startx+=15;
-        glcd_circle_fill(startx,xtoy(startx,z2),R_S,1);
-        glcd_write_text(".8",startx-7,page,1);
+        glcd_circle_fill(startx,xtoy(startx,0),R_S,1);
+        glcd_write_text("0.23",startx-7,page,1);
         startx+=15;
-        glcd_circle_fill(startx,xtoy(startx,z2),R_S,1);
-        glcd_write_text("1.7",startx-5,page-1,1);
+        glcd_circle_fill(startx,xtoy(startx,0),R_S,1);
+        glcd_write_text("1",startx-5,page-1,1);
         startx+=15;
-        glcd_circle_fill(startx,xtoy(startx,z2),R_S,1);
-        glcd_write_text("4.5",startx-2,page,1);
+        glcd_circle_fill(startx,xtoy(startx,0),R_S,1);
+        glcd_write_text("1.9",startx-11,page,1);
+        glcd_write_text("2.8",startx-4,page-1,1);
+
         startx+=15;
-        glcd_circle_fill(startx,xtoy(startx,z2)-2,R_S,1);
-        glcd_write_text("3.4",startx-10,page-1,1);
+
+        glcd_circle_fill(startx,xtoy(startx,0)-2,R_S,1);
+        glcd_write_text("3.5",startx-11,page,1);
   }
-}
+void glcd_draw_subdiv2(unsigned short startx){
+        int page=7;
+        glcd_circle_fill(startx+64,xtoy(startx,0),R_S,1);
+        glcd_write_text("0",startx+64,page-1,1);
+        startx+=15;
+        glcd_circle_fill(startx+64,xtoy(startx,0),R_S,1);
+        glcd_write_text("0.23",startx+64-7,page,1);
+        startx+=15;
+        glcd_circle_fill(startx+64,xtoy(startx,0),R_S,1);
+        glcd_write_text("1",startx+64-5,page-1,1);
+        startx+=15;
+        glcd_circle_fill(startx+64,xtoy(startx,0),R_S,1);
+        glcd_write_text("1.9",startx+64-11,page,1);
+        glcd_write_text("2.8",startx+64-4,page-1,1);
+        startx+=15;
+        glcd_circle_fill(startx+64,xtoy(startx,0)-2,R_S,1);
+        glcd_write_text("3.5",startx-11+64,page,1);
+  }
 void glcd_draw_semicircles(){
         glcd_circle(32,CENTER_Y,30,1);//nalga 1
         glcd_circle(96,CENTER_Y,30,1);//nalga 2
         Glcd_Rectangle_Round_Edges_Fill(0,51,127,63,0,0);
         glcd_draw_subdiv(2);
-        glcd_draw_subdiv(66);
+        glcd_draw_subdiv2(2);
 }
 void convertidor_voltaje(const float valor,unsigned short x,unsigned short page) {
         int i11,i2,d1,d2,d3;
@@ -97,7 +116,7 @@ void convertidor_voltaje(const float valor,unsigned short x,unsigned short page)
         i2 = valor-(10*i11);
         bytetostr(i2, txt2);
         glcd_write_text(ltrim(txt2), 5+x, page, 1);
-        glcd_write_text(".", 11+x, 1, 1);
+        glcd_write_text(".", 11+x, page, 1);
         n0 = (valor - 10*i11 - i2)*10000;
         d1 = n0/1000;
         bytetostr(d1, txt2);
@@ -130,11 +149,11 @@ void caso_3(){
 void caso_3_setup(){
         glcd_draw_semicircles();
         old_x1=old_x2=0;
-         Glcd_set_Font(font5x7 , 5, 7, 32);
+
          //0.00334
 }
 void caso_3_test(){
-    Glcd_Set_Font(Font_Glcd_System3x5 ,3,4,32);
+
         glcd_fill(0);
        glcd_draw_semicircles();
 
