@@ -15,47 +15,46 @@ int contador=0,bandera=0;
 void INT_Inicio_Conversion_T3 () org 0x24 {IFS0bits.T3IF=0;}//inicializa conversion del adc
 void INT_Mayor_QEI (){
   glcd_image(up);
-  glcd_write_text("Falla QEI",0,7,1);
+  glcd_write_text("Limit. QEI",0,7,1);
   contador=0;
   T2CONbits.TON=1;
 }
 void INT_Menor_QEI (){
   glcd_image(dw);
-  glcd_write_text("Falla QEI",0,7,1);
+  glcd_write_text("Limit. QEI",0,7,1);
   contador=0;
   T2CONbits.TON=1;
 }
 void INT_Animacion_1seg_T2 () org 0x22 {
   contador++;
-  bandera=1;
   if (contador==3 && bandera==2) {//2 segundos cambio imagen QEI
     glcd_fill(0);
-     glcd_image(danger_w);
+     glcd_image(dangericonpng26);
 
 //    glcd_partialimage(48,32,32,32,32,32,danger_w);
    }
    if (contador==5 && bandera==1) {//Cambio Imagen PWM
     glcd_fill(0);
-    glcd_image(danger_w);
+    glcd_image(dangericonpng26);
   }
    if (contador==6 && bandera==2) {//5 segundos, limpia pantalla
     glcd_fill(0);
   Glcd_Write_Text(" Sentido: ", 0, 0, 0);
   Glcd_Write_Text(" Distancia(cmts.): ", 0, 4, 0);
+  Glcd_Write_Text(" Vueltas ", 0, 7, 0);
    T2CONbits.TON=0;
    contador=0;
    }
    if (contador==9 && bandera==1){
     glcd_fill(0);
   Glcd_Write_Text("PWM4", 55, 0, 1);
-             Glcd_Write_Text("PWM3",0,1,1);
+             Glcd_Write_Text("PWM3",0,0,1);
     contador=0;T2conbits.ton=0;
    }
    IFS0bits.T2IF=0;
 }
 void inter_timer4 () org 0x4A {
    glcd_fill(0);
-  Glcd_Write_Text("PWM4", 55, 0, 1);
    IFS1bits.T4IF=0;
    T4CONbits.TON=0;
 }
@@ -125,6 +124,16 @@ void inter_adc () org 0x2E {
   adc_value2=ADC1BUF1;
   delay_ms(10);
   ajuste(adc_value);
+  if (T2CONbits.TON==0){
+  if(PDC3<2000)
+   Glcd_Write_Text("Izquierda",1,7,1);
+    if(PDC3>2000)
+   Glcd_Write_Text("Derecha  ",1,7,1);
+     if(PDC4<2000)
+   Glcd_Write_Text("Izquierda",50,7,1);
+    if(PDC4>2000)
+   Glcd_Write_Text("Derecha  ",50,7,1); 
+   }
   ajuste2(adc_value2);
   POT1=adc_value;
   POT2=adc_value2;
@@ -144,6 +153,7 @@ void INT_QEI() org 0x88 {
     delay_ms(50);
     QEI1CONbits.PIMOD=0;
     QEI1statbits.IDXIEN=0;
+     Glcd_Write_Text("           ", 1, 5, 1);
   }
   if(QEI1STATbits.PCHEQIRQ==1){
     INT_Mayor_QEI(); // animacion de mayor a 5000cm
@@ -201,11 +211,11 @@ void main() {
     selected=cursor_menu(3);
     switch(selected){
      case 1:
-
+      bandera=1;
 
       caso_1();
       T3CONbits.TON=0;
-      PTCONbits.PTEN=0;
+
       PDC3=2000;
       PDC4=2000;
 
@@ -214,6 +224,7 @@ void main() {
       break;
 
      case 2:
+     bandera=2;
       caso2();
       QEI1CONbits.QEIEN=0;
       glcd_fill(0);
@@ -279,14 +290,16 @@ void caso_1(){
     PDC4=3000;
     Glcd_Write_Text("DIEZ",0,1,1);
   }*/
+      Glcd_Write_Text("PWM3",0,0,1);
+     Glcd_Write_Text("PWM4",55,0,1);
   while (keydata!=ESC){
-    Glcd_Write_Text("PWM3",0,1,1);
+
     T3CONbits.TON=1;
     WordToStr(adc_value, txt);
     clean_PS2();
     Ps2_Key_Read(&keydata, &special, &down);
     if(keydata==ESC){return;}
-    Glcd_Write_Text(txt, 10, 3, 1);
+/*Glcd_Write_Text(txt, 10, 3, 1);
     pote1=adc_value*0.00339;
     decimales=1000*pote1;
     pote1=decimales*(1.00/1000);
@@ -299,7 +312,7 @@ void caso_1(){
     pote2=decimales*(1.00/1000);
     FloatToStr(pote2, txt);
     Glcd_Write_Text(txt, 70, 4, 1);
-    Ps2_Key_Read(&keydata, &special, &down);
+    Ps2_Key_Read(&keydata, &special, &down);*/
   
   }
 }
@@ -326,15 +339,37 @@ void caso2 () {
   recorrido=recorrido*2.35619; //se divide el poscnt entre 4
   //luego se multiplica por (2.pi.r)/4
    if(valor_actual ==2122 )  {
-   recorrido=5000; }
+   recorrido=5000;
+   }
   Floattostr(recorrido,texto);
   Ps2_Key_Read(&keydata, &special, &down);
     if(keydata==ESC){return;}
 
   Glcd_Write_Text(texto, 1, 5, 1);
+  if(T2CONbits.TON==1){
+    if(valor_anterior<valor_actual)
+  {
+  Glcd_Write_Text("derecha  ", 1, 6, 1);
+  cont=cont+1;
+  }
+  else if(valor_anterior>valor_actual)
+  {
+   Glcd_Write_Text("izquierda", 1, 6, 1);
+    cont2=cont2+1;
+  }
+    if(cont ==8 )
+    {vueltas++;
+    cont=0; }
+    if(cont2 ==8 )
+    {vueltas=vueltas-1;
+    cont2=0; }
+     Inttostr(vueltas,texto);
+  Glcd_Write_Text(texto, 60, 7, 1);
+   valor_anterior=valor_actual;
+  }
   if(valor_anterior<valor_actual)
   {
-  Glcd_Write_Text("derecha    ", 1, 2, 1);
+  Glcd_Write_Text("derecha  ", 1, 2, 1);
   cont=cont+1;
   }
   else if(valor_anterior>valor_actual)
