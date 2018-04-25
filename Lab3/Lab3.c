@@ -14,16 +14,13 @@ int contador=0,bandera=0;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void INT_Inicio_Conversion_T3 () org 0x24 {IFS0bits.T3IF=0;}//inicializa conversion del adc
 void INT_Mayor_QEI (){
-  /*glcd_partialimage(48,32,32,32,32,32,up);*/
-  //glcd_partialimage(47,10,32,32,32,32,up);
-
+  glcd_image(up);
   glcd_write_text("Falla QEI",0,7,1);
   contador=0;
   T2CONbits.TON=1;
 }
 void INT_Menor_QEI (){
-//  glcd_partialimage(48,32,32,32,32,32,dw);
-  //glcd_partialimage(47,10,32,32,32,32,dw);
+  glcd_image(dw);
   glcd_write_text("Falla QEI",0,7,1);
   contador=0;
   T2CONbits.TON=1;
@@ -33,13 +30,13 @@ void INT_Animacion_1seg_T2 () org 0x22 {
   bandera=1;
   if (contador==3 && bandera==2) {//2 segundos cambio imagen QEI
     glcd_fill(0);
-    glcd_partialimage(47,10,32,32,32,32,danger_w);
+     glcd_image(danger_w);
 
 //    glcd_partialimage(48,32,32,32,32,32,danger_w);
    }
    if (contador==5 && bandera==1) {//Cambio Imagen PWM
     glcd_fill(0);
-    glcd_partialimage(47,10,32,32,32,32,danger_w);
+    glcd_image(danger_w);
   }
    if (contador==6 && bandera==2) {//5 segundos, limpia pantalla
     glcd_fill(0);
@@ -164,7 +161,7 @@ void PWM4() org 0xD6{
  if(PORTDbits.RD11==0)
   {
   glcd_image(stop);
-   //glcd_partialimage(47,10,32,32,32,32,stop2);
+
   glcd_write_text("Falla Motor 4",0,7,1);
   IOCON4bits.FLTDAT=0;
   PWMCON4bits.FLTSTAT=0;
@@ -179,7 +176,7 @@ void PWM3() org 0xD4{
  if(PORTDbits.RD0==0){
   IOCON4bits.FLTDAT=0;
   PWMCON4bits.FLTSTAT=0;
-   glcd_partialimage(47,10,32,32,32,32,stop);
+   glcd_image(stop2);
    glcd_write_text("Falla Motor 3",0,6,1);
   contador=0;
   T2CONbits.TON=1;
