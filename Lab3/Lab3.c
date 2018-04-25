@@ -123,7 +123,7 @@ void inter_adc () org 0x2E {
  IFS0bits.AD1IF=0;
   adc_value=ADC1BUF0;
   adc_value2=ADC1BUF1;
-  delay_ms(5);
+  delay_ms(10);
   ajuste(adc_value);
   ajuste2(adc_value2);
   POT1=adc_value;
