@@ -123,7 +123,7 @@ void inter_adc () org 0x2E {
  IFS0bits.AD1IF=0;
   adc_value=ADC1BUF0;
   adc_value2=ADC1BUF1;
-  delay_ms(5);
+  delay_ms(10);
   ajuste(adc_value);
   ajuste2(adc_value2);
   POT1=adc_value;
@@ -204,11 +204,18 @@ void main() {
 
 
       caso_1();
+      T3CONbits.TON=0;
+      PTCONbits.PTEN=0;
+      PDC3=2000;
+      PDC4=2000;
+
+      AD1CON1bits.ADON=0;// Se desact el modulo
       glcd_fill(0);
       break;
 
      case 2:
       caso2();
+      QEI1CONbits.QEIEN=0;
       glcd_fill(0);
       break;
      
@@ -275,7 +282,6 @@ void caso_1(){
   while (keydata!=ESC){
     Glcd_Write_Text("PWM3",0,1,1);
     T3CONbits.TON=1;
-    delay_ms(1000);
     WordToStr(adc_value, txt);
     clean_PS2();
     Ps2_Key_Read(&keydata, &special, &down);
