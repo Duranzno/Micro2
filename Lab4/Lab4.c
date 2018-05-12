@@ -13,7 +13,7 @@ void USB1Interrupt() iv IVT_ADDR_USB1INTERRUPT{
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main() {
-  InitMCU();
+  //InitMCU(); problemas
   HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
  while(1){
   while(!HID_Write(menu,64));
