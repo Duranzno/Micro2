@@ -26,7 +26,7 @@ const code char charmander_2[1024] = {
         Glcd_Image(charmander_2);
         delay_ms(500);
 }*/
-char menu[] = "\r Menu \n CASO 1 \n CASO 2 \n CASO 3 \x0d \x0a";
+char menu[] = "\n Menu \n CASO 1 \n CASO 2 \n CASO 3 \x0a \x0d";
 char Bien1[] = "\r Bienvenido al caso 1 \r" ,Bien2[] = "\n Bienvenido al caso 2",Bien3[] = "\n Bienvenido al caso 3 \r";
 char caso1[] = "1",caso2[] = "2",caso3[] = "3";
 char POT1[] = "  POT 1: \r",POT2[] = "  POT 2: \r";
