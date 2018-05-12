@@ -25,3 +25,15 @@ void config_pin () {
 	RPINR0bits.INT1R=73; // RPI73 en INT1 motor 1
 	RPINR1bits.INT2R=72; // RPI72 en INT2 motor 2
 }
+<<<<<<< HEAD
+
+void config_velocidad () {
+IFS1bits.INT1IF=0;
+IFS1bits.INT2IF=0;
+INTCON2bits.INT1EP=0; //flanco positivo
+INTCON2bits.INT2EP=0; //flanco positivo
+IEC1bits.INT1IE=2;
+IEC1bits.INT2IE=2;
+}
+=======
+>>>>>>> c729a0338d7628cc5b392122dd6dd17267dfe619
