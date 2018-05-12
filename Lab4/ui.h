@@ -26,9 +26,12 @@ const code char charmander_2[1024] = {
         Glcd_Image(charmander_2);
         delay_ms(500);
 }*/
-char menu[] = "\n Menu \n CASO 1 \n CASO 2 \n CASO 3 \x0a \x0d";
-char Bien1[] = "\r Bienvenido al caso 1 \r" ,Bien2[] = "\n Bienvenido al caso 2",Bien3[] = "\n Bienvenido al caso 3 \r";
-char caso1[] = "1",caso2[] = "2",caso3[] = "3";
+char menu[] = "Menu";
+char Bien1[] = "\r Bienvenido al caso 1  \x0a \x0d";
+char Bien2[] = "\n Bienvenido al caso 2 \x0a \x0d";
+char Space[]="\n \x0a \x0d"  ;
+char Bien3[] = "\x0a \x0d \x0a \x0d  Bienvenido al caso 3 \x0a \x0d";
+char caso1[] = "A",caso2[] = "B",caso3[] = "C";
 char POT1[] = "  POT 1: \r",POT2[] = "  POT 2: \r";
 char MOTO1[] = " MOT 1 ACT ",MOTO2[] = " MOT 2 ACT ";
 char error1[]= "\r POT 1 HA SUPERADO\n \r";
@@ -37,9 +40,59 @@ char Bi4[] = "\r \x0a 4 GUARDAR  \r" ;
 char Bi5[] = "\r \x0a 5 MOSTRAR  \r" ;
 char Bi6[] = "\r \x0a 6 SALIR  \r" ;
 char Bien5[] = "\r Bienvenido al caso 5 \r";
+char caso1_1[]="VEL     ### RPN             |              ### RPN";
+char caso1_2[]="SENT    DERIZQ              |               DERIZQ";
+char caso1_3[]="FALLA   SINO                |                 SINO";
+
 unsigned PA,PB;
-int cont = 0;
+int cont = 0,it=0;
 char CL[]="\x0a";
 char IL[]="x0d";
 char CL1[]="\n";
 char IL1[]="\r";
+char txt3[3];
+
+void space2(){
+	while(!HID_Write(space,64));
+	while(!HID_Write(space,64));	
+}
+void space1(){
+	while(!HID_Write(space,64));	
+}
+
+void write(char *txt){
+	space2();
+	while(!HID_Write(txt,64));
+}
+void menu2(){
+	write(menu);
+	write("--------------------------------------------------");
+	write("CASO A MOTORES");
+	write("CASO B COMPARACION");
+	write("CASO C DAC");
+	space1();
+	space1();
+	space1();
+	space1();
+	space1();	
+}
+void update_caso1(unsigned rpn1){
+	inttostr(rpn1,txt3);
+	caso1_1[8]=txt3[0];
+	caso1_1[9]=txt3[0];
+	caso1_1[10]=txt3[0];
+}
+void caso_1(int rpn1){
+	//update_caso1(rpn1);
+	write("        MOTOR 1             |              MOTOR 2");
+	write("----------------------------|---------------------");
+	write(caso1_1);
+	write(caso1_2);
+	write(caso1_3);
+	space1();
+	space1();
+	space1();
+	space1();
+	space1();
+	space1();
+}

@@ -134,22 +134,22 @@ const struct {
 const struct{
   char bLength;
   char bDscType;
-  unsigned int string[9];
+  unsigned int string[7];
   }strd2={
-    20,           //sizeof this descriptor string
+    16,           //sizeof this descriptor string
     0x03,
-    {'m','i','c','r','o','_','c','p','c'}
+    {'P','A','T','O','L','I','S'}
   };
 
 //Product string descriptor
 const struct{
   char bLength;
   char bDscType;
-  unsigned int string[11];
+  unsigned int string[13];
 }strd3={
-    24,          //sizeof this descriptor string
+    28,          //sizeof this descriptor string
     0x03,
-    {'L','a','b','o','r','a','t','o','r','i','o'}
+    {'C','h','a','r','m','a','n','d','e','r','U','S','B'}
  };
 
 //Array of configuration descriptors
