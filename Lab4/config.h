@@ -17,3 +17,11 @@ while (OSCCONbits.COSC != 0x3);
 	ACLKCON3bits.ENAPLL = 1;
 	while(ACLKCON3bits.APLLCK != 1);
 }
+
+
+void config_pin () {
+	TRISDbits.TRISD9=1; // entrada opto para motor 1
+	TRISDbits.TRISD8=1; // entrada opto para motor 2
+	RPINR0bits.INT1=73; // RPI73 en INT1 motor 1
+	RPINR1bits.INT2=72; // RPI72 en INT2 motor 2
+}
