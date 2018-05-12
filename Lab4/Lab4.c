@@ -1,5 +1,5 @@
 #include "ui.h"
-#include "UART.h"
+//#include "UART.h"
 #include "config.h"
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,42 +32,66 @@ void USB1Interrupt() iv IVT_ADDR_USB1INTERRUPT{
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main() {
-  animate_charmander_2s();
-  Glcd_Fill(0);
   InitMCU();
   HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
-
- while(1){
-  while(!HID_Write(menu,64));
-  while(!HID_Read());
-  for(cnt=0;cnt<64;cnt++) writebuff[cnt]=readbuff[cnt];
-    if(strcmp(readbuff,caso1)==0){//CASE 1 
-      while(!HID_Write(Bien1,64));
-      while(escape==0){
-        if(HID_Read()){
-          escape++;
-          while(!HID_Write("Escape\n",64));    
-        }
-        if(mot1){
-          while(!HID_Write(MOT1,64));
-          Delay_ms(500);
-          //Falla Motor 1
-        }
-        if(mot2){
-          while(!HID_Write(MOT2,64));
-          Delay_ms(500);
-          //Falla Motor 2
-        }
-      escape=0;
-      }
-    }
-    else if(strcmp(readbuff,caso2)==0){//CASE 2
-      while(!HID_Write(Bien2,64));
-      //Mostrar valor Velocidad
-    }
-    else if(strcmp(readbuff,caso3)==0){//CASE 3
-      while(!HID_Write(Bien3,64));
-    }
-  Delay_ms(1000);
+while(1)
+{
+  for (i=0;i<64;i++)
+ {
+  writebuff[i]=' ';
   }
+for(j=0;j<4;j++){
+
+writebuff[63]='p';
+writebuff[62]='a';
+writebuff[61]='o';
+writebuff[60]='l';
+writebuff[59]='a';
+writebuff[58]=' ';
+
+ writebuff[57]='g';
+writebuff[56]='a';
+writebuff[55]='b';
+writebuff[54]='r';
+writebuff[53]='i';
+writebuff[52]=' ';
+
+
+while(!HID_Write(&writebuff,64));
+delay_ms(1000);
+}
+}
+ // while(1){
+ //  while(!HID_Write(menu,64));
+ //  while(!HID_Read());
+ //  for(cnt=0;cnt<64;cnt++) writebuff[cnt]=readbuff[cnt];
+ //    if(strcmp(readbuff,caso1)==0){//CASE 1 
+ //      while(!HID_Write(Bien1,64));
+ //      while(escape==0){
+ //        if(HID_Read()){
+ //          escape++;
+ //          while(!HID_Write("Escape\n",64));    
+ //        }
+ //        if(mot1){
+ //          while(!HID_Write(MOT1,64));
+ //          Delay_ms(500);
+ //          //Falla Motor 1
+ //        }
+ //        if(mot2){
+ //          while(!HID_Write(MOT2,64));
+ //          Delay_ms(500);
+ //          //Falla Motor 2
+ //        }
+ //      escape=0;
+ //      }
+ //    }
+ //    else if(strcmp(readbuff,caso2)==0){//CASE 2
+ //      while(!HID_Write(Bien2,64));
+ //      //Mostrar valor Velocidad
+ //    }
+ //    else if(strcmp(readbuff,caso3)==0){//CASE 3
+ //      while(!HID_Write(Bien3,64));
+ //    }
+ //  Delay_ms(1000);
+ //  }
 }

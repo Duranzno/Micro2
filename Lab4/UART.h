@@ -3,7 +3,11 @@ U1MODEbits.STSEL = 0;// 1 Bit de parada
 U1MODEbits.PDSEL = 0;// No hay paridad, 8 bits de datos
 U1MODEbits.ABAUD = 0;// Auto-Bauddisabilitado
 U1MODEbits.BRGH = 0;// Modo de velocidad standard
+<<<<<<< HEAD
 U1BRG = 12;// 9600 baudios
+=======
+U1BRG = 52;// 9600 baudios
+>>>>>>> a3135530578779bb57902b1f133061a97fa515c2
 U1STAbits.UTXISEL0 = 0;// Interrupción al transmitir un caracter
 U1STAbits.UTXISEL1 = 0;
 IEC0bits.U1TXIE = 1;// habilita interrupción por transmisión
