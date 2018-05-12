@@ -14,8 +14,7 @@ void main () {
 	U1UART_Init_Advanced(2400,2,1,1);
 	config_uart_rx ();
 	Glcd_Write_TEXT("Laboratorio 4",31,0,1);
-	while(1){
-	
+	while(1){	
          if (recibido=="1") {
          Glcd_Write_TEXT("Caso 1",31,0,1);	
          }
