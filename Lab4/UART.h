@@ -16,13 +16,8 @@ IPC3bits.U1TXIP=5;  // nivel 5 de int
 
 
 void config_uart_rx () {
-U1MODEbits.STSEL = 0;// 1 bit de parada
-U1MODEbits.PDSEL = 0;// No paridad, 8-bits de datos
-U1MODEbits.ABAUD = 0;// Auto-Bauddesabilitado
-U1MODEbits.BRGH = 0;// velocidad estándar
-U1BRG = BRGVAL;// 9600 baudios
 U1STAbits.URXISEL = 0;// Interrupción al recibir un carácter por RX ;
-U1MODEbits.UARTEN = 1;// Habilita UART
 IFS0bits.U1RXIF=0;  // borra bandera de int
-IPC2bits.U1RXIP=5;  // nivel 5 de int
+IEC0bits.U1RXIE=0; // habilitar interrupcion rx del uart
+IPC2bits.U1RXIP=7;  // nivel 5 de int
 }
