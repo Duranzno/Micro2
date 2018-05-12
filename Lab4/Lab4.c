@@ -1,4 +1,4 @@
-#include "sprites.h"
+#include "ui.h"
 #include "UART.h"
 #include "config.h"
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -17,13 +17,5 @@ void main() {
   Glcd_Fill(0);
   InitMCU();
   HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
-  while(1){
-    for (i=0;i<64;i++){
-      writebuff[i]=' ';
-    }
-    for(j=0;j<4;j++){
-    while(!HID_Write(&writebuff,64));
-    delay_ms(1000);
-    }
-  }
+ 
 }
