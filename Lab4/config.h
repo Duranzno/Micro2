@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 void InitMCU(){
 	ANSELC=0x0000; //Configuracion de E/S digitales
 	ANSELD=0x0000; //Configuracion de E/S digitales
@@ -24,7 +22,6 @@ while (OSCCONbits.COSC != 0x3);
 void config_pin () {
 	TRISDbits.TRISD9=1; // entrada opto para motor 1
 	TRISDbits.TRISD8=1; // entrada opto para motor 2
-	RPINR0bits.INT1=73; // RPI73 en INT1 motor 1
-	RPINR1bits.INT2=72; // RPI72 en INT2 motor 2
+	RPINR0bits.INT1R=73; // RPI73 en INT1 motor 1
+	RPINR1bits.INT2R=72; // RPI72 en INT2 motor 2
 }
->>>>>>> 1f041742846bee44bf01abac006fb2aab66f651e

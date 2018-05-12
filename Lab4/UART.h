@@ -8,7 +8,7 @@ U1STAbits.UTXISEL0 = 0;// Interrupción al transmitir un caracter
 U1STAbits.UTXISEL1 = 0;
 IEC0bits.U1TXIE = 1;// habilita interrupción por transmisión
 U1MODEbits.UARTEN = 1;// Habilita UART
-UARTU1STAbits.UTXEN = 1;// Habilita transmisor del UART
+UART1STAbits.UTXEN = 1;// Habilita transmisor del UART
 IFS0bits.U1TXIF=0;  // borra bandera de int
 IPC3bits.U1TXIP=5;  // nivel 5 de int
 }
