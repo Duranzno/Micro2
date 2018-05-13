@@ -1,6 +1,9 @@
 #include "hid.h"
 #include "config.h"
+#include "config_TX.h"
+
 #define DER 0
+
 #define IZQ 1
 #define FALLA 1
 #define NOFALLA 0

@@ -1,4 +1,6 @@
 #include "config.h"
+#include "config_RX.h"
+
 #include "sprites.h"
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned dato=0, dato2=0;
