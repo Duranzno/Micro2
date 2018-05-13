@@ -23,35 +23,14 @@ void main () {
     while(!UART1_Data_Ready()); //Espera que reciba un dato
     dato=UART1_Read();
     if(dato==1){
-      LATFBITS.LATF4=1;
-      delay_ms(500);
-      LATFBITS.LATF4=0;
-      delay_ms(500);
-      LATFBITS.LATF4=1;
-      delay_ms(500);
-      LATFBITS.LATF4=0;
       glcd_write_text("Caso 1",0,31,1);
      }
     else if(dato==2) {
-      LATFBITS.LATF4=1;
-      delay_ms(500);
-      LATFBITS.LATF4=0;
-      delay_ms(500);
-      LATFBITS.LATF4=1;
-      delay_ms(500);
-      LATFBITS.LATF4=0;
-      delay_ms(500);
-      LATFBITS.LATF4=1;
-      delay_ms(500);
-      LATFBITS.LATF4=0;
       glcd_write_text("Caso 2",0,31,1);  }
    else if(dato==3) {
-      LATFBITS.LATF4=1;
-      delay_ms(2000);
-      LATFBITS.LATF4=0;
       glcd_write_text("Caso 3",0,31,1);  }
       dato=0;
-     while(!UART1_Data_Ready()); //Espera que reciba un dato
+/*while(!UART1_Data_Ready()); //Espera que reciba un dato
       dato2=UART1_Read();
       dato2=(dato2<<8)+dato;
       PDC3=dato2;
@@ -63,6 +42,6 @@ void main () {
       dato2=UART1_Read();
       dato2=(dato2<<8)+dato;
       PDC4=dato2;
-      PORTBbits.RB0=~PORTBbits.RB0;
+      PORTBbits.RB0=~PORTBbits.RB0;*/
  }
 }
