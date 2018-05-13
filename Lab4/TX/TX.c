@@ -10,9 +10,11 @@
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 int i=0,j=0,escape=0,cnt,mot1=0,mot2=0;
+float pantalla=0;
 char readbuff[64];
 char writebuff[64];
 unsigned  short enviado=0;
+char txt [30];
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void timer8 () org 0x7A {
         IFS3bits.T8IF=0;
@@ -22,8 +24,6 @@ void USB1Interrupt() iv IVT_ADDR_USB1INTERRUPT{
   USB_Interrupt_Proc();
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-char txt [30]   ;
-float dato=0;
 void main() {
         config_INT();config_timer8();InitMCU();
         TRISDbits.TRISD10=0;
@@ -41,15 +41,11 @@ void main() {
                         caso_1(150,300,DER,DER,NOFALLA,FALLA);
                         enviado=1;
                         UART1_Write(enviado);
+                        
                         delay_ms(100);
-                         enviado=0;
-                         enviado=5;
-
-                         while(!UART1_Data_Ready()); //Espera que reciba un dato
-                         enviado=UART1_Read();
-                           dato=enviado;
-                         floattostr(dato,txt);
-                         logd(txt);
+                        pantalla=enviado;
+                        floattostr(pantalla,txt);
+                        logd(txt);
                         delay_ms(2000);
                 }
                 else if(strcmp(readbuff,caso2)==0){//CASE 2
@@ -57,29 +53,14 @@ void main() {
 
                         UART1_Write(enviado);
                         delay_ms(100);
-                         enviado=0;
-                         enviado=5;
 
-                         while(!UART1_Data_Ready()); //Espera que reciba un dato
-                         enviado=UART1_Read();
-                           dato=enviado;
-                         floattostr(dato,txt);
-                         logd(txt);
                 }
                 else if(strcmp(readbuff,caso3)==0){//CASE 3
                         while(!HID_Write(Bien3,64));
                         enviado=3;
 
                         UART1_Write(enviado);
-                        delay_ms(100);
-                         enviado=0;
-                         enviado=5;
 
-                         while(!UART1_Data_Ready()); //Espera que reciba un dato
-                         enviado=UART1_Read();
-                           dato=enviado;
-                         floattostr(dato,txt);
-                         logd(txt);
                 }
         Delay_ms(1000);
         }
