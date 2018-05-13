@@ -1,3 +1,4 @@
+
 void InitMCU(){
         ANSELC=0x0000; //Configuracion de E/S digitales
         ANSELD=0x0000; //Configuracion de E/S digitales

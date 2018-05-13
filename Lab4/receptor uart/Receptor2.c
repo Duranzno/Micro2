@@ -3,16 +3,10 @@
 #include "UART.h"
 
 
-unsigned short recibido;
-void inter_rx () org 0x2A {
-IFS0bits.U1RXIF=0;
-recibido=UART1_Read();
-
-}
 
 
 
-
+ unsigned dato=0, dato2=0;
 void main () {
         config_IO();
         config_INT();
@@ -22,17 +16,32 @@ void main () {
         RPINR18bits.U1RXR=46; //U1RX
         RPOR9bits.RP101R=1; //U1TX
         config_uart_rx ();
-        Glcd_Write_TEXT("Laboratorio 4",31,0,1);
-        while(1){
-         if (recibido==1) {
-         Glcd_Write_TEXT("Caso 1",31,0,1);
-         }
-         if (recibido==2) {
-         Glcd_Write_TEXT("Caso 2",31,0,1);
-         }
-         if (recibido==3) {
-         Glcd_Write_TEXT("Caso 3",31,0,1);
-         }
+          while(1)
+ {
+  while(!UART1_Data_Ready()); //Espera que reciba un dato
+  dato=UART1_Read();
+  if(dato==1) {
+   glcd_write_text("Caso 1",0,7,1);  }
+   else if(dato==2) {
+   glcd_write_text("Caso 2",0,7,1);  }
+   else if(dato==3) {
+   glcd_write_text("Caso 1",0,7,1);  }
+   dato=0;
+ /*while(!UART1_Data_Ready()); //Espera que reciba un dato
+  dato2=UART1_Read();
+  dato2=(dato2<<8)+dato;
+  PDC3=dato2;
+  PORTBbits.RB0=~PORTBbits.RB0;
+  while(!UART1_Data_Ready()); //Espera que reciba un dato
+  dato=UART1_Read();
+  PORTBbits.RB0=~PORTBbits.RB0;
+  while(!UART1_Data_Ready()); //Espera que reciba un dato
+  dato2=UART1_Read();
+  dato2=(dato2<<8)+dato;
+  PDC4=dato2;
+  PORTBbits.RB0=~PORTBbits.RB0;*/
+ }
 
-        }
+
+
 }
