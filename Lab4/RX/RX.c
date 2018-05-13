@@ -65,17 +65,18 @@ void main () {
       glcd_write_text("Caso 1",0,4,1);
       delay_ms(100);
       while(!UART1_Data_Ready());
-      if(dato!=escape) {
+      if(dato!=255) {
         dato=UART1_Read();
       while(!UART1_Data_Ready());
       dato2=UART1_Read();
       pantalla=dato;
-    floattostr(pantalla,txt);
+     floattostr(pantalla,txt);
    glcd_write_text(txt,0,6,1);
           pantalla=dato2;
     floattostr(pantalla,txt);
    glcd_write_text(txt,0,7,1);
    }
+   dato=0;
      }
     else if(dato==2) {
       glcd_write_text("Caso 2",2,4,1); 
