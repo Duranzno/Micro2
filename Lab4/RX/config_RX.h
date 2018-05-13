@@ -43,23 +43,18 @@ void config_IO(){
     ANSELB=ANSELC=ANSELD=ANSELE=0;
     ANSELBbits.ANSB5=1;       // an5
     ANSELBbits.ANSB0=1; // an4
-    TRISB=0xffff;
     TRISE=TRISG=0;
     TRISDbits.TRISD0=1;
     TRISDbits.TRISD11=1;
 }
 
-void config_RX(){
+void config_Init_rx(){
+ RPINR18bits.U1RXR=46; //U1RX
+RPOR9bits.RP101R=1; //U1TX
    UART1_Init(9600);
-   RPINR18bits.U1RXR=46; //U1RX
-   RPOR9bits.RP101R=1; //U1TX
 }
 
 void InitMCU(){
-        ANSELC=0x0000; //Configuracion de E/S digitales
-        ANSELD=0x0000; //Configuracion de E/S digitales
-        ANSELE=0x0040; //RE6 como entrada analogica
-        ANSELB=0x0000; //Configuracion de E/S digitales
         //CONFIGURACION DEL PLL PARA ALCANZAR UNA VELOCIDAD DE 30MHZ
         PLLFBD = 58; //M = 60
         CLKDIVbits.PLLPOST = 0; // N1 = 2
@@ -103,6 +98,8 @@ void config_pin () {
     RPINR1bits.INT2R=72; // RPI72 en INT2 motor 2
     RPOR0bits.RP64R=1; //U1TX
     RPINR18bits.U1RXR=72; //U1RX
+    RPINR13bits.FLT4R=75; // pin de falla pwm4
+    RPINR13bits.FLT3R=64; //pin de falla pwm3
 }
 void config_velocidad () {
         IFS1bits.INT1IF=0;
