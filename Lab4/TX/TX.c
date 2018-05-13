@@ -1,5 +1,5 @@
 #include "hid.h"
-#include "config.h"
+//#include "config.h"
 #include "config_TX.h"
 
 #define DER 0
@@ -15,43 +15,74 @@ char writebuff[64];
 unsigned  short enviado=0;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void timer8 () org 0x7A {
-	IFS3bits.T8IF=0;
-	LATFBITS.LATF5=~LATFBITS.LATF5;
+        IFS3bits.T8IF=0;
+        LATFBITS.LATF5=~LATFBITS.LATF5;
 }
 void USB1Interrupt() iv IVT_ADDR_USB1INTERRUPT{
   USB_Interrupt_Proc();
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+char txt [30]   ;
+float dato=0;
 void main() {
-	config_INT();config_timer8();InitMCU();
-	TRISDbits.TRISD10=0;
-	TRISFBITS.TRISF5=0;
-	config_pin();
-	UART1_Init(9600);
-	HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
-	while(1){
-		menu2();
-		while(!HID_Read());
-		for(cnt=0;cnt<64;cnt++) { 
-			writebuff[cnt]=readbuff[cnt]; 
-		}
-		if(strcmp(readbuff,caso1)==0){//CASE 1
-			caso_1(150,300,DER,DER,NOFALLA,FALLA);
-			enviado=1;
-			UART1_Write(enviado);
-			delay_ms(2000);
-		}
-		else if(strcmp(readbuff,caso2)==0){//CASE 2
-			enviado=2;
-			UART1_Write(enviado);
-		}
-		else if(strcmp(readbuff,caso3)==0){//CASE 3
-			while(!HID_Write(Bien3,64));
-			enviado=3;
-			UART1_Write(enviado);
-		}
-	Delay_ms(1000);
-	}
+        config_INT();config_timer8();InitMCU();
+        TRISDbits.TRISD10=0;
+        TRISFBITS.TRISF5=0;
+        config_pin();
+        UART1_Init(9600);
+        HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
+        while(1){
+                menu2();
+                while(!HID_Read());
+                for(cnt=0;cnt<64;cnt++) { 
+                        writebuff[cnt]=readbuff[cnt]; 
+                }
+                if(strcmp(readbuff,caso1)==0){//CASE 1
+                        caso_1(150,300,DER,DER,NOFALLA,FALLA);
+                        enviado=1;
+                        UART1_Write(enviado);
+                        delay_ms(100);
+                         enviado=0;
+                         enviado=5;
+
+                         while(!UART1_Data_Ready()); //Espera que reciba un dato
+                         enviado=UART1_Read();
+                           dato=enviado;
+                         floattostr(dato,txt);
+                         logd(txt);
+                        delay_ms(2000);
+                }
+                else if(strcmp(readbuff,caso2)==0){//CASE 2
+                        enviado=2;
+
+                        UART1_Write(enviado);
+                        delay_ms(100);
+                         enviado=0;
+                         enviado=5;
+
+                         while(!UART1_Data_Ready()); //Espera que reciba un dato
+                         enviado=UART1_Read();
+                           dato=enviado;
+                         floattostr(dato,txt);
+                         logd(txt);
+                }
+                else if(strcmp(readbuff,caso3)==0){//CASE 3
+                        while(!HID_Write(Bien3,64));
+                        enviado=3;
+
+                        UART1_Write(enviado);
+                        delay_ms(100);
+                         enviado=0;
+                         enviado=5;
+
+                         while(!UART1_Data_Ready()); //Espera que reciba un dato
+                         enviado=UART1_Read();
+                           dato=enviado;
+                         floattostr(dato,txt);
+                         logd(txt);
+                }
+        Delay_ms(1000);
+        }
 }
 /*
 while(escape==0){

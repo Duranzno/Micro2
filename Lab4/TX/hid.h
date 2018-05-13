@@ -103,6 +103,18 @@ void update_caso2(unsigned sent1,unsigned sent2){
                 caso1_2[49]='R';
         }
 }
+void logd(char *txt){
+        write(txt);
+        space1();
+        space1();
+        space1();
+        space1();
+        space1();
+        space1();
+        space1();
+        space1();
+        space1();
+}
 void caso_1(unsigned rpn1,unsigned rpn2,
         unsigned sent1,unsigned sent2,
         unsigned falla1,unsigned falla2){
