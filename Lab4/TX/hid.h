@@ -1,4 +1,8 @@
 #define ESC 27
+#define DER 0
+#define IZQ 1
+#define FALLA 1
+#define NOFALLA 0
 char menu[] = "Menu";
 char Bien1[] = "\r Bienvenido al caso 1  \x0a \x0d";
 char Bien2[] = "\n Bienvenido al caso 2 \x0a \x0d";
@@ -36,6 +40,7 @@ void write(char *txt){
         space2();
         while(!HID_Write(txt,64));
 }
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~HID MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void menu2(){
         write(menu);

@@ -3,7 +3,10 @@
 
 #include "sprites.h"
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-unsigned dato=0, dato2=0;
+unsigned short dato=0, dato2=0;
+float pantalla=0;
+char txt[7];
+int cnt;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void timer8 () org 0x7A {
   IFS3bits.T8IF=0;
@@ -11,25 +14,45 @@ void timer8 () org 0x7A {
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MAIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main () {
+   for(cnt=0;cnt<7;cnt++) {
+                        txt[cnt]="#";
+                }
+                InitMCU();
   config_IO();  config_LCD();
-  config_INT(); config_timer8();
-  config_RX();
+  delay_ms(100);
+  config_INT(); //config_timer8();
+  config_Init_rx();
   TRISFbits.TRISF4=0;
-  config_timer8()  ;
+ // config_timer8()  ;
   Glcd_Fill(0);
   animate_charmander_2s();
-  delay_ms(2000);
   while(1){
     while(!UART1_Data_Ready()); //Espera que reciba un dato
     dato=UART1_Read();
+    pantalla=dato;
+    floattostr(pantalla,txt);
+    glcd_fill(0);
+
+    glcd_write_text(txt,60,0,1);
+    glcd_write_text("recibio algo",60,7,1);
     if(dato==1){
-      glcd_write_text("Caso 1",0,31,1);
+      LATFBITS.LATF4=1;
+      delay_ms(2000);
+      LATFBITS.LATF4=0;
+      glcd_write_text("Caso 1",0,4,1);
+      delay_ms(100);
      }
     else if(dato==2) {
-      glcd_write_text("Caso 2",0,31,1);  }
+      glcd_write_text("Caso 2",2,4,1); 
+      delay_ms(100); }
    else if(dato==3) {
-      glcd_write_text("Caso 3",0,31,1);  }
-      dato=0;
+      glcd_write_text("Caso 3",2,4,1); 
+      delay_ms(100); }
+      else {
+      glcd_write_text("Caso 5",2,4,1);
+      delay_ms(100);  }
+       dato=0;
+       }
 /*while(!UART1_Data_Ready()); //Espera que reciba un dato
       dato2=UART1_Read();
       dato2=(dato2<<8)+dato;
@@ -42,6 +65,6 @@ void main () {
       dato2=UART1_Read();
       dato2=(dato2<<8)+dato;
       PDC4=dato2;
-      PORTBbits.RB0=~PORTBbits.RB0;*/
- }
+      PORTBbits.RB0=~PORTBbits.RB0;}*/
+
 }
