@@ -43,3 +43,6 @@ void config_PWM3(){
   FCLCON3=0x0015;//falla indep. act,pin falla 3,act en baj0
   FCLCON3bits.FLTSRC=2;  // pin de falla 3
 }
+void config_motor() {
+   config_PWM();  config_PWM3();
+}
