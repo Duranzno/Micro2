@@ -62,6 +62,8 @@ void InitMCU(){
         CLKDIVbits.PLLPRE = 0; // N2 = 2
         OSCTUN = 0;
         OSCCON=0x0301;
+        config_IO();
+        
 while (OSCCONbits.COSC != 0x3);
         //CONFIGURACION DEL PLL AUXILIAR PARA EL USB
         //SE REQUIEREN 48MHZ
@@ -101,10 +103,10 @@ void config_pin () {
     RPINR18bits.U1RXR=72; //U1RX
 }
 void config_velocidad () {
-	IFS1bits.INT1IF=0;
-	IFS1bits.INT2IF=0;
-	INTCON2bits.INT1EP=0; //flanco positivo
-	INTCON2bits.INT2EP=0; //flanco positivo
-	IEC1bits.INT1IE=2;
-	IEC1bits.INT2IE=2;
+        IFS1bits.INT1IF=0;
+        IFS1bits.INT2IF=0;
+        INTCON2bits.INT1EP=0; //flanco positivo
+        INTCON2bits.INT2EP=0; //flanco positivo
+        IEC1bits.INT1IE=2;
+        IEC1bits.INT2IE=2;
 }

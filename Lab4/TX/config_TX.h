@@ -26,8 +26,7 @@ void config_INT(){
   INTCON2bits.GIE=1; //interrupciones habilitadas
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
   IPC14bits.QEI1IP=2; // interrupcion del modulo cuadratura 2
-  IPC2bits.T3IP=3;
-  IPC1bits.T2IP=7;
+  IPC2bits.T3IP=5;
   IPC6bits.T4IP=3;
 //------------------------- habilitacion de interrupcion
  }
@@ -48,4 +47,6 @@ void config_pin () {
     RPINR1bits.INT2R=72; // RPI72 en INT2 motor 2
     RPOR0bits.RP64R=1; //U1TX
     RPINR18bits.U1RXR=72; //U1RX
+
+    
 }

@@ -137,7 +137,7 @@ void logd(char *txt){
         space1();
         space1();
 }
-void caso_1(unsigned rpn1,unsigned rpn2,
+void hid_caso_1(unsigned rpn1,unsigned rpn2,
         unsigned sent1,unsigned sent2,
         unsigned falla1,unsigned falla2,
         unsigned pot1,unsigned pot2){

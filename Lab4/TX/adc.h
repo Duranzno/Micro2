@@ -3,8 +3,8 @@ void ajuste2(unsigned control2);
 
 void config_timer3 () {
   TMR3=0;
-  T3CON=0X0020; //Prescaler 64:1, modo timer
-  PR3=31250; //1000ms
+  T3CON=0X0030; //Prescaler 64:1, modo timer
+  PR3=45000; //1000ms
   IEC0bits.T3IE=1;
   IFS0bits.T3IF=0;
 }
@@ -23,7 +23,7 @@ void config_adc() {
  AD1CON2bits.BUFM=0; //llenado desde la primera direccion
  AD1CON2bits.ALTS=0;
  AD1CON3bits.ADRC=0; //reloj interno  Tcy
- AD1CON3bits.SAMC=6; //5TAD del tiempo de muestreo
+ AD1CON3bits.SAMC=11; //10TAD del tiempo de muestreo
  AD1CON3bits.ADCS=0; //TAD=Tcy
  AD1CON4bits.ADDMAEN=0; //SIN DMA
  AD1CHS123bits.CH123NA=0; //entrada negativa es AVss
@@ -33,7 +33,6 @@ void config_adc() {
  IFS0bits.AD1IF=0;//bandera=0
  IEC0bits.AD1IE=1;//hab interrupcion
  IPC3bits.AD1IP=6;
- AD1CON1bits.ADON=1;// Se act el modulo
  delay_ms(10);
 }
 
