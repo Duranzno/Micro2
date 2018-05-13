@@ -26,11 +26,12 @@ IPC12bits.T8IP=7;
 T2CONbits.TON=1;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+unsigned enviado
 void main() {
  config_INT;
  TRISDbits.TRISD10=0;
  TRISFBITS.TRISF5=0;
- // UART1_Init_Advanced (9600, 1, 1, 1);
+  UART1_Init_Advanced (2400, 2, 1, 1);
   config_timer8();
   InitMCU();
   HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
@@ -43,14 +44,18 @@ void main() {
   }
   if(strcmp(readbuff,caso1)==0){//CASE 1
        caso_1(25);
+       UART1_Write(enviado);
        delay_ms(2000);
       //while(!HID_Write(Bien1,64));
   }
   else if(strcmp(readbuff,caso2)==0){//CASE 2
+      UART1_Write(enviado);
       //Mostrar valor Velocidad
+      
   }
   else if(strcmp(readbuff,caso3)==0){//CASE 3
       while(!HID_Write(Bien3,64));
+      UART1_Write(enviado);
   }
   Delay_ms(1000);
 }
