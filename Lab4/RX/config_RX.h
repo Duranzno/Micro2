@@ -94,6 +94,8 @@ void config_pin () {
     RPINR1bits.INT2R=72; // RPI72 en INT2 motor 2
     RPOR0bits.RP64R=1; //U1TX
     RPINR18bits.U1RXR=72; //U1RX
+    RPINR13bits.FLT4R=75; // pin de falla pwm4
+    RPINR13bits.FLT3R=64; //pin de falla pwm3
 }
 void config_velocidad () {
         IFS1bits.INT1IF=0;
