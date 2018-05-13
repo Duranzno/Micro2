@@ -36,6 +36,8 @@ void config_pin () {
         TRISDbits.TRISD8=1; // entrada opto para motor 2
         RPINR0bits.INT1R=73; // RPI73 en INT1 motor 1
         RPINR1bits.INT2R=72; // RPI72 en INT2 motor 2
+        RPOR0bits.RP64R=1; //U1TX
+        RPINR18bits.U1RXR=72; //U1RX
 }
 void config_velocidad () {
 IFS1bits.INT1IF=0;

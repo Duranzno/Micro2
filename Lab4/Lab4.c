@@ -1,5 +1,9 @@
 #include "ui.h"
 #include "config.h"
+#define DER 0
+#define IZQ 1
+#define FALLA 1
+#define NOFALLA 0
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 int i=0,j=0,escape=0,cnt,mot1=0,mot2=0;
@@ -26,12 +30,13 @@ IPC12bits.T8IP=7;
 T2CONbits.TON=1;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-unsigned enviado
+unsigned  short enviado=0;
 void main() {
  config_INT;
  TRISDbits.TRISD10=0;
  TRISFBITS.TRISF5=0;
-  UART1_Init_Advanced (2400, 2, 1, 1);
+ config_pin ();
+  UART1_Init(9600);
   config_timer8();
   InitMCU();
   HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
@@ -43,18 +48,21 @@ void main() {
   writebuff[cnt]=readbuff[cnt]; 
   }
   if(strcmp(readbuff,caso1)==0){//CASE 1
-       caso_1(25);
+       caso_1(150,300,DER,DER,NOFALLA,FALLA);
+       enviado=1;
        UART1_Write(enviado);
        delay_ms(2000);
       //while(!HID_Write(Bien1,64));
   }
   else if(strcmp(readbuff,caso2)==0){//CASE 2
+      enviado=2;
       UART1_Write(enviado);
       //Mostrar valor Velocidad
       
   }
   else if(strcmp(readbuff,caso3)==0){//CASE 3
       while(!HID_Write(Bien3,64));
+      enviado=3;
       UART1_Write(enviado);
   }
   Delay_ms(1000);

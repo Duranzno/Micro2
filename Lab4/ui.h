@@ -40,9 +40,9 @@ char Bi4[] = "\r \x0a 4 GUARDAR  \r" ;
 char Bi5[] = "\r \x0a 5 MOSTRAR  \r" ;
 char Bi6[] = "\r \x0a 6 SALIR  \r" ;
 char Bien5[] = "\r Bienvenido al caso 5 \r";
-char caso1_1[]="VEL     ### RPN             |              ### RPN";
-char caso1_2[]="SENT    DERIZQ              |               DERIZQ";
-char caso1_3[]="FALLA   SINO                |                 SINO";
+char caso1_1[]="VEL(RPN) ######             |                 ####";
+char caso1_2[]="SENT        ###             |                  ###";
+char caso1_3[]="FALLA        ##             |                   ##";
 
 unsigned PA,PB;
 int cont = 0,it=0;
@@ -50,7 +50,7 @@ char CL[]="\x0a";
 char IL[]="x0d";
 char CL1[]="\n";
 char IL1[]="\r";
-char txt3[3];
+char txt7[7];
 
 void space2(){
 	while(!HID_Write(space,64));
@@ -76,14 +76,67 @@ void menu2(){
 	space1();
 	space1();	
 }
-void update_caso1(unsigned rpn1){
-	inttostr(rpn1,txt3);
-	caso1_1[8]=txt3[0];
-	caso1_1[9]=txt3[0];
-	caso1_1[10]=txt3[0];
+void update_caso1(unsigned rpn1,unsigned rpn2){
+	inttostr(rpn1,txt7);
+	caso1_1[9] =txt7[0];
+	caso1_1[10]=txt7[1];
+	caso1_1[11]=txt7[2];
+	caso1_1[12]=txt7[3];
+	caso1_1[13]=txt7[4];
+	caso1_1[14]=txt7[5];
+	inttostr(rpn2,txt7);
+	caso1_1[45]=txt7[1];
+	caso1_1[46]=txt7[2];
+	caso1_1[47]=txt7[3];
+	caso1_1[48]=txt7[4];
+	caso1_1[49]=txt7[5];
 }
-void caso_1(int rpn1){
-	//update_caso1(rpn1);
+void update_caso3(unsigned falla1,unsigned falla2){
+	//falla=1 si & falla=0 no
+	if(falla1){
+		caso1_3[13]='S';
+		caso1_3[14]='I';
+	}else{
+		caso1_3[13]='N';
+		caso1_3[14]='O';
+	}
+	if(falla2){
+		caso1_3[48]='S';
+		caso1_3[49]='I';
+	}else{
+		caso1_3[48]='N';
+		caso1_3[49]='O';
+	}
+}
+void update_caso2(unsigned sent1,unsigned sent2){
+	//sent=1 izquierda & sent=0 derecha
+	if(sent1){
+		caso1_2[12]='I';
+		caso1_2[13]='Z';
+		caso1_2[14]='Q';
+	}else{
+		caso1_2[12]='D';
+		caso1_2[13]='E';
+		caso1_2[14]='R';
+	}
+	if(sent2){
+		caso1_2[47]='I';
+		caso1_2[48]='Z';
+		caso1_2[49]='Q';
+	}else{
+		caso1_2[47]='D';
+		caso1_2[48]='E';
+		caso1_2[49]='R';
+	}
+}
+void caso_1(unsigned rpn1,unsigned rpn2,
+	unsigned sent1,unsigned sent2,
+	unsigned falla1,unsigned falla2){
+
+	update_caso1(rpn1,rpn2);
+	update_caso2(sent1,sent2);
+	update_caso3(falla1,falla2);
+	
 	write("        MOTOR 1             |              MOTOR 2");
 	write("----------------------------|---------------------");
 	write(caso1_1);
