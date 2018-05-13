@@ -1,3 +1,7 @@
+#define DER 0
+#define IZQ 1
+#define FALLA 1
+#define NOFALLA 0
 //Variables de GLCD
 sbit GLCD_D0 at RD4_bit;
 sbit GLCD_D1 at RD5_bit;
