@@ -20,6 +20,7 @@ char Bien5[] = "\r Bienvenido al caso 5 \r";
 char caso1_1[]="VEL(RPN) ######             |                 ####";
 char caso1_2[]="SENT        ###             |                  ###";
 char caso1_3[]="FALLA        ##             |                   ##";
+char caso1_4[]="POT          ##             |                   ##";
 
 unsigned PA,PB;
 int cont = 0,it=0;
@@ -54,6 +55,7 @@ void menu2(){
         space1();
         space1();        
 }
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~HID CASO1~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void update_caso1(unsigned rpn1,unsigned rpn2){
         inttostr(rpn1,txt7);
@@ -86,6 +88,21 @@ void update_caso3(unsigned falla1,unsigned falla2){
                 caso1_3[48]='N';
                 caso1_3[49]='O';
         }
+}
+void update_caso4(unsigned pot1,unsigned pot2){
+        inttostr(pot1,txt7);
+        caso1_4[9] =txt7[0];
+        caso1_4[10]=txt7[1];
+        caso1_4[11]=txt7[2];
+        caso1_4[12]=txt7[3];
+        caso1_4[13]=txt7[4];
+        caso1_4[14]=txt7[5];
+        inttostr(pot2,txt7);
+        caso1_4[45]=txt7[1];
+        caso1_4[46]=txt7[2];
+        caso1_4[47]=txt7[3];
+        caso1_4[48]=txt7[4];
+        caso1_4[49]=txt7[5];
 }
 void update_caso2(unsigned sent1,unsigned sent2){
         //sent=1 izquierda & sent=0 derecha
@@ -122,18 +139,20 @@ void logd(char *txt){
 }
 void caso_1(unsigned rpn1,unsigned rpn2,
         unsigned sent1,unsigned sent2,
-        unsigned falla1,unsigned falla2){
+        unsigned falla1,unsigned falla2,
+        unsigned pot1,unsigned pot2){
 
         update_caso1(rpn1,rpn2);
         update_caso2(sent1,sent2);
         update_caso3(falla1,falla2);
+        update_caso4(pot1,pot2);
         
         write("        MOTOR 1             |              MOTOR 2");
         write("----------------------------|---------------------");
         write(caso1_1);
         write(caso1_2);
         write(caso1_3);
-        space1();
+        write(caso1_4);
         space1();
         space1();
         space1();

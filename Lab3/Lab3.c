@@ -254,42 +254,7 @@ void caso_1(){
   config_PWM();  config_PWM3();
   config_adc();
   adc_value=0;
-    // adc_value = ADC1_Get_Sample(5);
-  //PDC4=1000;
-  //PDC3=3000;
-  //Glcd_Write_Text("500 ",30,5,1);
-/*delay_ms(1000);
-   PDC4=1000;
-  Glcd_Write_Text("1000",30,5,1);
-  delay_ms(1000);
-  PDC4=1500;
-  Glcd_Write_Text("1500",30,5,1);
-  delay_ms(1000);
-  PDC4=2000;
-  Glcd_Write_Text("2000",30,5,1);
-  delay_ms(1000);
-   PDC4=2500;
-  Glcd_Write_Text("2500",30,5,1);
-  delay_ms(1000);
-   PDC4=3000;
-  Glcd_Write_Text("3000",30,5,1);
-  delay_ms(1000);
-   PDC4=3500;*/
-  /*if(adc_value<200){
-    PDC4=2100;//75% del ciclo util
-    Glcd_Write_Text("SETENTA",30,5,1);
-    }
-  else if(adc_value>200&&adc_value<=400){
-    PDC4=2300;
-    Glcd_Write_Text("CINCUENTA",0,1,1);
-  }
-  else if(adc_value>400&&adc_value<700){
-    PDC4=2700;
-    Glcd_Write_Text("VEINTE",0,1,1);
-  }else if(adc_value>700){
-    PDC4=3000;
-    Glcd_Write_Text("DIEZ",0,1,1);
-  }*/
+
       Glcd_Write_Text("PWM3",0,0,1);
      Glcd_Write_Text("PWM4",55,0,1);
   while (keydata!=ESC){
@@ -299,21 +264,7 @@ void caso_1(){
     clean_PS2();
     Ps2_Key_Read(&keydata, &special, &down);
     if(keydata==ESC){return;}
-/*Glcd_Write_Text(txt, 10, 3, 1);
-    pote1=adc_value*0.00339;
-    decimales=1000*pote1;
-    pote1=decimales*(1.00/1000);
-    FloatToStr(pote1, txt);
-    Glcd_Write_Text(txt, 10, 4, 1);
-    WordToStr(adc_value2, txt);
-    Glcd_Write_Text(txt, 70, 3, 1);
-    pote1=adc_value*0.00339;
-    decimales=1000*pote2;
-    pote2=decimales*(1.00/1000);
-    FloatToStr(pote2, txt);
-    Glcd_Write_Text(txt, 70, 4, 1);
-    Ps2_Key_Read(&keydata, &special, &down);*/
-  
+
   }
 }
 void caso2 () {
