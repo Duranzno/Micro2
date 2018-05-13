@@ -2,17 +2,14 @@
 //#include "config.h"
 #include "config_TX.h"
 
-#define DER 0
 
-#define IZQ 1
-#define FALLA 1
-#define NOFALLA 0
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 int i=0,j=0,escape=0,cnt,mot1=0,mot2=0;
 char readbuff[64];
 char writebuff[64];
 unsigned  short enviado=0;
+unsigned caso1_val[6]
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void timer8 () org 0x7A {
         IFS3bits.T8IF=0;
@@ -38,13 +35,30 @@ void main() {
                         writebuff[cnt]=readbuff[cnt]; 
                 }
                 if(strcmp(readbuff,caso1)==0){//CASE 1
-                        caso_1(150,300,DER,DER,NOFALLA,FALLA);
                         enviado=1;
                         UART1_Write(enviado);
                         delay_ms(100);
                          enviado=0;
                          enviado=5;
+                        while(!escape){
+                        	if(HID_Read()){
+                        		escape++;
+                        	}else{
+                        		//ORDEN RPN1,RPN2,DER(0)/IZQ(1)
+                        		//FALLA(1)/NOFALLA(0);
+                        		caso1_val[0]=150;
+                        		caso1_val[1]=300;
+                        		caso1_val[2]=DER;
+                        		caso1_val[3]=IZQ;
+                        		caso1_val[4]=FALLA;
+                        		caso1_val[5]=NOFALLA;
+                        		caso1(caso1_val[0],caso1_val[1],
+                        			caso1_val[2],caso1_val[3],
+                        			caso1_val[4],caso1_val[5]);
+                        		
+                        	}                  
 
+                        }
                          while(!UART1_Data_Ready()); //Espera que reciba un dato
                          enviado=UART1_Read();
                            dato=enviado;
@@ -82,6 +96,7 @@ void main() {
                          logd(txt);
                 }
         Delay_ms(1000);
+        escape=0;
         }
 }
 /*
