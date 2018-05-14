@@ -34,11 +34,11 @@ void inter_adc () org 0x2E {
     delay_ms(10);
     UART1_Write(adc_value2&0xFF);
     delay_ms(10);
-/*buffer_caso1();
+         buffer_caso1();
             hid_caso_1(caso1_val[0],caso1_val[1],
             caso1_val[2],caso1_val[3],
             caso1_val[4],caso1_val[5],
-            pote1,pote2);*/
+            pote1,pote2);
       if(adc_value1<512){
         caso1_val[2]=IZQ;}
       else {
@@ -77,7 +77,7 @@ void main() {
         }
 }
 void caso_1(){
-AD1CON1bits.ADON=1;// Se act el modulo
+//AD1CON1bits.ADON=1;// Se act el modulo
 T3CONbits.TON=1; // activa timer 3 para inicio de conver.
       hid_caso_1(caso1_val[0],caso1_val[1],
             caso1_val[2],caso1_val[3],

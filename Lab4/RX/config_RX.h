@@ -51,27 +51,12 @@ void config_IO(){
     TRISDbits.TRISD11=1;
 }
 
-/*void config_Init_rx(){
+void config_Init_rx(){
  RPINR18bits.U1RXR=46; //U1RX
 RPOR9bits.RP101R=1; //U1TX
    UART1_Init(9600);
-}*/
-void config_Init_rx(){
-
-  U1MODEbits.STSEL=0;
-  U1MODEbits.PDSEL=0;
-  U1MODEbits.ABAUD=0;
-  U1MODEbits.BRGH=0;
-  U1BRG=BRGVAL;
-  U1STAbits.URXISEL1=0;
-  IFS0bits.U1RXIF=0;
-  IEC0bits.U1RXIE=1;
-  IPC2bits.U1RXIP=6;
-  RPINR18bits.U1RXR=46; //U1RX
-  RPOR9bits.RP101R=1;
-  U1MODEbits.UARTEN=1;
-
 }
+
 
 void InitMCU(){
         //CONFIGURACION DEL PLL PARA ALCANZAR UNA VELOCIDAD DE 30MHZ
