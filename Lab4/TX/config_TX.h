@@ -1,4 +1,7 @@
-
+#define FP 15000000
+#define BAUDRATE 9600
+#define BRGVAL ((FP/BAUDRATE)/16)-1
+unsigned char UENVIAR;
 
 void InitMCU(){
         ANSELC=0x0000; //Configuracion de E/S digitales
@@ -19,7 +22,20 @@ while (OSCCONbits.COSC != 0x3);
         ACLKCON3bits.ENAPLL = 1;
         while(ACLKCON3bits.APLLCK != 1);
 }
-
+void config_TX(){
+  U1MODEbits.STSEL=0;
+  U1MODEbits.PDSEL=0;
+  U1MODEbits.ABAUD=0;
+  U1MODEbits.BRGH=0;
+  U1BRG=BRGVAL;
+  U1STAbits.UTXISEL1=0;
+  IEC0BITS.U1TXIE=1;
+  U1MODEbits.UARTEN=1;
+  delay_us(105);
+  IFS0bits.U1TXIF=0;
+  IEC0bits.U1TXIE=1;
+  IPC3bits.U1TXIP=6;
+}
 void config_INT(){
   SRbits.IPL =0;// iNTERRUPCION DE CPU ES DE NIVEL 0
   INTCON1bits.NSTDIS =0;// INTERRUPCION ANIDADAS ACTIVADAS

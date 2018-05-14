@@ -4,14 +4,31 @@
 #include "sprites.h"
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned short dato=0, dato2=0;
+unsigned char URECIBIR="#";
 float pantalla=0;
 char txt[7];
 int cnt;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void timer8 () org 0x7A {
   IFS3bits.T8IF=0;
-  LATFBITS.LATF4=~LATFBITS.LATF4;
+  //LATFBITS.LATF4=~LATFBITS.LATF4;
 }
+void UART_RX_INT() org 0x00002C{
+ IFS0bits.U1RXIF=0;
+
+ LATFBITS.LATF4=~LATFBITS.LATF4;
+
+
+ if(U1STAbits.FERR == 1)
+  {URECIBIR='0';}
+  if(U1STAbits.OERR == 1){
+    U1STAbits.OERR = 0;
+    URECIBIR='0';}
+  if(U1STAbits.URXDA == 1){
+    URECIBIR = U1RXREG;
+  }
+
+ }
 void PWM4() org 0xD6{ 
  IFS6bits.PWM4IF=0;
  if(PORTDbits.RD11==0)
@@ -53,7 +70,13 @@ void main () {
   Glcd_Fill(0);
   animate_charmander_2s();
   while(1){
-    while(!UART1_Data_Ready()); //Espera que reciba un dato
+    //while(!UART1_Data_Ready()); //Espera que reciba un dato
+
+    floattostr(pantalla,txt);
+    glcd_fill(0);
+    glcd_write_text(URECIBIR,60,0,1);
+    glcd_write_text("recibio algo",60,7,1);
+    /*while(!UART1_Data_Ready()); //Espera que reciba un dato
     dato=UART1_Read();
     pantalla=dato;
     floattostr(pantalla,txt);
@@ -87,7 +110,7 @@ void main () {
       else {
       glcd_write_text("Caso 5",2,4,1);
       delay_ms(100);  }
-       dato=0;
+       dato=0;*/
        }
 
 
