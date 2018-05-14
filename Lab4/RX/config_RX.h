@@ -104,6 +104,13 @@ void config_pin () {
     RPINR13bits.FLT4R=75; // pin de falla pwm4
     RPINR13bits.FLT3R=64; //pin de falla pwm3
 }
+void config_vref () {
+CVRCONbits.CVREN=1;
+CVRCONbits.CVROE=1;
+CVRCONbits.BGSEL=1;
+CVRCONbits.CVRR=0;
+
+}
 void config_velocidad () {
         IFS1bits.INT1IF=0;
         IFS1bits.INT2IF=0;

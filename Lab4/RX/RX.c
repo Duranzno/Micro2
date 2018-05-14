@@ -95,8 +95,16 @@ void main () {
       glcd_write_text("Caso 2",2,4,1); 
       delay_ms(100); }
    else if(dato==3) {
+   config_vref ();
+   
       glcd_write_text("Caso 3",2,4,1); 
       delay_ms(100); 
+    while(!UART1_Data_Ready()); //Espera que reciba un dato
+    dato=UART1_Read();
+    CVRCONbits.CVR=dato;
+    CVRCONbits.CVROE=1;
+    pantalla=dato;
+    floattostr(pantalla,txt);
     }
     else {
     glcd_write_text("Error",2,4,1);
