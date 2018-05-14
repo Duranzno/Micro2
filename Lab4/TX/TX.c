@@ -117,5 +117,33 @@ void caso_2(){
     enviado=2;UART1_Write(enviado);delay_ms(100);
 }
 void caso_3(){
-    enviado=3; UART1_Write(enviado);delay_ms(100);
+    hid_caso_3();
+    enviado=3;
+    UART1_Write(enviado);
+    delay_ms(100);
+    while(escape==0){
+        while(!HID_Read());
+            for(cnt=0;cnt<64;cnt++) {
+                    writebuff[cnt]=readbuff[cnt];
+            }
+            switch(readbuff[0]){
+                case '0':enviado=0;  UART1_Write(enviado);break;
+                case '1':enviado=1;  UART1_Write(enviado);break;
+                case '2':enviado=2;  UART1_Write(enviado);break;
+                case '3':enviado=3;  UART1_Write(enviado);break;
+                case '4':enviado=4;  UART1_Write(enviado);break;
+                case '5':enviado=5;  UART1_Write(enviado);break;
+                case '6':enviado=6;  UART1_Write(enviado);break;
+                case '7':enviado=7;  UART1_Write(enviado);break;
+                case '9':enviado=8;  UART1_Write(enviado);break;
+                case '0':enviado=9;  UART1_Write(enviado);break;
+                case 'A':case 'a':enviado=10;  UART1_Write(enviado);break;
+                case 'B':case 'b':enviado=11;  UART1_Write(enviado);break;
+                case 'C':case 'c':enviado=12;  UART1_Write(enviado);break;
+                case 'D':case 'd':enviado=13;  UART1_Write(enviado);break;
+                case 'E':case 'e':enviado=14;  UART1_Write(enviado);break;
+                case 'F':case 'f':enviado=15;  UART1_Write(enviado);break;
+                default:escape++;
+            }
+    }
 }
