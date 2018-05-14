@@ -22,6 +22,11 @@ char caso1_2[]="SENT        ###             |                  ###";
 char caso1_3[]="FALLA        ##             |                   ##";
 char caso1_4[]="POT          ##             |                   ##";
 
+char caso3_1[]="Salida por el PIN ###/####";
+char caso3_2[]="V 0.83  0.93  1.03  1.13  1.24  1.34  1.44  1.55 ";
+char caso3_3[]="OP   0     1     2     3     4     5     6     7 ";
+char caso3_4[]="V 1.65  1.75  1.86  1.96  2.06  2.17  2.27  2.37 ";
+char caso3_5[]="OP   8     9     A     B     C     D     E     F ";
 unsigned PA,PB;
 int cont = 0,it=0;
 char CL[]="\x0a";
@@ -154,6 +159,19 @@ void hid_caso_1(unsigned rpn1,unsigned rpn2,
         write(caso1_3);
         write(caso1_4);
         space1();
+        space1();
+        space1();
+        space1();
+        space1();
+}
+void hid_caso_3(){        
+        write(Bien3);
+        write("----------------------------|---------------------");
+        write(caso3_1);
+        write(caso3_2);
+        write(caso3_3);
+        write(caso3_4);
+        write(caso3_5);
         space1();
         space1();
         space1();
