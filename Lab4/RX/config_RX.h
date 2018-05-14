@@ -5,7 +5,6 @@
 #define FP 15000000
 #define BAUDRATE 9600
 #define BRGVAL ((FP/BAUDRATE)/16)-1
-unsigned char URECIBIR;
 //Variables de GLCD
 sbit GLCD_D0 at RD4_bit;
 sbit GLCD_D1 at RD5_bit;

@@ -4,7 +4,7 @@
 #include "sprites.h"
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned short dato=0, dato2=0;
-unsigned char URECIBIR="#";
+unsigned char URECIBIR='#';
 float pantalla=0;
 char txt[7];
 int cnt;
@@ -20,12 +20,12 @@ void UART_RX_INT() org 0x00002C{
 
 
  if(U1STAbits.FERR == 1)
-  {URECIBIR='0';}
+  {dato=255;}
   if(U1STAbits.OERR == 1){
     U1STAbits.OERR = 0;
-    URECIBIR='0';}
+    dato=255;}
   if(U1STAbits.URXDA == 1){
-    URECIBIR = U1RXREG;
+    dato = U1RXREG;
   }
 
  }
@@ -71,10 +71,10 @@ void main () {
   animate_charmander_2s();
   while(1){
     //while(!UART1_Data_Ready()); //Espera que reciba un dato
-
+    pantalla=dato;
     floattostr(pantalla,txt);
     glcd_fill(0);
-    glcd_write_text(URECIBIR,60,0,1);
+    glcd_write_text(txt,60,0,1);
     glcd_write_text("recibio algo",60,7,1);
     /*while(!UART1_Data_Ready()); //Espera que reciba un dato
     dato=UART1_Read();
