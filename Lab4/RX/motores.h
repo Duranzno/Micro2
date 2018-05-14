@@ -16,7 +16,7 @@ void config_PWM(){
   DTR4=2000;
   ALTDTR4=2000;
   PHASE4=30000; // periodo de 2ms
-  PDC4=3000; //100%
+  PDC4=20000; //100%
   IOCON4bits.FLTDAT=0;  // falla en pin pone bajo todo
   FCLCON4=0x0015;//falla indep. act,pin falla 3,act en baj0
   FCLCON4bits.FLTSRC=3;  // pin de falla 4
@@ -38,7 +38,7 @@ void config_PWM3(){
   DTR3=2000;
   ALTDTR3=2000;
   PHASE3=30000; // periodo de 2ms
-  PDC3=3000; //100%
+  PDC3=20000; //100%
   IOCON3bits.FLTDAT=0;  // falla en pin pone bajo todo
   FCLCON3=0x0015;//falla indep. act,pin falla 3,act en baj0
   FCLCON3bits.FLTSRC=2;  // pin de falla 3

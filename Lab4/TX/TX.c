@@ -6,13 +6,13 @@
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void buffer_caso1();void caso_2();void caso_3();void caso_1();
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-int i=0,j=0,escape=0,cnt,mot1=0,mot2=0;
+int i=0,j=0,escape=0,cnt,mot1=0,mot2=0,bandera1=0;
 float pantalla=0;
 char readbuff[64];
 char writebuff[64];
 unsigned  short enviado=0;
 unsigned    caso1_val[6]={0,0,0,0,0,0};
-unsigned adc_value1,adc_value2,pote1,pote2;
+unsigned short  adc_value1,adc_value2,pote1=0,pote2=0;
 char txt [30];
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void timer8 () org 0x7A {
@@ -29,24 +29,17 @@ void inter_adc () org 0x2E {
     IFS0bits.AD1IF=0;
     adc_value1=ADC1BUF0;
     adc_value2=ADC1BUF1;
+    pote1=adc_value1;
+    pote2=adc_value2;
     delay_ms(10);
-     UART1_Write(adc_value1&0xFF);
+
+    enviado=5;
+    UART1_Write(enviado);
     delay_ms(10);
-    UART1_Write(adc_value2&0xFF);
+    enviado=10;
+    UART1_Write(enviado);
     delay_ms(10);
-         buffer_caso1();
-            hid_caso_1(caso1_val[0],caso1_val[1],
-            caso1_val[2],caso1_val[3],
-            caso1_val[4],caso1_val[5],
-            pote1,pote2);
-      if(adc_value1<512){
-        caso1_val[2]=IZQ;}
-      else {
-        caso1_val[2]=DER;}
-      if(adc_value2<512){
-        caso1_val[3]=IZQ;}
-      else {
-        caso1_val[3]=DER;}
+     bandera1++;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main() {
@@ -77,7 +70,8 @@ void main() {
         }
 }
 void caso_1(){
-//AD1CON1bits.ADON=1;// Se act el modulo
+ bandera1=0;
+AD1CON1bits.ADON=1;// Se act el modulo
 T3CONbits.TON=1; // activa timer 3 para inicio de conver.
       hid_caso_1(caso1_val[0],caso1_val[1],
             caso1_val[2],caso1_val[3],
@@ -88,6 +82,22 @@ T3CONbits.TON=1; // activa timer 3 para inicio de conver.
     delay_ms(150);
 
     while(escape==0){
+        if (bandera1==3) {
+        buffer_caso1();
+            hid_caso_1(caso1_val[0],caso1_val[1],
+            caso1_val[2],caso1_val[3],
+            caso1_val[4],caso1_val[5],
+            pote1,pote2);
+            bandera1=0;
+    if(adc_value1<512){
+        caso1_val[2]=IZQ;}
+      else {
+        caso1_val[2]=DER;}
+      if(adc_value2<512){
+        caso1_val[3]=IZQ;}
+      else {
+        caso1_val[3]=DER;}
+            }
         if(HID_Read()){
             escape++;}
         else{

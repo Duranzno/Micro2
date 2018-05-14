@@ -4,7 +4,7 @@ void ajuste2(unsigned control2);
 void config_timer3 () {
   TMR3=0;
   T3CON=0X0030; //Prescaler 64:1, modo timer
-  PR3=45000; //1000ms
+  PR3=65000; //1000ms
   IEC0bits.T3IE=1;
   IFS0bits.T3IF=0;
 }
@@ -36,32 +36,5 @@ void config_adc() {
  delay_ms(10);
 }
 
-unsigned ajuste (unsigned control) {
- if (control<=200) {
-   return 500;
-  }else
-  if (control>200&&control<=350) {
-  return 850;
-  } else
-    if (control>350&&control<=450) {
-  return 1250;
-  } else
-    if (control>450&&control<=480) {
-  return 1450;
-  }     else
-    if (control>480&&control<=530) {
-  return 2000;
-  }         else
-    if (control>530&&control<=600) {
-  return 2450;
-  }    else
-    if (control>600&&control<=750) {
-  return 2850 ;
-  }        else
-    if (control>750&&control<=950) {
-  return 3250;
-  }      else
-    if (control>950&&control<=1023) {
-  return 3800;
-  }
+
 }

@@ -81,19 +81,18 @@ void config_INT(){
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
   IPC14bits.QEI1IP=2; // interrupcion del modulo cuadratura 2
   IPC2bits.T3IP=3;
-  IPC1bits.T2IP=7;
   IPC6bits.T4IP=3;
 //------------------------- habilitacion de interrupcion
  }
 
 void config_timer8() {
   tmr8=0;
-  pr8=31250;
-  t8con=0x8020;
+  pr8=58594;
+  t8con=0x0030;
   IFS3bits.T8IF=0;
   IEC3bits.T8IE=1;
   IPC12bits.T8IP=7;
-  T8CONbits.TON=1;
+
 }
 void config_pin () {
     TRISDbits.TRISD9=1; // entrada opto para motor 1
@@ -112,4 +111,33 @@ void config_velocidad () {
         INTCON2bits.INT2EP=0; //flanco positivo
         IEC1bits.INT1IE=2;
         IEC1bits.INT2IE=2;
+}
+unsigned ajuste (unsigned control) {
+ if (control<=20) {
+   return 7000;
+  }else
+  if (control>20&&control<=60) {
+  return 11000;
+  } else
+    if (control>60&&control<=90) {
+  return 12000;
+  } else
+    if (control>90&&control<=110) {
+  return 13400;
+  }     else
+    if (control>110&&control<=130) {
+  return 15000;
+  }         else
+    if (control>130&&control<=160) {
+  return 18000;
+  }    else
+    if (control>160&&control<=180) {
+  return 20000 ;
+  }        else
+    if (control>180&&control<=210) {
+  return 22000;
+  }      else
+    if (control>210&&control<=255) {
+  return 23500;
+  }
 }
