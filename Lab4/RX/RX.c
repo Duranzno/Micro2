@@ -100,12 +100,16 @@ void main () {
       glcd_write_text("Caso 3",2,4,1); 
       delay_ms(100); 
     while(!UART1_Data_Ready()); //Espera que reciba un dato
+    while (dato!=254){
     dato=UART1_Read();
     CVRCONbits.CVR=dato;
     CVRCONbits.CVROE=1;
     pantalla=dato;
     floattostr(pantalla,txt);
-    }
+    CVRCONbits.CVREN=0;
+     glcd_write_text(txt,2,7,1);
+     }
+     }
     else {
     glcd_write_text("Error",2,4,1);
     delay_ms(100); 
