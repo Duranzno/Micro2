@@ -15,7 +15,10 @@ void timer8 () org 0x7A {
 }
 void UART_RX_INT() org 0x00002C{
  IFS0bits.U1RXIF=0;
+
  LATFBITS.LATF4=~LATFBITS.LATF4;
+
+
  if(U1STAbits.FERR == 1)
   {URECIBIR='0';}
   if(U1STAbits.OERR == 1){
