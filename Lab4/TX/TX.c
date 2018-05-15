@@ -144,6 +144,7 @@ void caso_3(){
                 case 'E':case 'e':enviado=14;  UART1_Write(enviado);break;
                 case 'F':case 'f':enviado=15;  UART1_Write(enviado);break;
                 default:escape++;
+                break;
             }
     }
 }

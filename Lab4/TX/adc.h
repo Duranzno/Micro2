@@ -37,4 +37,3 @@ void config_adc() {
 }
 
 
-}
