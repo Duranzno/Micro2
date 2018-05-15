@@ -20,7 +20,7 @@ char caso1_2[]="SENT        ###             |                  ###";
 char caso1_3[]="FALLA        ##             |                   ##";
 char caso1_4[]="POT          ##             |                   ##";
 
-char caso3_1[]="Salida por el PIN AN18";
+char caso3_1[]="Salida por el PIN AN18 | OP=#";
 char caso3_2[]="V |0.83  0.93  1.03  1.13  1.24  1.34  1.44  1.55|";
 char caso3_3[]="OP|   0     1     2     3     4     5     6     7|";
 char caso3_4[]="V |1.65  1.75  1.86  1.96  2.06  2.17  2.27  2.37|";
