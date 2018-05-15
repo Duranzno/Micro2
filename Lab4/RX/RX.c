@@ -139,7 +139,7 @@ config_vref ();
   while(!UART1_Data_Ready()); //Espera que reciba un dato
   while (dato!=254){    
     dato=UART1_Read();
-    if(dato<16||dato>0){
+    if(dato<16&&dato>0){
       pantalla=dato;
       CVRCONbits.CVR=dato;
       CVRCONbits.CVROE=1;
