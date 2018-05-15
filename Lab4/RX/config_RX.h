@@ -43,35 +43,36 @@ void config_LCD(){
 }
 
 void config_IO(){
-    ANSELB=ANSELC=ANSELD=ANSELE=0;
-    ANSELBbits.ANSB5=1;       // an5
-    ANSELBbits.ANSB0=1; // an4
-    TRISE=TRISG=0;
-    TRISDbits.TRISD0=1;
-    TRISDbits.TRISD11=1;
+  ANSELB=ANSELC=ANSELD=ANSELE=0;
+  ANSELBbits.ANSB5=1;       // an5
+  ANSELBbits.ANSB0=1; // an4
+  TRISE=TRISG=0;
+  TRISDbits.TRISD0=1;
+  TRISDbits.TRISD11=1;
+  TRISBbits.TRISB10=0;
 }
 
 void config_Init_rx(){
- RPINR18bits.U1RXR=46; //U1RX
-RPOR9bits.RP101R=1; //U1TX
-   UART1_Init(9600);
+  RPINR18bits.U1RXR=46; //U1RX
+  RPOR9bits.RP101R=1; //U1TX
+  UART1_Init(9600);
 }
 
 
 void InitMCU(){
-        //CONFIGURACION DEL PLL PARA ALCANZAR UNA VELOCIDAD DE 30MHZ
-        PLLFBD = 58; //M = 60
-        CLKDIVbits.PLLPOST = 0; // N1 = 2
-        CLKDIVbits.PLLPRE = 0; // N2 = 2
-        OSCTUN = 0;
-        OSCCON=0x0301;
-while (OSCCONbits.COSC != 0x3);
-        //CONFIGURACION DEL PLL AUXILIAR PARA EL USB
-        //SE REQUIEREN 48MHZ
-        ACLKCON3 = 0x24C0;
-        ACLKDIV3 = 0x7;
-        ACLKCON3bits.ENAPLL = 1;
-        while(ACLKCON3bits.APLLCK != 1);
+  //CONFIGURACION DEL PLL PARA ALCANZAR UNA VELOCIDAD DE 30MHZ
+  PLLFBD = 58; //M = 60
+  CLKDIVbits.PLLPOST = 0; // N1 = 2
+  CLKDIVbits.PLLPRE = 0; // N2 = 2
+  OSCTUN = 0;
+  OSCCON=0x0301;
+  while (OSCCONbits.COSC != 0x3);
+  //CONFIGURACION DEL PLL AUXILIAR PARA EL USB
+  //SE REQUIEREN 48MHZ
+  ACLKCON3 = 0x24C0;
+  ACLKDIV3 = 0x7;
+  ACLKCON3bits.ENAPLL = 1;
+  while(ACLKCON3bits.APLLCK != 1);
 }
 
 void config_INT(){
@@ -79,20 +80,18 @@ void config_INT(){
   INTCON1bits.NSTDIS =0;// INTERRUPCION ANIDADAS ACTIVADAS
   INTCON2bits.GIE=1; //interrupciones habilitadas
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
-  IPC14bits.QEI1IP=2; // interrupcion del modulo cuadratura 2
   IPC2bits.T3IP=3;
   IPC6bits.T4IP=3;
-//------------------------- habilitacion de interrupcion
+  IPC14bits.QEI1IP=2; // interrupcion del modulo cuadratura 2
  }
 
 void config_timer8() {
   tmr8=0;
   pr8=58594;
   t8con=0x0030;
-  IFS3bits.T8IF=0;
   IEC3bits.T8IE=1;
+  IFS3bits.T8IF=0;
   IPC12bits.T8IP=7;
-
 }
 void config_pin () {
     TRISDbits.TRISD9=1; // entrada opto para motor 1
@@ -103,6 +102,7 @@ void config_pin () {
     RPINR18bits.U1RXR=72; //U1RX
     RPINR13bits.FLT4R=75; // pin de falla pwm4
     RPINR13bits.FLT3R=64; //pin de falla pwm3
+    TRISFbits.TRISF4=0;//LED de prueba;
 }
 void config_vref () {
 CVRCONbits.CVREN=1;
