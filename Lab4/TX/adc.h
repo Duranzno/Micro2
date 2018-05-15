@@ -1,6 +1,3 @@
-void ajuste(unsigned control);
-void ajuste2(unsigned control2);
-
 void config_timer3 () {
   TMR3=0;
   T3CON=0X0030; //Prescaler 64:1, modo timer
@@ -36,5 +33,3 @@ void config_adc() {
  delay_ms(10);
 }
 
-
-}

@@ -1,4 +1,7 @@
-
+void config_PWM();void config_PWM3();
+void config_motor() {
+   config_PWM();  config_PWM3();
+}
 void config_PWM(){
   IEC6bits.PWM4IE=1;   // interrupcion pwm4
   IFS6bits.PWM4IF=0;   // limpia bandera pwm4
@@ -42,7 +45,4 @@ void config_PWM3(){
   IOCON3bits.FLTDAT=0;  // falla en pin pone bajo todo
   FCLCON3=0x0015;//falla indep. act,pin falla 3,act en baj0
   FCLCON3bits.FLTSRC=2;  // pin de falla 3
-}
-void config_motor() {
-   config_PWM();  config_PWM3();
 }

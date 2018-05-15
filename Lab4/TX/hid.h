@@ -13,9 +13,7 @@ char POT1[] = "  POT 1: \r",POT2[] = "  POT 2: \r";
 char MOTO1[] = " MOT 1 ACT ",MOTO2[] = " MOT 2 ACT ";
 char error1[]= "\r POT 1 HA SUPERADO\n \r";
 char error2[]= "\r POT 2 HA SUPERADO \n \r";
-char Bi4[] = "\r \x0a 4 GUARDAR  \r" ;
-char Bi5[] = "\r \x0a 5 MOSTRAR  \r" ;
-char Bi6[] = "\r \x0a 6 SALIR  \r" ;
+
 char Bien5[] = "\r Bienvenido al caso 5 \r";
 char caso1_1[]="VEL(RPN) ######             |                 ####";
 char caso1_2[]="SENT        ###             |                  ###";
@@ -27,12 +25,9 @@ char caso3_2[]="V |0.83  0.93  1.03  1.13  1.24  1.34  1.44  1.55|";
 char caso3_3[]="OP|   0     1     2     3     4     5     6     7|";
 char caso3_4[]="V |1.65  1.75  1.86  1.96  2.06  2.17  2.27  2.37|";
 char caso3_5[]="OP|   8     9     A     B     C     D     E     F|";
-unsigned PA,PB;
+
 int cont = 0,it=0;
-char CL[]="\x0a";
-char IL[]="x0d";
-char CL1[]="\n";
-char IL1[]="\r";
+
 char txt7[7];
 
 void space1(){
