@@ -124,22 +124,22 @@ void caso3(){
                     writebuff[cnt]=readbuff[cnt];
             }
             switch(readbuff[0]){
-                case '0':enviado=0;  UART1_Write(enviado);break;
-                case '1':enviado=1;  UART1_Write(enviado);break;
-                case '2':enviado=2;  UART1_Write(enviado);break;
-                case '3':enviado=3;  UART1_Write(enviado);break;
-                case '4':enviado=4;  UART1_Write(enviado);break;
-                case '5':enviado=5;  UART1_Write(enviado);break;
-                case '6':enviado=6;  UART1_Write(enviado);break;
-                case '7':enviado=7;  UART1_Write(enviado);break;
-                case '9':enviado=8;  UART1_Write(enviado);break;
-                case '0':enviado=9;  UART1_Write(enviado);break;
-                case 'A':case 'a':enviado=10;  UART1_Write(enviado);break;
-                case 'B':case 'b':enviado=11;  UART1_Write(enviado);break;
-                case 'C':case 'c':enviado=12;  UART1_Write(enviado);break;
-                case 'D':case 'd':enviado=13;  UART1_Write(enviado);break;
-                case 'E':case 'e':enviado=14;  UART1_Write(enviado);break;
-                case 'F':case 'f':enviado=15;  UART1_Write(enviado);break;
+                case '0':enviado=0; caso3_1[28]=readbuff[0]; hid_caso3();  UART1_Write(enviado);break;
+                case '1':enviado=1; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case '2':enviado=2; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case '3':enviado=3; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case '4':enviado=4; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case '5':enviado=5; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case '6':enviado=6; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case '7':enviado=7; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case '9':enviado=8; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case '0':enviado=9; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case 'A':case 'a':enviado=10; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case 'B':case 'b':enviado=11; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case 'C':case 'c':enviado=12; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case 'D':case 'd':enviado=13; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case 'E':case 'e':enviado=14; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
+                case 'F':case 'f':enviado=15; caso3_1[28]=readbuff[0]; hid_caso3(); UART1_Write(enviado);break;
                 default:escape++;UART_ESC();break;
             }
     }
