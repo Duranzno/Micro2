@@ -8,7 +8,7 @@ char Bien1[] = "\r Bienvenido al caso 1  \x0a \x0d";
 char Bien2[] = "\n Bienvenido al caso 2 \x0a \x0d";
 char Space[]="\n \x0a \x0d"  ;
 char Bien3[] = " Bienvenido al caso 3";
-char caso1[] = "A",caso2[] = "B",caso3[] = "C";
+char caso_1[] = "A",caso_2[] = "B",caso_3[] = "C";
 char POT1[] = "  POT 1: \r",POT2[] = "  POT 2: \r";
 char MOTO1[] = " MOT 1 ACT ",MOTO2[] = " MOT 2 ACT ";
 char error1[]= "\r POT 1 HA SUPERADO\n \r";

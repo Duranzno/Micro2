@@ -131,21 +131,24 @@ void caso2(){
   glcd_write_text("Caso 2",2,4,1); 
   delay_ms(100); 
 }
-void caso3()config_vref ();   
+void caso3(){
+dato=0;
+config_vref ();   
   glcd_write_text("Caso 3",2,4,1); 
-  delay_ms(100); 
+  delay_ms(50);
   while(!UART1_Data_Ready()); //Espera que reciba un dato
   while (dato!=254){    
     dato=UART1_Read();
     if(dato<16||dato>0){
+      pantalla=dato;
       CVRCONbits.CVR=dato;
       CVRCONbits.CVROE=1;
-      pantalla=dato;
+
       floattostr(pantalla,txt);
       CVRCONbits.CVREN=0;
       glcd_write_text(txt,2,7,1);
     }
     
   }
+  dato=0;
 }
-

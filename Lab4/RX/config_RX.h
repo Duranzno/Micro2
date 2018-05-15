@@ -50,6 +50,7 @@ void config_IO(){
   TRISDbits.TRISD0=1;
   TRISDbits.TRISD11=1;
   TRISBbits.TRISB10=0;
+  ANSELBbits.ANSB10=1;
 }
 
 void config_Init_rx(){

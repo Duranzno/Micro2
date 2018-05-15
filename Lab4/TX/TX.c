@@ -36,6 +36,12 @@ void INT_ADC() org 0x2E {
     UART1_Write(enviado);    delay_ms(10);
     bandera1++;
 }
+
+
+void cambio_led () {
+   LATFBITS.LATF5=~LATFBITS.LATF5;
+
+}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main() {
     config_INT();//config_timer8();
@@ -51,31 +57,31 @@ void main() {
             for(cnt=0;cnt<64;cnt++) {
                     writebuff[cnt]=readbuff[cnt];
             }
-            if(strcmp(readbuff,caso1)==0){//CASE 1
+            if(strcmp(readbuff,caso_1)==0){//CASE 1
                     caso1();
             }
-            else if(strcmp(readbuff,caso2)==0){//CASE 2
+            else if(strcmp(readbuff,caso_2)==0){//CASE 2
                    caso2();
             }
-            else if(strcmp(readbuff,caso3)==0){//CASE 3
+            else if(strcmp(readbuff,caso_3)==0){//CASE 3
                     caso3();
             }
     Delay_ms(1000);
     escape=0;
     }
 }
-void caso1(){
+void caso1(){  +
     bandera1=0;
     AD1CON1bits.ADON=1;// Se act el modulo
     T3CONbits.TON=1; // activa timer 3 para inicio de conver.
-    hid_caso1(caso1_val[0],caso1_val[1],caso1_val[2],caso1_val[3],caso1_val[4],caso1_val[5],pote1,pote2);
+    hid_caso_1(caso1_val[0],caso1_val[1],caso1_val[2],caso1_val[3],caso1_val[4],caso1_val[5],pote1,pote2);
     enviado=1;
     UART1_Write(enviado);
     delay_ms(150);
     while(escape==0){
         if (bandera1==3) {
         buffer_caso1();
-            hid_caso1(caso1_val[0],caso1_val[1],
+            hid_caso_1(caso1_val[0],caso1_val[1],
             caso1_val[2],caso1_val[3],
             caso1_val[4],caso1_val[5],
             pote1,pote2);
@@ -108,7 +114,7 @@ void caso2(){
     enviado=2;UART1_Write(enviado);delay_ms(100);
 }
 void caso3(){
-    hid_caso3();
+    hid_caso_3();
     enviado=3;
     UART1_Write(enviado);
     delay_ms(100);
