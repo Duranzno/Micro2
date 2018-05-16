@@ -26,7 +26,7 @@ void config_adc() {
  AD1CHS123bits.CH123NA=0; //entrada negativa es AVss
  AD1CHS123bits.CH123SA=0;// CH1 entrada positiva AN0(RB0)
  AD1CHS0bits.CH0NA=0; //entrada negativa es AVss
- AD1CHS0bits.CH0SA=5;//ENTRADA positiva AN15(rb15)
+ AD1CHS0bits.CH0SA=3;//ENTRADA positiva AN4(4)
  IFS0bits.AD1IF=0;//bandera=0
  IEC0bits.AD1IE=1;//hab interrupcion
  IPC3bits.AD1IP=6;

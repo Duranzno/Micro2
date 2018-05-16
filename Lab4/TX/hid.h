@@ -19,7 +19,10 @@ char caso1_1[]="VEL(RPN) ######             |                 ####";
 char caso1_2[]="SENT        ###             |                  ###";
 char caso1_3[]="FALLA        ##             |                   ##";
 char caso1_4[]="POT          ##             |                   ##";
-
+char caso2_nor[]="Todo esta funcionando bien  |              ";
+char caso2_sup[]="Limite Superior             |              ";
+char caso2_inf[]="Limite Inferior             |              ";
+char caso2_pot[]=  "POT          ##             |              ";
 char caso3_1[]="Salida por el PIN AN18 | OP=#";
 char caso3_2[]="V |0.83  0.93  1.03  1.13  1.24  1.34  1.44  1.55|";
 char caso3_3[]="OP|   0     1     2     3     4     5     6     7|";
@@ -159,7 +162,7 @@ void hid_caso_1(unsigned rpn1,unsigned rpn2,
         space1();
         space1();
 }
-void hid_caso_3(){        
+void hid_caso_3(){
         write(Bien3);
         write("----------------------------|---------------------");
         write(caso3_1);
@@ -169,6 +172,33 @@ void hid_caso_3(){
         write(caso3_5);
         space1();
         space1();
+        space1();
+        space1();
+}
+void hid_caso_2(unsigned pot){
+        write(Bien2);
+        if(pot<1000){
+                write(caso2_inf);
+        }else if(pot>1000){
+                write(caso2_sup);
+        }else{
+                write(caso2_nor);
+        }
+        inttostr(pot,txt7);
+        caso2_pot[9] =txt7[0];
+        caso2_pot[10]=txt7[1];
+        caso2_pot[11]=txt7[2];
+        caso2_pot[12]=txt7[3];
+        caso2_pot[13]=txt7[4];
+        caso2_pot[14]=txt7[5];
+        write(caso2_pot);
+        space1();
+        space1();
+         space1();
+        space1();
+        space1();
+        space1();
+         space1();
         space1();
         space1();
 }

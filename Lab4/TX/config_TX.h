@@ -58,9 +58,9 @@ void config_timer8() {
 }
 void config_pin () {
     ANSELBbits.ANSB0=1; // RBO analogico
-    ANSELBbits.ANSB5=1; // RB5 analogico
+    ANSELBbits.ANSB3=1; // RB4 analogico
     TRISBbits.TRISB0=1;
-    TRISBbits.TRISB5=1;
+    TRISBbits.TRISB3=1;
     TRISDbits.TRISD9=1; // entrada opto para motor 1
     TRISDbits.TRISD8=1; // entrada opto para motor 2
     RPINR0bits.INT1R=73; // RPI73 en INT1 motor 1

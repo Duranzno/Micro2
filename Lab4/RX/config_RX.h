@@ -1,10 +1,3 @@
-#define DER 0
-#define IZQ 1
-#define FALLA 1
-#define NOFALLA 0
-#define FP 15000000
-#define BAUDRATE 9600
-#define BRGVAL ((FP/BAUDRATE)/16)-1
 //Variables de GLCD
 sbit GLCD_D0 at RD4_bit;
 sbit GLCD_D1 at RD5_bit;
@@ -14,8 +7,8 @@ sbit GLCD_D4 at RF0_bit;
 sbit GLCD_D5 at RF1_bit;
 sbit GLCD_D6 at RE0_bit;
 sbit GLCD_D7 at RE1_bit;
-sbit GLCD_CS1 at LATE3_bit;
-sbit GLCD_CS2 at LATE2_bit;
+sbit GLCD_CS1 at LATE2_bit;
+sbit GLCD_CS2 at LATE3_bit;
 sbit GLCD_RS at LATD1_bit;
 sbit GLCD_RW at LATD2_bit;
 sbit GLCD_EN at LATD3_bit;
@@ -29,8 +22,8 @@ sbit GLCD_D4_Direction at TRISF0_bit;
 sbit GLCD_D5_Direction at TRISF1_bit;
 sbit GLCD_D6_Direction at TRISE0_bit;
 sbit GLCD_D7_Direction at TRISE1_bit;
-sbit GLCD_CS1_Direction at TRISE3_bit;
-sbit GLCD_CS2_Direction at TRISE2_bit;
+sbit GLCD_CS1_Direction at TRISE2_bit;
+sbit GLCD_CS2_Direction at TRISE3_bit;
 sbit GLCD_RS_Direction at TRISD1_bit;
 sbit GLCD_RW_Direction at TRISD2_bit;
 sbit GLCD_EN_Direction at TRISD3_bit;
@@ -43,21 +36,21 @@ void config_LCD(){
 }
 
 void config_IO(){
-  ANSELB=ANSELC=ANSELD=ANSELE=0;
-  ANSELBbits.ANSB5=1;       // an5
-  ANSELBbits.ANSB0=1; // an4
-  TRISE=TRISG=0;
-  TRISDbits.TRISD0=1;
-  TRISDbits.TRISD11=1;
-  TRISBbits.TRISB10=0;
-  ANSELBbits.ANSB10=1;
+    ANSELB=ANSELC=ANSELD=ANSELE=0;
+    TRISDbits.TRISD0=1;   //Pines falla
+    TRISDbits.TRISD11=1;  //Pines falla
+    TRISDbits.TRISD9=1;   //entrada opto para motor 1
+    TRISDbits.TRISD8=1;   //entrada opto para motor 2
+    TRISFbits.TRISF4=0;   //LED de prueba;
+    RPOR9bits.RP101R=1;   //U1TX
+    RPINR0bits.INT1R=73;  // RPI73 en INT1 motor 1 RPM 
+    RPINR1bits.INT2R=72;  // RPI72 en INT2 motor 2 RPM
+    RPINR18bits.U1RXR=46; //U1RX
+    RPINR13bits.FLT4R=75; // pin de falla pwm4
+    RPINR13bits.FLT3R=64; //pin de falla pwm3
 }
 
-void config_Init_rx(){
-  RPINR18bits.U1RXR=46; //U1RX
-  RPOR9bits.RP101R=1; //U1TX
-  UART1_Init(9600);
-}
+
 
 
 void InitMCU(){
@@ -81,36 +74,25 @@ void config_INT(){
   INTCON1bits.NSTDIS =0;// INTERRUPCION ANIDADAS ACTIVADAS
   INTCON2bits.GIE=1; //interrupciones habilitadas
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
-  IPC2bits.T3IP=3;
-  IPC6bits.T4IP=3;
-  IPC14bits.QEI1IP=2; // interrupcion del modulo cuadratura 2
- }
-
-void config_timer8() {
-  tmr8=0;
-  pr8=58594;
-  t8con=0x0030;
   IEC3bits.T8IE=1;
   IFS3bits.T8IF=0;
   IPC12bits.T8IP=7;
-}
-void config_pin () {
-    TRISDbits.TRISD9=1; // entrada opto para motor 1
-    TRISDbits.TRISD8=1; // entrada opto para motor 2
-    RPINR0bits.INT1R=73; // RPI73 en INT1 motor 1
-    RPINR1bits.INT2R=72; // RPI72 en INT2 motor 2
-    RPOR0bits.RP64R=1; //U1TX
-    RPINR18bits.U1RXR=72; //U1RX
-    RPINR13bits.FLT4R=75; // pin de falla pwm4
-    RPINR13bits.FLT3R=64; //pin de falla pwm3
-    TRISFbits.TRISF4=0;//LED de prueba;
-}
-void config_vref () {
-CVRCONbits.CVREN=1;
-CVRCONbits.CVROE=1;
-CVRCONbits.BGSEL=1;
-CVRCONbits.CVRR=0;
+ }
 
+void config_timer8() {
+  TMR8=0;
+  PR8=58594;
+  T8CON=0x0030;
+  }
+
+void config_vref () {
+  //CM1CONbits.CON=1;
+  CVRCONbits.CVREN=1;
+  CVRCONbits.CVROE=1;
+  CVRCONbits.BGSEL=1;
+  CVRCONbits.CVRR=0;
+  CVRCONbits.CVR=2;
+  CVRCONbits.VREFSEL=0;
 }
 void config_velocidad () {
         IFS1bits.INT1IF=0;

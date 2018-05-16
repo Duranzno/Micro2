@@ -25,3 +25,4 @@ void animate_charmander_2s(){
         Glcd_Image(charmander_2);
         delay_ms(500);
 }
+char Space[]="                                       "  ;
