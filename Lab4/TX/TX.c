@@ -64,7 +64,7 @@ void main() {
     config_timer3();
     config_adc();
     config_vref();
-    config_pin();config_CM();
+    config_pin();
     UART1_Init(9600);
     HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
     while(1){
@@ -123,6 +123,7 @@ void buffer_caso1(){
 }
 
 void caso2(){
+    config_CM();
     enviado=2;
     UART1_Write(enviado);
     delay_ms(100);
@@ -175,7 +176,7 @@ void caso2_check(){
         if(CM3CONbits.COUT==0){
         write("Supero limite superior");
         CMSTATbits.C3EVT=0;
-        CMSTATbits.C3OUT=0}
+        CMSTATbits.C3OUT=0;}
     else if(CM1CONbits.COUT==0){
         write("supero limite inferior");
         CMSTATbits.C1EVT=0;
