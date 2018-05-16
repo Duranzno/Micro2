@@ -19,6 +19,21 @@ void INT_Mayor_QEI (){
   contador=0;
   T2CONbits.TON=1;
 }
+void InitMCU(){
+  //CONFIGURACION DEL PLL PARA ALCANZAR UNA VELOCIDAD DE 30MHZ
+  PLLFBD = 58; //M = 60
+  CLKDIVbits.PLLPOST = 0; // N1 = 2
+  CLKDIVbits.PLLPRE = 0; // N2 = 2
+  OSCTUN = 0;
+  OSCCON=0x0301;
+  while (OSCCONbits.COSC != 0x3);
+  //CONFIGURACION DEL PLL AUXILIAR PARA EL USB
+  //SE REQUIEREN 48MHZ
+  ACLKCON3 = 0x24C0;
+  ACLKDIV3 = 0x7;
+  ACLKCON3bits.ENAPLL = 1;
+  while(ACLKCON3bits.APLLCK != 1);
+}
 void INT_Menor_QEI (){
   glcd_image(dw);
   glcd_write_text("Limit. QEI",0,7,1);
@@ -197,6 +212,7 @@ void PWM3() org 0xD4{
 
 int j;
 void main() {
+initmcu();
   config_IO();  config_LCD();
   config_INT();
   PS2_Config();

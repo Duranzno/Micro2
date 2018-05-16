@@ -27,6 +27,43 @@ sbit GLCD_RW_Direction at TRISD11_bit;
 sbit GLCD_EN_Direction at TRISD0_bit;
 sbit GLCD_RST_Direction at TRISF1_bit;
 
+void INT_CMSTAT org 0x38(){
+	if(CM3CONbits.COUT==0){
+		write("Supero limite superior");
+		CMSTATbits.C3EVT=0;
+		CMSTATbits.C3OUT=0}
+	else if(CM1CONbits.COUT==0){
+		write("supero limite inferior");
+		CMSTATbits.C1EVT=0;
+		CMSTATbits.C1OUT=0;
+	}
+}
+ void  CONFIG_CM(){
+ 	IFS1bits.CM1F=0;
+ 	IEC1bits.CM1E=1;
+ 	IPC4bits.CMP=6;
+ 	ANSELDbits.RD7=1;//ENTRADA ANALOGICA c3in1+ 3V pin 55
+ 	ANSELCbits.RC14=1;//ENTRADA ANALOGICA c3in1- POT pin 48
+ 	ANSELGbits.RB5=1;//ENTRADA ANALOGICA c1in+ POT RB5 pin 11
+
+ 	
+ 	
+	CM3CONbits.COE=0;
+ 	CM1CONbits.COE=0;
+	CM3CONbits.CON=1;
+ 	CM1CONbits.CON=1;
+ 	CM3CONbits.CPOL=0;
+ 	CM1CONbits.CPOL=0;
+
+ 	CM3CONBITS.CREF=0;//CONECTADO A C3IN1+
+ 	CM3CONBITS.CCH=1;//CONECTADO A C3IN1-
+ 	CM1CONBITS.CREF=0;//CONECTADO A C1IN1+
+ 	CM1CONBITS.CCH=11;////CONECTADO A INTREF
+ 	CVRCONbits.BGSL=1;	
+ 	CVRCONbits.CVREN=1;
+ }
+
+
 unsigned adc_value;
  char txt[9];
  void main()

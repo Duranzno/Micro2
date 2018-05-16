@@ -54,7 +54,10 @@ void main () {
   config_timer8(); encender_led();
   Glcd_Fill(0);  animate_charmander_2s();
   while(1){
-  while(!UART1_Data_Ready()); //Espera que reciba un dato
+    glcd_fill(0);
+    glcd_write_text("Laboratorio 4",64,0,1);
+    glcd_write_text("Esperando Comando",64,1,1);   
+    while(!UART1_Data_Ready()); //Espera que reciba un dato
     dato=UART1_Read();
     pantalla=dato;
     floattostr(pantalla,txt);
