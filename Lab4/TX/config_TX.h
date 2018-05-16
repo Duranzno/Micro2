@@ -2,7 +2,32 @@
 #define BAUDRATE 9600
 #define BRGVAL ((FP/BAUDRATE)/16)-1
 unsigned char UENVIAR;
+void  CONFIG_CM(){
+  IFS1bits.CM1F=0;
+  IEC1bits.CM1E=1;
+  IPC4bits.CMP=6;
+  ANSELDbits.RD7=1;//ENTRADA ANALOGICA c3in1+ 3V pin 55
+  ANSELCbits.RC14=1;//ENTRADA ANALOGICA c3in1- POT pin 48
+  ANSELGbits.RB5=1;//ENTRADA ANALOGICA c1in+ POT RB5 pin 11
 
+  
+  
+  CM3CONbits.COE=0;
+  CM1CONbits.COE=0;
+  CM3CONbits.CON=1;
+  CM1CONbits.CON=1;
+  CM3CONbits.CPOL=0;
+  CM1CONbits.CPOL=0;
+
+  CM3CONBITS.CREF=0;//CONECTADO A C3IN1+
+  CM3CONBITS.CCH=1;//CONECTADO A C3IN1-
+  CM1CONBITS.CREF=0;//CONECTADO A C1IN1+
+  CM1CONBITS.CCH=11;////CONECTADO A INTREF
+  CVRCONbits.BGSL=1;  
+  CVRCONbits.CVREN=1;
+  CM1CONbits.CEN=1;
+  CM3CONbits.CEN=1; 
+ }
 void InitMCU(){
         ANSELC=0x0000; //Configuracion de E/S digitales
         ANSELD=0x0000; //Configuracion de E/S digitales

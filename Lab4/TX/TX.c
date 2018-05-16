@@ -5,6 +5,7 @@
 #define PARTE_ALTA 0x3FC
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void buffer_caso1();void caso2();void caso3();void caso1();void UART_ESC();
+void caso2_check();
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 int i=0,j=0,escape=0,cnt,mot1=0,mot2=0,bandera1=0;
 float pantalla=0;
@@ -63,7 +64,7 @@ void main() {
     config_timer3();
     config_adc();
     config_vref();
-    config_pin();
+    config_pin();config_CM();
     UART1_Init(9600);
     HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
     while(1){
@@ -130,7 +131,7 @@ void caso2(){
         if(HID_Read()){
             escape++;UART_ESC();}
         else{
-            hid_caso_2(pote3);
+            caso2_check();
         }
     }
 }
@@ -169,4 +170,15 @@ void UART_ESC(){
     delay_ms(10);
     enviado=ESC_key;
     UART1_Write(enviado);
+}
+void caso2_check(){
+        if(CM3CONbits.COUT==0){
+        write("Supero limite superior");
+        CMSTATbits.C3EVT=0;
+        CMSTATbits.C3OUT=0}
+    else if(CM1CONbits.COUT==0){
+        write("supero limite inferior");
+        CMSTATbits.C1EVT=0;
+        CMSTATbits.C1OUT=0;
+    }
 }
