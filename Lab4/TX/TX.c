@@ -7,7 +7,7 @@
 void buffer_caso1();void caso2();void caso3();void caso1();void UART_ESC();
 void caso2_check();
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-int i=0,j=0,escape=0,cnt,mot1=0,mot2=0,bandera1=0;
+int i=0,j=0,escape=0,cnt,mot1=0,mot2=0,bandera1=0,bandera2=0;
 float pantalla=0;
 char readbuff[64];
 char writebuff[64];
@@ -173,13 +173,22 @@ void UART_ESC(){
     UART1_Write(enviado);
 }
 void caso2_check(){
-        if(CM3CONbits.COUT==0){
-        write("Supero limite superior");
-        CMSTATbits.C3EVT=0;
-        CMSTATbits.C3OUT=0;}
-    else if(CM1CONbits.COUT==0){
-        write("supero limite inferior");
-        CMSTATbits.C1EVT=0;
-        CMSTATbits.C1OUT=0;
+    write("Bienvenido al Caso 2");
+    if(CM3CONbits.COUT==0){
+	    if (bandera2==0){
+	        bandera2=1;
+	        write("Supero limite superior");
+	    }
+	}else if(CM1CONbits.COUT==0){
+        if (bandera2==0) {
+	        bandera2=2;
+	        write("supero limite inferior");
+        }
+    }else if(CM1CONbits.COUT==1&&CM3CONbits.COUT==1) {
+        bandera2=0;
     }
+    space2();
+    space2();
+    space2();
+    space2();
 }
