@@ -206,18 +206,25 @@ void caso2_check(){
     if(CM3CONbits.COUT==0){
         if (bandera2==0){
             bandera2=1;
-            write("Voltaje en limite superior");     
+            write("Voltaje en limite superior");
+            enviado=1;
+            UART1_Write(enviado);
             }
 
     }else if(CM1CONbits.COUT==0){
         if (bandera2==0) {
             bandera2=2;
             write("Voltaje en limite inferior");
+             enviado=2;
+            UART1_Write(enviado);
         }
     }else if(CM1CONbits.COUT==1&&CM3CONbits.COUT==1) {
         if (bandera2<3&&bandera2>0) {
             bandera2=3;
             write("Voltaje Normal");
+            enviado=3;
+             enviado=2;
+            UART1_Write(enviado);
         }
         else  bandera2=0;
     }
@@ -227,4 +234,5 @@ void caso2_check(){
     space2();
     space2();
     space2();
-
+    
+}
