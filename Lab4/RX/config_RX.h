@@ -81,9 +81,11 @@ void config_INT(){
   INTCON1bits.NSTDIS =0;// INTERRUPCION ANIDADAS ACTIVADAS
   INTCON2bits.GIE=1; //interrupciones habilitadas
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
-  IEC3bits.T8IE=1;
-  IFS3bits.T8IF=0;
-  IPC12bits.T8IP=7;
+ // IEC3bits.T8IE=1;
+  IFS3bits.T7IF=0;
+  IEC3bits.T7IE=1;
+ // IPC12bits.T8IP=7;
+  IPC12bits.T7IP=5;
  }
 
 void config_timer8() {
@@ -112,6 +114,8 @@ void config_velocidad () {
         INTCON2bits.INT2EP=0; //flanco positivo
         IEC1bits.INT1IE=2;
         IEC1bits.INT2IE=2;
+        IPC5BITS.INT1IP=4;
+  IPC7bits.INT2IP =4;
 }
 unsigned ajuste (unsigned control) {
  if (control<=20) {

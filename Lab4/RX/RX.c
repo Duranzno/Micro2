@@ -1,6 +1,6 @@
 #include "config_RX.h"
 #include "motores.h"
-#include "sprites.h"
+//#include "sprites.h"
 #define ESC_key 254
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned short dato=0, dato2=0;
@@ -26,6 +26,7 @@ void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
  }
  void timer7 () org 0x74 {
   IFS3bits.T7IF=0;
+  glcd_write_text("Ando funcionando",64,3,1);
   inttostr(rpm1,txt);
    glcd_write_text(txt,64,0,1);
    inttostr(rpm2,txt);
@@ -67,19 +68,23 @@ void main () {
   InitMCU();config_IO();config_vref(); 
   config_LCD(); delay_ms(50);
   config_INT(); UART1_Init(9600);
-  config_timer8(); encender_led();
-  Glcd_Fill(0);  animate_charmander_2s();
+ // config_timer8(); 
+ encender_led();
+  Glcd_Fill(0); // animate_charmander_2s();
+
   while(1){
-    glcd_fill(0);
+     glcd_fill(0);
     glcd_write_text("Laboratorio 4",64,0,1);
-    glcd_write_text("Esperando Comando",64,1,1);   
+    glcd_write_text("Esperando Comando",64,1,1);
+    delay_ms(100);
     while(!UART1_Data_Ready()); //Espera que reciba un dato
     dato=UART1_Read();
     pantalla=dato;
     floattostr(pantalla,txt);
     glcd_fill(0);
     glcd_write_text(txt,60,0,1);
-    glcd_write_text("recibio algo",60,7,1);
+    glcd_write_text("recibio algo",60,0,1);
+    if (dato>0&&dato<4) {
     switch(dato){
       case 1:
         caso1();
@@ -97,13 +102,14 @@ void main () {
         break;
     }
   dato=0;
+     }
   }
 }
 
 void caso1(){
   config_motor();
   //T8CONbits.TON=1;
-  glcd_write_text("Caso 1",64,4,1);
+  glcd_write_text("Caso 1",64,2,1);
   delay_ms(100);
     config_timer7();
  config_velocidad ();
@@ -142,7 +148,7 @@ dato=0;
     if(dato<16&&dato>=0){
       pantalla=dato;
       CVRCONbits.CVR=dato;
-      glcd_write_text(space,65,7,1);
+     // glcd_write_text(space,65,7,1);
       floattostr(pantalla,txt);
       glcd_write_text(txt,65,7,1);
       dato=0;
