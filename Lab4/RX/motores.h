@@ -16,8 +16,8 @@ void config_PWM(){
   IOCON4bits.PENL=1;
   IOCON4bits.POLH=0;
   IOCON4bits.POLL=0;
-  DTR4=2000;
-  ALTDTR4=2000;
+  DTR4=1000;
+  ALTDTR4=1000;
   PHASE4=30000; // periodo de 2ms
   PDC4=20000; //100%
   IOCON4bits.FLTDAT=0;  // falla en pin pone bajo todo
@@ -38,8 +38,8 @@ void config_PWM3(){
   IOCON3bits.PENL=1;
   IOCON3bits.POLH=0;
   IOCON3bits.POLL=0;
-  DTR3=2000;
-  ALTDTR3=2000;
+  DTR3=1000;
+  ALTDTR3=1000;
   PHASE3=30000; // periodo de 2ms
   PDC3=20000; //100%
   IOCON3bits.FLTDAT=0;  // falla en pin pone bajo todo

@@ -77,6 +77,7 @@ void main() {
                     caso1();
             }
             else if(strcmp(readbuff,caso_2)==0){//CASE 2
+                    write("Bienvenido al Caso 2");
                    caso2();
             }
             else if(strcmp(readbuff,caso_3)==0){//CASE 3
@@ -173,22 +174,35 @@ void UART_ESC(){
     UART1_Write(enviado);
 }
 void caso2_check(){
-    write("Bienvenido al Caso 2");
+
     if(CM3CONbits.COUT==0){
-	    if (bandera2==0){
-	        bandera2=1;
-	        write("Supero limite superior");
-	    }
-	}else if(CM1CONbits.COUT==0){
+            if (bandera2==0){
+                bandera2=1;
+                write("Voltaje en limite superior");
+                 space2();
+                space2();
+                 space2();
+                 space2();
+            }
+        }else if(CM1CONbits.COUT==0){
         if (bandera2==0) {
-	        bandera2=2;
-	        write("supero limite inferior");
+                bandera2=2;
+                write("Voltaje en limite inferior");
+                 space2();
+                 space2();
+                 space2();
+                 space2();
         }
     }else if(CM1CONbits.COUT==1&&CM3CONbits.COUT==1) {
-        bandera2=0;
+                  if (bandera2<3&&bandera2>0) {
+                  write("Voltaje Normal");
+                 space2();
+                 space2();
+                 space2();
+                 space2();
+                 bandera2=3;
+                 }
+                 else    bandera2=0;
     }
-    space2();
-    space2();
-    space2();
-    space2();
+
 }

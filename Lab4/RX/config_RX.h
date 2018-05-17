@@ -84,7 +84,11 @@ void config_timer8() {
   PR8=58594;
   T8CON=0x0030;
   }
-
+ void config_timer7() {
+  TMR7=0;
+  PR7=23438;
+  T7CON=0x0030;
+  }
 void config_vref () {
   //CM1CONbits.CON=1;
   CVRCONbits.CVREN=1;
@@ -95,7 +99,7 @@ void config_vref () {
   CVRCONbits.VREFSEL=0;
 }
 void config_velocidad () {
-        IFS1bits.INT1IF=0;
+
         IFS1bits.INT2IF=0;
         INTCON2bits.INT1EP=0; //flanco positivo
         INTCON2bits.INT2EP=0; //flanco positivo
@@ -104,30 +108,30 @@ void config_velocidad () {
 }
 unsigned ajuste (unsigned control) {
  if (control<=20) {
-   return 7000;
+   return 6500;
   }else
   if (control>20&&control<=60) {
+  return 10000;
+  } else
+    if (control>60&&control<=80) {
   return 11000;
   } else
-    if (control>60&&control<=90) {
+    if (control>80&&control<=90) {
   return 12000;
-  } else
-    if (control>90&&control<=110) {
-  return 13400;
   }     else
-    if (control>110&&control<=130) {
+    if (control>90&&control<=140) {
   return 15000;
   }         else
-    if (control>130&&control<=160) {
-  return 18000;
+    if (control>140&&control<=160) {
+  return 19000;
   }    else
     if (control>160&&control<=180) {
   return 20000 ;
   }        else
     if (control>180&&control<=210) {
-  return 22000;
+  return 21500;
   }      else
     if (control>210&&control<=255) {
-  return 23500;
+  return 23800;
   }
 }

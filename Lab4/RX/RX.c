@@ -6,7 +6,7 @@
 unsigned short dato=0, dato2=0,rpm=0,rpm2=0;
 int pantalla=0;
 char txt[7]={'#','#','#','#','#','#','#'};
-int cnt;
+int cnt,rpm1=0,rpm2=0;
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void caso2();void caso3();void caso1();
 void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
@@ -16,7 +16,23 @@ void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
   rpm=0;
   rpm2=0;
 }*/
-
+ void interupcion_ext1() org 0x3C {
+    IFS1bits.INT1IF=0;
+    rpm1++;
+ }
+  void interupcion_ext2() org 0x4E {
+    IFS1bits.INT2IF=0;
+    rpm2++;
+ }
+ void timer7 () org 0x74 {
+  IFS3bits.T7IF=0;
+  inttostr(rpm1,txt);
+   glcd_write_text(txt,64,0,1);
+   inttostr(rpm2,txt);
+  glcd_write_text(txt,64,1,1);
+  rpm=0;
+  rpm2=0;
+}
 void PWM4() org 0xD6{
   IFS6bits.PWM4IF=0;
   PWMCON3bits.FLTSTAT=0;
@@ -72,7 +88,7 @@ void main () {
         caso2();
         break;
       case 3:
-      	encender_led();
+              encender_led();
         caso3();
         break;
       default:
@@ -89,6 +105,9 @@ void caso1(){
   //T8CONbits.TON=1;
   glcd_write_text("Caso 1",64,4,1);
   delay_ms(100);
+    config_timer7();
+ config_velocidad ();
+ T7CONbits.TON=1; // activa conteo para RPM de motores
   while(!UART1_Data_Ready());
   encender_led();
   while (dato!=ESC_key){
@@ -118,7 +137,7 @@ dato=0;
   glcd_write_text("Caso 3",64,4,1); 
   delay_ms(50); 
   while (dato!=ESC_key){ 
-   	while(!UART1_Data_Ready()); //Espera que reciba un dato   
+           while(!UART1_Data_Ready()); //Espera que reciba un dato   
     dato=UART1_Read();
     if(dato<16&&dato>=0){
       pantalla=dato;
