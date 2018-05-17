@@ -27,14 +27,14 @@ void animate_charmander_2s(){
 }
 char Space[]="                                       "  ;
 void animate_64b(code const far char * image){
-	glcd_partialimage(64,64,64,64,64,64,code const far char * image);delay_ms(1000);
-	glcd_partialimage(0,64,64,64,64,64,code const far char * image);delay_ms(1000);
-	glcd_partialimage(64,0,64,64,64,64,code const far char * image);delay_ms(1000);
-	glcd_partialimage(0,0,64,64,64,64,code const far char * image);delay_ms(1000);
-	glcd_partialimage(32,32,64,64,64,64,code const far char * image);delay_ms(1000);
-	glcd_partialimage(0,32,64,64,64,64,code const far char * image);delay_ms(1000);
-	glcd_partialimage(32,0,64,64,64,64,code const far char * image);delay_ms(1000);
-	glcd_partialimage(0,0,64,64,64,64,code const far char * image);delay_ms(1000);
+	glcd_partialimage(64,64,64,64,64,64,image);glcd_write_text("1",64,3,1);delay_ms(10000);         glcd_fill(0);
+	glcd_partialimage(0,64,64,64,64,64,image);glcd_write_text("2",64,3,1);delay_ms(10000);          glcd_fill(0);
+	glcd_partialimage(64,0,64,64,64,64,image);glcd_write_text("3",64,3,1);delay_ms(10000);glcd_fill(0);
+	glcd_partialimage(0,0,64,64,64,64,image);glcd_write_text("4",64,3,1);delay_ms(10000);glcd_fill(0);
+	glcd_partialimage(32,32,64,64,64,64, image);glcd_write_text("5",64,3,1);delay_ms(10000);glcd_fill(0);
+	glcd_partialimage(0,32,64,64,64,64,image);glcd_write_text("6",64,3,1);delay_ms(10000);glcd_fill(0);
+	glcd_partialimage(32,0,64,64,64,64,image);glcd_write_text("7",64,3,1);delay_ms(10000);glcd_fill(0);
+	glcd_partialimage(0,0,64,64,64,64,image);glcd_write_text("8",64,3,1);delay_ms(10000);glcd_fill(0);
 
 }
 const code char pwm3a[512] = {
