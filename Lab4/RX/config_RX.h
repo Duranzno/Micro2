@@ -50,7 +50,14 @@ void config_IO(){
     RPINR13bits.FLT3R=64; //pin de falla pwm3
 }
 
-
+void config_TMR2_Sprite () {
+  TMR2=0;
+  T2CON=0X0020; //Prescaler 256:1, modo timer
+  PR2=31250; //1000ms
+  IEC0bits.T2IE=1;
+  IFS0bits.T2IF=0;
+  IPC1bits.T2IP=7;
+}
 
 
 void InitMCU(){
