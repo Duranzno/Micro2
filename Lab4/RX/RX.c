@@ -16,30 +16,32 @@ void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
   rpm=0;
   rpm2=0;
 }*/
-void INT_T05s()org 0x22{
-	T05s++;
-	if(T05s%2==0){T1s++;}
-	if(T05s==6){T05s=0;T1s=0;T2CONbits.TON=0;}
-	if((caso==CASE_MAY||caso==CASE_MEN)&&T1s==3){T1s=0;}
-	else if((caso==CASE_PWM4||caso==CASE_PWM3)&&T1s==2){T1s=0;}
-	else if(caso==CASE_NULL&&T1s==2){T1s=0;}
-	selector_sprite(caso,T1s);
+
+void INT_T05s_T2()org 0x22{
+    T05s++;
+    inttostr(T05s,txt);
+    glcd_write_text(txt,0,3,1);
+    if(T05s%2==0){T1s++;}
+     if(T05s>6){T2CONbits.TON=0;T1s=0;T05s=0;}
+    if((caso==CASE_MAY||caso==CASE_MEN)&&T1s==3){T1s=0;}
+    else if((caso==CASE_PWM4||caso==CASE_PWM3)&&T1s==2){T1s=0;}
+    else if(caso==CASE_NULL&&T1s==2){T1s=0;}
+    selector_sprite(caso,T1s);
+    IFS0bits.T2IF=0;
 }
  void interupcion_ext1() org 0x3C {
     IFS1bits.INT1IF=0;
     rpm1++;
-    glcd_write_text("int1",64,2,1);
+
  }
   void interupcion_ext2() org 0x4E {
     IFS1bits.INT2IF=0;
     rpm2++;
-    glcd_write_text("int2",64,5,1);
  }
  void timer7 () org 0x74 {
   IFS3bits.T7IF=0;
   rpm1=rpm1*75;
   rpm2=rpm2*75;
-  glcd_write_text("Ando funcionando",64,3,1);
   inttostr(rpm1,txt);
    glcd_write_text(txt,64,0,1);
    inttostr(rpm2,txt);
@@ -54,6 +56,7 @@ void PWM4() org 0xD6{
     glcd_write_text("Falla Motor 4",64,7,1);
     IOCON4bits.FLTDAT=0;
     PWMCON4bits.FLTSTAT=0;
+     caso=CASE_PWM4; T2CONbits.TON=1;
   }
 }
 
@@ -63,6 +66,7 @@ void PWM3() org 0xD4{
   if(PORTDbits.RD0==0){
     IOCON4bits.FLTDAT=0;
     PWMCON4bits.FLTSTAT=0;
+     caso=CASE_PWM3; T2CONbits.TON=1;
     glcd_write_text("Falla Motor 3",64,6,1);
     }
 }
@@ -70,6 +74,7 @@ void PWM3() org 0xD4{
   rpm++;
   delay_ms(600);
   IFS1bits.INT1IF=0;
+  
 }
 void INT2() org 0x4E{
   rpm2++;
@@ -83,8 +88,9 @@ void main () {
   config_INT(); UART1_Init(9600);
  // config_timer8(); 
  config_TMR2_ANIM ();
- encender_led();
-  Glcd_Fill(0); animate_charmander_2s();
+ animate_charmander_2s(); Glcd_Fill(0);
+ //encender_led();
+
 
   while(1){
      glcd_fill(0);
