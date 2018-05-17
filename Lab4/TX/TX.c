@@ -202,12 +202,13 @@ void floattostr3(const float valor,char *output) {
        }
 void caso2_check(){
     ADC2_Init();
-    value=ADC2_Get_Sample(2)
+    value=ADC2_Get_Sample(2) ;
     if(CM3CONbits.COUT==0){
         if (bandera2==0){
             bandera2=1;
             write("Voltaje en limite superior");     
             }
+
     }else if(CM1CONbits.COUT==0){
         if (bandera2==0) {
             bandera2=2;
@@ -226,13 +227,4 @@ void caso2_check(){
     space2();
     space2();
     space2();
-}
-void INT_T05s()org 0x22{
-    T05s++;
-    if(T05s%2==0){T1s++;}
-    if(T05s==6){T05s=0;T1s=0;T1sCONbits.TON=0;}
-    if((caso==CASE_MAY||caso==CASE_MEN)&&T1s==3){T1s=0;}
-    else if((caso==CASE_PWM4||caso==CASE_PWM3)&&T1s==2){T1s=0;}
-    else if(caso==CASE_NULL&&T1s==2){T1s=0;}
-    selector_sprite(caso,T1s);
 }
