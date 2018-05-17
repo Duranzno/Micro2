@@ -50,7 +50,7 @@ void config_IO(){
     RPINR13bits.FLT3R=64; //pin de falla pwm3
 }
 
-void config_TMR2_Sprite () {
+void config_TMR2_ANIM () {
   TMR2=0;
   T2CON=0X0020; //Prescaler 256:1, modo timer
   PR2=31250; //1000ms

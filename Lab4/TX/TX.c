@@ -173,36 +173,57 @@ void UART_ESC(){
     enviado=ESC_key;
     UART1_Write(enviado);
 }
+int value;
+char txt4[5];char txt3[4];
+void floattostr3(const float valor,char *output) {
+        int i11,i2,d1,d2,d3;
+        float n0;
+                char txt2[15];
+        i11 = valor*0.1;
+        i2 = valor-(10*i11);
+        bytetostr(i2, txt2);
+        txt4[0]= ltrim(txt2);
+        txt4[1]='.';
+        n0 = (valor - 10*i11 - i2)*10000;
+        d1 = n0/1000;
+        bytetostr(d1, txt2);
+        txt4[2]=ltrim(txt2);
+        d2 = (n0 - d1*1000)/100;
+        bytetostr(d2, txt2);
+        txt4[3]=ltrim(txt2);
+        d3 = (n0 - d1*1000 - d2*100)/10;
+        bytetostr(d3, txt2);
+        txt4[4]=ltrim(txt2);
+        output[0]=txt4[0];
+        output[1]=txt4[1];
+        output[2]=txt4[2];
+        output[3]=txt4[3];
+        output[4]=txt4[4];
+       }
 void caso2_check(){
-
+    ADC2_Init();
+    value=ADC2_Get_Sample(2)
     if(CM3CONbits.COUT==0){
-            if (bandera2==0){
-                bandera2=1;
-                write("Voltaje en limite superior");
-                 space2();
-                space2();
-                 space2();
-                 space2();
+        if (bandera2==0){
+            bandera2=1;
+            write("Voltaje en limite superior");     
             }
-        }else if(CM1CONbits.COUT==0){
+    }else if(CM1CONbits.COUT==0){
         if (bandera2==0) {
-                bandera2=2;
-                write("Voltaje en limite inferior");
-                 space2();
-                 space2();
-                 space2();
-                 space2();
+            bandera2=2;
+            write("Voltaje en limite inferior");
         }
     }else if(CM1CONbits.COUT==1&&CM3CONbits.COUT==1) {
-                  if (bandera2<3&&bandera2>0) {
-                  write("Voltaje Normal");
-                 space2();
-                 space2();
-                 space2();
-                 space2();
-                 bandera2=3;
-                 }
-                 else    bandera2=0;
+        if (bandera2<3&&bandera2>0) {
+            bandera2=3;
+            write("Voltaje Normal");
+        }
+        else  bandera2=0;
     }
-
+    floattostr3(value,txt3);
+    write(txt4);
+    write(txt3);
+    space2();
+    space2();
+    space2();
 }
