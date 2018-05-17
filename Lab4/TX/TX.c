@@ -227,4 +227,4 @@ void caso2_check(){
     space2();
     space2();
     space2();
-}
+
