@@ -202,12 +202,13 @@ void floattostr3(const float valor,char *output) {
        }
 void caso2_check(){
     ADC2_Init();
-    value=ADC2_Get_Sample(2)
+    value=ADC2_Get_Sample(2) ;
     if(CM3CONbits.COUT==0){
         if (bandera2==0){
             bandera2=1;
             write("Voltaje en limite superior");     
             }
+
     }else if(CM1CONbits.COUT==0){
         if (bandera2==0) {
             bandera2=2;
@@ -226,4 +227,4 @@ void caso2_check(){
     space2();
     space2();
     space2();
-}
+
