@@ -30,7 +30,7 @@ void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
    glcd_write_text(txt,64,0,1);
    inttostr(rpm2,txt);
   glcd_write_text(txt,64,1,1);
-  rpm=0;
+  rpm1=0;
   rpm2=0;
 }
 void PWM4() org 0xD6{
