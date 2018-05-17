@@ -1,6 +1,6 @@
 #include "config_RX.h"
 #include "motores.h"
-//#include "sprites.h"
+#include "sprites.h"
 #define ESC_key 254
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned short dato=0, dato2=0;
@@ -19,13 +19,17 @@ void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
  void interupcion_ext1() org 0x3C {
     IFS1bits.INT1IF=0;
     rpm1++;
+    glcd_write_text("int1",64,2,1);
  }
   void interupcion_ext2() org 0x4E {
     IFS1bits.INT2IF=0;
     rpm2++;
+    glcd_write_text("int2",64,5,1);
  }
  void timer7 () org 0x74 {
   IFS3bits.T7IF=0;
+  rpm1=rpm1*75;
+  rpm2=rpm2*75;
   glcd_write_text("Ando funcionando",64,3,1);
   inttostr(rpm1,txt);
    glcd_write_text(txt,64,0,1);
@@ -70,7 +74,7 @@ void main () {
   config_INT(); UART1_Init(9600);
  // config_timer8(); 
  encender_led();
-  Glcd_Fill(0); // animate_charmander_2s();
+  Glcd_Fill(0); animate_charmander_2s();
 
   while(1){
      glcd_fill(0);
@@ -148,7 +152,7 @@ dato=0;
     if(dato<16&&dato>=0){
       pantalla=dato;
       CVRCONbits.CVR=dato;
-     // glcd_write_text(space,65,7,1);
+      glcd_write_text(space,65,7,1);
       floattostr(pantalla,txt);
       glcd_write_text(txt,65,7,1);
       dato=0;

@@ -112,10 +112,10 @@ void config_velocidad () {
         IFS1bits.INT2IF=0;
         INTCON2bits.INT1EP=0; //flanco positivo
         INTCON2bits.INT2EP=0; //flanco positivo
-        IEC1bits.INT1IE=2;
-        IEC1bits.INT2IE=2;
+        IEC1bits.INT1IE=1;
+        IEC1bits.INT2IE=1;
         IPC5BITS.INT1IP=4;
-  IPC7bits.INT2IP =4;
+        IPC7bits.INT2IP =4;
 }
 unsigned ajuste (unsigned control) {
  if (control<=20) {
