@@ -3,7 +3,7 @@
 #include "sprites.h"
 #define ESC_key 254
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-unsigned short dato=0, dato2=0,rpm=0,rpm2=0;
+unsigned short dato=0, dato2=0;
 int pantalla=0;
 char txt[7]={'#','#','#','#','#','#','#'};
 int cnt,rpm1=0,rpm2=0;
