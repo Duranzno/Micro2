@@ -5,48 +5,8 @@
 #define CASE_NULL 0
 
 int T1s=0,caso=CASE_NULL,T05s=0;
-void INT_T05s()org 0x22{
-	T05s++;
-	if(T05s%2==0){T1s++;}
-	if(T05s==6){T05s=0;T1s=0;T1sCONbits.TON=0;}
-	if((caso==CASE_MAY||caso==CASE_MEN)&&T1s==3){T1s=0;}
-	else if((caso==CASE_PWM4||caso==CASE_PWM3)&&T1s==2){T1s=0;}
-	else if(caso==CASE_NULL&&T1s==2){T1s=0;}
-	selector_sprite(caso,T1s);
-}
+void animate_64b(code const far char * image);
 
-
-void selector_sprite(int case,int cnt){	
-	switch(case){
-		case CASE_PWM4:
-			if(cnt==1){		animate_64b(pwm4a);}
-			else if(cnt==2){animate_64b(pwm4b);}
-		break;
-		case CASE_PWM3:
-			if(cnt==1){		animate_64b(pwm3a);}
-			else if(cnt==2){animate_64b(pwm3b);}
-		break;
-		case CASE_MAY:
-			if(cnt==1){		animate_64b(mayorquea);}
-			else if(cnt==2){animate_64b(mayorqueb);}
-			else if(cnt==3){animate_64b(mayorquec);}
-		break;
-		case CASE_MEN:
-			if(cnt==2){animate_64b(menorqueb);}
-			else if(cnt==3){animate_64b(menorquec);}
-			else{		animate_64b(menorquea);}
-		break;
-		case CASE_NULL:
-			glcd_write_text("Error Animacion CASE_NULL",64,4,1);
-			break;
-		default:
-			glcd_write_text("Error Animacion case",64,4,1);
-		break;
-		if(cnt==0){
-			glcd_write_text("Error Animacion T1s",64,4,1);
-		}
-	}		
-}	
 
  const code char charmander_1[1024] = {
 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -77,7 +37,7 @@ void animate_charmander_2s(){
 }
 char Space[]="                                       "  ;
 void animate_64b(code const far char * image){
-	glcd_partialimage(64,0,64,64,64,64,code const far char * image);delay_ms(1000);
+	glcd_partialimage(64,0,64,64,64,64,image);delay_ms(1000);
 }
 const code char pwm3a[512] = {
 128, 192, 192, 240,  56,  56,  56,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,  56,  56,  56, 192, 192, 
@@ -188,3 +148,34 @@ const code char menorquec[512] = {
   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  15,  15,  15,  15,  15,  15,  15, 255, 255, 255, 128, 128, 128, 128, 120, 120, 120,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,   2,   0,   0,   0,   0,   0,   0,   0, 
   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 127, 127, 127,   7,   7,   7,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
 };
+void selector_sprite(int caso,int cnt){
+	switch(caso){
+		case CASE_PWM4:
+			if(cnt==1){		animate_64b(pwm4a);}
+			else if(cnt==2){animate_64b(pwm4b);}
+		break;
+		case CASE_PWM3:
+			if(cnt==1){		animate_64b(pwm3a);}
+			else if(cnt==2){animate_64b(pwm3b);}
+		break;
+		case CASE_MAY:
+			if(cnt==1){		animate_64b(mayorquea);}
+			else if(cnt==2){animate_64b(mayorqueb);}
+			else if(cnt==3){animate_64b(mayorquec);}
+		break;
+		case CASE_MEN:
+			if(cnt==2){animate_64b(menorqueb);}
+			else if(cnt==3){animate_64b(menorquec);}
+			else{		animate_64b(menorquea);}
+		break;
+		case CASE_NULL:
+			glcd_write_text("Error Animacion CASE_NULL",64,4,1);
+			break;
+		default:
+			glcd_write_text("Error Animacion case",64,4,1);
+		break;
+		if(cnt==0){
+			glcd_write_text("Error Animacion T1s",64,4,1);
+		}
+	}
+}

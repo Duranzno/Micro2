@@ -16,6 +16,15 @@ void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
   rpm=0;
   rpm2=0;
 }*/
+void INT_T05s()org 0x22{
+	T05s++;
+	if(T05s%2==0){T1s++;}
+	if(T05s==6){T05s=0;T1s=0;T2CONbits.TON=0;}
+	if((caso==CASE_MAY||caso==CASE_MEN)&&T1s==3){T1s=0;}
+	else if((caso==CASE_PWM4||caso==CASE_PWM3)&&T1s==2){T1s=0;}
+	else if(caso==CASE_NULL&&T1s==2){T1s=0;}
+	selector_sprite(caso,T1s);
+}
  void interupcion_ext1() org 0x3C {
     IFS1bits.INT1IF=0;
     rpm1++;
@@ -73,6 +82,7 @@ void main () {
   config_LCD(); delay_ms(50);
   config_INT(); UART1_Init(9600);
  // config_timer8(); 
+ config_TMR2_ANIM ();
  encender_led();
   Glcd_Fill(0); animate_charmander_2s();
 
