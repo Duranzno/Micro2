@@ -54,15 +54,7 @@ void glcd_draw_pointer(unsigned short x,int a){
            old_x2=x;
            
            }
-            //glcd_write_text("                                              ",0,0,1);
-        /*if(x<=64){
-            if(old_x1){old_x1=2;}
-            //Glcd_Line(center_x,CENTER_Y,old_x1,xtoy(old_x1),0);old_x1=x;
 
-        }else {
-            if(old_x2){old_x2=66;}
-            //Glcd_Line(center_x,CENTER_Y,old_x2,xtoy(old_x2),0); old_x2=x;
-        }*/
 }
 void glcd_draw_subdiv(unsigned short startx){
         int page=7;
@@ -166,8 +158,5 @@ void caso_3_test(){
             Glcd_Line(32,CENTER_Y,x,xtoy(x,0)+1,2);
        }
         Glcd_set_Font(font5x7 , 5, 7, 32);
-         //     Glcd_Line(32,64,32,34,1);
-//        Glcd_Line(32,64,10,43,1);
-//        Glcd_Line(32,64,53,xtoy(53),1);
-//       glcd_draw_pointer(pot1+2,32);
+
 }
