@@ -8,31 +8,29 @@ char Bien1[] = "\r Bienvenido al caso 1  \x0a \x0d";
 char Bien2[] = "\n Bienvenido al caso 2 \x0a \x0d";
 char Space[]="\n \x0a \x0d"  ;
 char Bien3[] = " Bienvenido al caso 3";
-char caso1[] = "A",caso2[] = "B",caso3[] = "C";
+char caso_1[] = "A",caso_2[] = "B",caso_3[] = "C";
 char POT1[] = "  POT 1: \r",POT2[] = "  POT 2: \r";
 char MOTO1[] = " MOT 1 ACT ",MOTO2[] = " MOT 2 ACT ";
 char error1[]= "\r POT 1 HA SUPERADO\n \r";
 char error2[]= "\r POT 2 HA SUPERADO \n \r";
-char Bi4[] = "\r \x0a 4 GUARDAR  \r" ;
-char Bi5[] = "\r \x0a 5 MOSTRAR  \r" ;
-char Bi6[] = "\r \x0a 6 SALIR  \r" ;
+
 char Bien5[] = "\r Bienvenido al caso 5 \r";
 char caso1_1[]="VEL(RPN) ######             |                 ####";
 char caso1_2[]="SENT        ###             |                  ###";
 char caso1_3[]="FALLA        ##             |                   ##";
 char caso1_4[]="POT          ##             |                   ##";
-
-char caso3_1[]="Salida por el PIN AN18";
+char caso2_nor[]="Todo esta funcionando bien  |              ";
+char caso2_sup[]="Limite Superior             |              ";
+char caso2_inf[]="Limite Inferior             |              ";
+char caso2_pot[]=  "POT          ##             |              ";
+char caso3_1[]="Salida por el PIN AN18 | OP=#";
 char caso3_2[]="V |0.83  0.93  1.03  1.13  1.24  1.34  1.44  1.55|";
 char caso3_3[]="OP|   0     1     2     3     4     5     6     7|";
 char caso3_4[]="V |1.65  1.75  1.86  1.96  2.06  2.17  2.27  2.37|";
 char caso3_5[]="OP|   8     9     A     B     C     D     E     F|";
-unsigned PA,PB;
+
 int cont = 0,it=0;
-char CL[]="\x0a";
-char IL[]="x0d";
-char CL1[]="\n";
-char IL1[]="\r";
+
 char txt7[7];
 
 void space1(){
@@ -164,7 +162,7 @@ void hid_caso_1(unsigned rpn1,unsigned rpn2,
         space1();
         space1();
 }
-void hid_caso_3(){        
+void hid_caso_3(){
         write(Bien3);
         write("----------------------------|---------------------");
         write(caso3_1);
@@ -174,6 +172,33 @@ void hid_caso_3(){
         write(caso3_5);
         space1();
         space1();
+        space1();
+        space1();
+}
+void hid_caso_2(unsigned pot){
+        write(Bien2);
+        if(pot<1000){
+                write(caso2_inf);
+        }else if(pot>1000){
+                write(caso2_sup);
+        }else{
+                write(caso2_nor);
+        }
+        inttostr(pot,txt7);
+        caso2_pot[9] =txt7[0];
+        caso2_pot[10]=txt7[1];
+        caso2_pot[11]=txt7[2];
+        caso2_pot[12]=txt7[3];
+        caso2_pot[13]=txt7[4];
+        caso2_pot[14]=txt7[5];
+        write(caso2_pot);
+        space1();
+        space1();
+         space1();
+        space1();
+        space1();
+        space1();
+         space1();
         space1();
         space1();
 }

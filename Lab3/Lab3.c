@@ -197,6 +197,7 @@ void PWM3() org 0xD4{
 
 int j;
 void main() {
+initmcu();
   config_IO();  config_LCD();
   config_INT();
   PS2_Config();

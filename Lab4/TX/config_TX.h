@@ -2,7 +2,29 @@
 #define BAUDRATE 9600
 #define BRGVAL ((FP/BAUDRATE)/16)-1
 unsigned char UENVIAR;
+void  CONFIG_CM(){
+  ANSELDbits.ANSD7=1;//ENTRADA ANALOGICA c3in1+ 3V pin 55
+  ANSELCbits.ANSC14=1;//ENTRADA ANALOGICA c3in1- POT pin 48
+  ANSELBbits.ANSB5=1;//ENTRADA ANALOGICA c1in+ POT RB5 pin 11
 
+  
+  
+  CM3CONbits.COE=0;
+  CM1CONbits.COE=0;
+  CM3CONbits.CON=1;
+  CM1CONbits.CON=1;
+  CM3CONbits.CPOL=0;
+  CM1CONbits.CPOL=0;
+
+  CM3CONBITS.CREF=0;//CONECTADO A C3IN1+
+  CM3CONBITS.CCH=1;//CONECTADO A C3IN1-
+  CM1CONBITS.CREF=0;//CONECTADO A C1IN1+
+  CM1CONBITS.CCH=11;////CONECTADO A INTREF
+  CVRCONbits.BGSEL=1;
+  CVRCONbits.CVREN=1;
+  CM1CONbits.CEN=1;
+  CM3CONbits.CEN=1; 
+ }
 void InitMCU(){
         ANSELC=0x0000; //Configuracion de E/S digitales
         ANSELD=0x0000; //Configuracion de E/S digitales
@@ -58,15 +80,27 @@ void config_timer8() {
 }
 void config_pin () {
     ANSELBbits.ANSB0=1; // RBO analogico
-    ANSELBbits.ANSB5=1; // RB5 analogico
+    ANSELBbits.ANSB3=1; // RB4 analogico
     TRISBbits.TRISB0=1;
-    TRISBbits.TRISB5=1;
+    TRISBbits.TRISB3=1;
     TRISDbits.TRISD9=1; // entrada opto para motor 1
     TRISDbits.TRISD8=1; // entrada opto para motor 2
     RPINR0bits.INT1R=73; // RPI73 en INT1 motor 1
     RPINR1bits.INT2R=72; // RPI72 en INT2 motor 2
     RPOR0bits.RP64R=1; //U1TX
     RPINR18bits.U1RXR=72; //U1RX
-
+    TRISDbits.TRISD10=0;
+    TRISFBITS.TRISF5=0;
     
+    
+}
+void config_velocidad () {
+
+        IFS1bits.INT2IF=0;
+        INTCON2bits.INT1EP=0; //flanco positivo
+        INTCON2bits.INT2EP=0; //flanco positivo
+        IEC1bits.INT1IE=1;
+        IEC1bits.INT2IE=1;
+        IPC5BITS.INT1IP=4;
+        IPC7bits.INT2IP =4;
 }

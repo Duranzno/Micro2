@@ -134,11 +134,11 @@ const struct {
 const struct{
   char bLength;
   char bDscType;
-  unsigned int string[7];
+  unsigned int string[8];
   }strd2={
-    16,           //sizeof this descriptor string
+    18,           //sizeof this descriptor string
     0x03,
-    {'P','A','T','O','L','I','S'}
+    {'D','u','r','a','n','z','n','o'}
   };
 
 //Product string descriptor
@@ -149,7 +149,7 @@ const struct{
 }strd3={
     28,          //sizeof this descriptor string
     0x03,
-    {'C','h','a','r','m','a','n','d','e','r','U','S','B'}
+    {'C','h','a','r','m','e','l','e','o','n','U','S','B'}
  };
 
 //Array of configuration descriptors
