@@ -55,7 +55,7 @@ void PWM4() org 0xD6{
     glcd_write_text("Falla Motor 4",64,7,1);
     IOCON4bits.FLTDAT=0;
     PWMCON4bits.FLTSTAT=0;
-     caso=CASE_PWM4; T2CONbits.TON=1;
+     //caso=CASE_PWM4; T2CONbits.TON=1;
   }
 }
 
@@ -65,21 +65,10 @@ void PWM3() org 0xD4{
   if(PORTDbits.RD0==0){
     IOCON4bits.FLTDAT=0;
     PWMCON4bits.FLTSTAT=0;
-     caso=CASE_PWM3; T2CONbits.TON=1;
+   //  caso=CASE_PWM3; T2CONbits.TON=1;
     glcd_write_text("Falla Motor 3",64,6,1);
     }
 }
-/*void INT1() org 0x3C{
-  rpm++;
-  delay_ms(600);
-  IFS1bits.INT1IF=0;
-  
-}
-void INT2() org 0x4E{
-  rpm2++;
-  delay_ms(600);
-  IFS1bits.INT2IF=0;
-}*/
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MAIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main () {
   InitMCU();config_IO();config_vref(); 
@@ -87,12 +76,13 @@ void main () {
   config_INT(); UART1_Init(9600);
  // config_timer8(); 
  config_TMR2_ANIM ();
- animate_charmander_2s(); Glcd_Fill(0);
+ //animate_charmander_2s(); Glcd_Fill(0);
  //encender_led();
 
 
   while(1){
-     glcd_fill(0);
+  encender_led();
+
     glcd_write_text("Laboratorio 4",64,0,1);
     glcd_write_text("Esperando Comando",64,1,1);
     delay_ms(100);
@@ -107,35 +97,41 @@ void main () {
     switch(dato){
       case 1:
         caso1();
+          PDC4=15000;
+  PDC3=15000;
+  T7CONbits.TON=0;
+  IPC5BITS.INT1IP=0;
+  IPC7bits.INT2IP=0;
+  Glcd_Fill(0);
         break;
       case 2:
-        caso2();
+        caso2();Glcd_Fill(0);
         break;
       case 3:
-              encender_led();
-        caso3();
+
+        caso3();Glcd_Fill(0);
         break;
       default:
         glcd_write_text("Error",64,4,1);
         delay_ms(100); 
         break;
     }
+
   dato=0;
      }
   }
 }
 
 void caso1(){
-  config_motor();
+  config_motor();config_timer7();config_velocidad ();
   //T8CONbits.TON=1;
   glcd_write_text("Caso 1",64,2,1);
   delay_ms(100);
-    config_timer7();
- config_velocidad ();
  T7CONbits.TON=1; // activa conteo para RPM de motores
   while(!UART1_Data_Ready());
-  encender_led();
+
   while (dato!=ESC_key){
+                  encender_led();
     dato=UART1_Read();
     if (dato==ESC_key){continue;}
     PDC3=ajuste(dato);
@@ -152,11 +148,28 @@ void caso1(){
   }
   T8CONbits.TON=0;
   dato=0;
+
 }
 void caso2(){
-  glcd_write_text("Caso 2",64,4,1); 
-  delay_ms(100); 
+    GLCD_fill(0);
+  glcd_write_text("Caso 2",64,0,1); 
+  while (dato!=ESC_key){
+    dato=UART1_Read();
+    if (dato==1) {
+         caso=CASE_MAY;
+         T2CONbits.TON=1;
+    }
+     if (dato==2) {
+        caso=CASE_MEN;
+         T2CONbits.TON=1;
+    }
+     if (dato==3) {
+     GLCD_fill(0);
+      glcd_write_text("NORMAL",64,0,1); 
+    }
+   }
 }
+   
 void caso3(){
 dato=0;   
   glcd_write_text("Caso 3",64,4,1); 

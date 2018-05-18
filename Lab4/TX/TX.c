@@ -7,7 +7,7 @@
 void buffer_caso1();void caso2();void caso3();void caso1();void UART_ESC();
 void caso2_check();
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-int i=0,j=0,escape=0,cnt,mot1=0,mot2=0,bandera1=0,bandera2=0;
+int i=0,j=0,escape=0,cnt,mot1=0,mot2=0,bandera1=0,bandera2=0,rpm1=0,rpm2=0;
 float pantalla=0;
 char readbuff[64];
 char writebuff[64];
@@ -56,6 +56,23 @@ void cambio_led () {
    LATFBITS.LATF5=~LATFBITS.LATF5;
 
 }
+
+ void interupcion_ext1() org 0x3C {
+    IFS1bits.INT1IF=0;
+    rpm1++;
+
+ }
+  void interupcion_ext2() org 0x4E {
+    IFS1bits.INT2IF=0;
+    rpm2++;
+ }
+ void timer7 () org 0x74 {
+  IFS3bits.T7IF=0;
+  caso1_val[0]=rpm1*75;
+  caso1_val[1]=rpm2*75;
+  rpm1=0;
+  rpm2=0;
+}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main() {
     cambio_led();
@@ -95,6 +112,7 @@ void caso1(){  +
     UART1_Write(enviado);
     //hid_caso_1(caso1_val[0],caso1_val[1],caso1_val[2],caso1_val[3],caso1_val[4],caso1_val[5],pote1,pote2);
     delay_ms(150);
+    config_velocidad ();
     while(escape==0){
         if (bandera1==3) {
                 buffer_caso1();
@@ -111,10 +129,11 @@ void caso1(){  +
       }
     AD1CON1bits.ADON=0;// Se act el modulo
     T3CONbits.TON=0;
+   T7CONbits.TON=0;
+  IPC5BITS.INT1IP=0;
+  IPC7bits.INT2IP=0;
 }
 void buffer_caso1(){ 
-    caso1_val[0]=5;
-    caso1_val[1]=0;
     if(pote1<128){caso1_val[2]=IZQ;}
      else {caso1_val[2]=DER;}
     if(pote2<128){caso1_val[3]=IZQ;}
@@ -124,6 +143,7 @@ void buffer_caso1(){
 }
 
 void caso2(){
+    T7CONbits.TON=0;
     config_CM();
     enviado=2;
     UART1_Write(enviado);
@@ -201,14 +221,16 @@ void floattostr3(const float valor,char *output) {
         output[4]=txt4[4];
        }
 void caso2_check(){
-    ADC2_Init();
-    value=ADC2_Get_Sample(2) ;
     if(CM3CONbits.COUT==0){
         if (bandera2==0){
             bandera2=1;
             write("Voltaje en limite superior");
             enviado=1;
             UART1_Write(enviado);
+                space2();
+                space2();
+                 space2();
+                 space2();
             }
 
     }else if(CM1CONbits.COUT==0){
@@ -217,22 +239,25 @@ void caso2_check(){
             write("Voltaje en limite inferior");
              enviado=2;
             UART1_Write(enviado);
+              space2();
+                 space2();
+                 space2();
+                 space2();
         }
     }else if(CM1CONbits.COUT==1&&CM3CONbits.COUT==1) {
         if (bandera2<3&&bandera2>0) {
             bandera2=3;
             write("Voltaje Normal");
             enviado=3;
-             enviado=2;
             UART1_Write(enviado);
+              space2();
+                 space2();
+                 space2();
+                 space2();
         }
         else  bandera2=0;
     }
-    floattostr3(value,txt3);
-    write(txt4);
-    write(txt3);
-    space2();
-    space2();
-    space2();
+
+
     
 }
