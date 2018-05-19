@@ -17,7 +17,7 @@ void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
   rpm2=0;
 }*/
 
-void INT_T05s_T2()org 0x22{
+/*void INT_T05s_T2()org 0x22{
     T05s++;
     inttostr(T05s,txt);
     glcd_write_text(txt,0,3,1);
@@ -27,11 +27,11 @@ void INT_T05s_T2()org 0x22{
     else if(caso==CASE_NULL&&T1s==2){T1s=0;}
     selector_sprite(caso,T1s);
     IFS0bits.T2IF=0;
-}
+}*/
  void interupcion_ext1() org 0x3C {
     IFS1bits.INT1IF=0;
     rpm1++;
-
+             0
  }
   void interupcion_ext2() org 0x4E {
     IFS1bits.INT2IF=0;
@@ -70,12 +70,14 @@ void PWM3() org 0xD4{
     }
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MAIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void main () {
-  InitMCU();config_IO();config_vref(); 
-  config_LCD(); delay_ms(50);
+
+void main() {
+
+  InitMCU();config_IO();config_vref();encender_led();
+   delay_ms(50);
   config_INT(); UART1_Init(9600);
  // config_timer8(); 
- config_TMR2_ANIM ();
+ config_TMR2_ANIM (); config_LCD();
  //animate_charmander_2s(); Glcd_Fill(0);
  //encender_led();
 
@@ -97,11 +99,6 @@ void main () {
     switch(dato){
       case 1:
         caso1();
-          PDC4=15000;
-  PDC3=15000;
-  T7CONbits.TON=0;
-  IPC5BITS.INT1IP=0;
-  IPC7bits.INT2IP=0;
   Glcd_Fill(0);
         break;
       case 2:
@@ -156,11 +153,11 @@ void caso2(){
   while (dato!=ESC_key){
     dato=UART1_Read();
     if (dato==1) {
-         caso=CASE_MAY;
+        // caso=CASE_MAY;
          T2CONbits.TON=1;
     }
      if (dato==2) {
-        caso=CASE_MEN;
+        //caso=CASE_MEN;
          T2CONbits.TON=1;
     }
      if (dato==3) {
@@ -180,7 +177,7 @@ dato=0;
     if(dato<16&&dato>=0){
       pantalla=dato;
       CVRCONbits.CVR=dato;
-      glcd_write_text(space,65,7,1);
+      //glcd_write_text(space,65,7,1);
       floattostr(pantalla,txt);
       glcd_write_text(txt,65,7,1);
       dato=0;
