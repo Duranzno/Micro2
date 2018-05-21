@@ -77,7 +77,11 @@ void main() {
    delay_ms(50);
   config_INT(); UART1_Init(9600);
  // config_timer8(); 
+<<<<<<< HEAD
+ config_TMR2_ANIM ();
+=======
  config_TMR2_ANIM (); config_LCD();
+>>>>>>> 0a11a144dccf812f1381596135ce4779763da330
  //animate_charmander_2s(); Glcd_Fill(0);
  //encender_led();
 
@@ -99,6 +103,14 @@ void main() {
     switch(dato){
       case 1:
         caso1();
+<<<<<<< HEAD
+          PDC4=15000;
+  PDC3=15000;
+  T7CONbits.TON=0;
+  IPC5BITS.INT1IP=0;
+  IPC7bits.INT2IP=0;
+=======
+>>>>>>> 0a11a144dccf812f1381596135ce4779763da330
   Glcd_Fill(0);
         break;
       case 2:
@@ -153,11 +165,19 @@ void caso2(){
   while (dato!=ESC_key){
     dato=UART1_Read();
     if (dato==1) {
+<<<<<<< HEAD
+         caso=CASE_MAY;
+         T2CONbits.TON=1;
+    }
+     if (dato==2) {
+        caso=CASE_MEN;
+=======
         // caso=CASE_MAY;
          T2CONbits.TON=1;
     }
      if (dato==2) {
         //caso=CASE_MEN;
+>>>>>>> 0a11a144dccf812f1381596135ce4779763da330
          T2CONbits.TON=1;
     }
      if (dato==3) {
