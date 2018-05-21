@@ -8,7 +8,9 @@ void caso2();void caso3();void caso1();void caso4();
 void buffer_caso2();void buffer_caso1();
 void UART_ESC();
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-int escape=0,cnt,mot1=0,mot2=0,bandera1=0,bandera2=0,rpm1=0,rpm2=0;
+int escape=0,cnt,mot1=0,mot2=0,bandera1=0,bandera2=0,rpm1=0,rpm2=0,enviado=0;
+unsigned short  adc_value1,adc_value2,pote1=0,pote2=0,pote3=0;
+unsigned caso1_val[6]={0,0,0,0,0,0};
 float pantalla=0;
 char readbuff[64];
 char writebuff[64];
@@ -20,7 +22,7 @@ char txt [30];
 //         LATFBITS.LATF5=~LATFBITS.LATF5;
 // }
 void USB1Interrupt() iv IVT_ADDR_USB1INTERRUPT{
-  USB_Interrupt_Proc();
+  //USB_Interrupt_Proc();
 }
 void INT_Inicio_Conversion_T3 () org 0x24 {IFS0bits.T3IF=0;}//inicializa conversion del adc
 void INT_ADC() org 0x2E {
@@ -38,7 +40,7 @@ void INT_ADC() org 0x2E {
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main() {
-    config_USB();
+    //config_USB();
     config_IO();led_switch();
     config_INT();//config_timer8();
     config_adc();config_timer3();
@@ -74,7 +76,6 @@ void caso1(){
     enviado=1;
     UART1_Write(enviado);
     delay_ms(150);
-    config_velocidad ();
     while(escape==0){
         if (bandera1==3) {
                 buffer_caso1();
@@ -163,11 +164,8 @@ void buffer_caso2(){
             bandera2=1;
             write("Voltaje en limite superior");
             enviado=1;
-            UART1_Write(enviado);
-                space2();
-                space2();
-                 space2();
-                 space2();
+            //UART1_Write(enviado);
+            //space(8)
             }
 
     }else if(CM1CONbits.COUT==0){
@@ -175,23 +173,18 @@ void buffer_caso2(){
             bandera2=2;
             write("Voltaje en limite inferior");
              enviado=2;
-            UART1_Write(enviado);
-              space2();
-                 space2();
-                 space2();
-                 space2();
+            //UART1_Write(enviado);
+            space(8);
         }
     }else if(CM1CONbits.COUT==1&&CM3CONbits.COUT==1) {
         if (bandera2<3&&bandera2>0) {
             bandera2=3;
             write("Voltaje Normal");
             enviado=3;
-            UART1_Write(enviado);
-              space2();
-                 space2();
-                 space2();
-                 space2();
+            //UART1_Write(enviado);
+            space(8);
         }
         else  bandera2=0;
     }
 }
+void caso4(){}

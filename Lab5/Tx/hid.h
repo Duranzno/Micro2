@@ -6,7 +6,7 @@
 char menu[] = "Menu";
 char Bien1[] = "\r Bienvenido al caso 1  \x0a \x0d";char Bien2[] = "\n Bienvenido al caso 2 \x0a \x0d";
 char Bien3[] = " Bienvenido al caso 3";char Bien4[] = " Bienvenido al caso 4";
-char caso_1[] = "A",caso_2[] = "B",caso_3[] = "C";caso_4[] = "D";
+char caso_1[] = "A",caso_2[] = "B",caso_3[] = "C",caso_4[] = "D";
 
 char POT1[] = "  POT 1: \r",POT2[] = "  POT 2: \r";
 char MOTO1[] = " MOT 1 ACT ",MOTO2[] = " MOT 2 ACT ";

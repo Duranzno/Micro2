@@ -5,8 +5,6 @@
 
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void caso2();void caso3();void caso1();
-void led_switch(){LATFBITS.LATF4=~LATFBITS.LATF4;}
-
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned short dato=0, dato2=0;
 int pantalla=0;
@@ -107,7 +105,7 @@ void main() {
 }
 
 void caso1(){
-  config_motor();config_timer7();config_velocidad ();
+  config_motor();config_timer7();
   //T8CONbits.TON=1;
   glcd_write_text("Caso 1",64,2,1);
   delay_ms(100);
