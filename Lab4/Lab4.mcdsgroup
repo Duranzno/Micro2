@@ -1,0 +1,6 @@
+[PROJECTS]
+Count=2
+Project0=RX\RX.mcpds
+Project1=TX\TX.mcpds
+[ActiveProject]
+Index=1
