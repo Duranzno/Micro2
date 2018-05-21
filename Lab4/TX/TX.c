@@ -176,8 +176,8 @@ void caso3(){
                 case '5':enviado=5; caso3_1[28]=readbuff[0]; hid_caso_3(); UART1_Write(enviado);break;
                 case '6':enviado=6; caso3_1[28]=readbuff[0]; hid_caso_3(); UART1_Write(enviado);break;
                 case '7':enviado=7; caso3_1[28]=readbuff[0]; hid_caso_3(); UART1_Write(enviado);break;
-                case '9':enviado=8; caso3_1[28]=readbuff[0]; hid_caso_3(); UART1_Write(enviado);break;
-                case '0':enviado=9; caso3_1[28]=readbuff[0]; hid_caso_3(); UART1_Write(enviado);break;
+                case '8':enviado=8; caso3_1[28]=readbuff[0]; hid_caso_3(); UART1_Write(enviado);break;
+                case '9':enviado=9; caso3_1[28]=readbuff[0]; hid_caso_3(); UART1_Write(enviado);break;
                 case 'A':case 'a':enviado=10; caso3_1[28]='A'; hid_caso_3(); UART1_Write(enviado);break;
                 case 'B':case 'b':enviado=11; caso3_1[28]='B'; hid_caso_3(); UART1_Write(enviado);break;
                 case 'C':case 'c':enviado=12; caso3_1[28]='C'; hid_caso_3(); UART1_Write(enviado);break;
