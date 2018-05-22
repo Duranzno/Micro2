@@ -22,3 +22,4 @@
 *.cp
 *.dbg
 *.dlt
+/Lab4/RX/*.mcdsgroup
