@@ -4,7 +4,6 @@
 #define ESC_key 254
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned short dato=0, dato2=0;
-char tecla, buffer;
 int pantalla=0;
 char txt[7]={'#','#','#','#','#','#','#'};
 int cnt,rpm1=0,rpm2=0;
@@ -32,7 +31,7 @@ void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
  void interupcion_ext1() org 0x3C {
     IFS1bits.INT1IF=0;
     rpm1++;
-
+             0
  }
   void interupcion_ext2() org 0x4E {
     IFS1bits.INT2IF=0;
@@ -72,82 +71,12 @@ void PWM3() org 0xD4{
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MAIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-void Error_SPI() org 0x26{
-	IFS0bits.SPI1EIF=0;
-
-}
-
-void SPI() org 0x28{
-   Glcd_Write_Text("si interrupmpe", 60, 5, 1);
-      dato=SPI1BUF;
-    Glcd_Write_Text("algo esta en dato", 60, 2, 1);
-    delay_ms(1000) ;
-	IFS0bits.SPI1IF=0;
-
-}
-
-char ale[30];
-void main (){
-	ANSELC=0;
-	ANSELD=0;
-	ANSELE=0;
-	ANSELB=0;
-
-     TRISFBITS.TRISF5=0;
-    SRbits.IPL=0;
-    CORCONbits.IPL3=0;
-    INTCON1bits.NSTDIS=0;
-    INTCON2bits.GIE=1;
-    IPC2bits.SPI1EIP=3;
-    IPC2bits.SPI1IP=3;
-    IEC0bits.SPI1EIE=0;
-    //CONFIGURACION DEL PLL PARA ALCANZAR UNA VELOCIDAD DE 30MHZ
-PLLFBD = 58; //M = 60
-CLKDIVbits.PLLPOST = 0; // N1 = 2
-CLKDIVbits.PLLPRE = 0; // N2 = 2
-OSCTUN = 0;
-OSCCON=0x0301;
-while (OSCCONbits.COSC != 0x3);
-//CONFIGURACION DEL PLL AUXILIAR PARA EL USB
-//SE REQUIEREN 48MHZ
-ACLKCON3 = 0x24C0;
-ACLKDIV3 = 0x7;
-ACLKCON3bits.ENAPLL = 1;
-while(ACLKCON3bits.APLLCK != 1);
-
-SPI1_Init_Advanced(_SPI_SLAVE,_SPI_8_BIT,_SPI_PRESCALE_SEC_8,
-_SPI_PRESCALE_PRI_64,_SPI_SS_DISABLE,_SPI_DATA_SAMPLE_MIDDLE
-,_SPI_CLK_IDLE_LOW, _SPI_ACTIVE_2_IDLE);
-  RPINR20bits.SDI1R=46; //SDI1
-RPINR20bits.SCK1R=47; //SCK1
-RPOR9bits.RP101R=5; //SDO
-  config_IO();config_vref();
-	config_LCD();
-         while(1)
-         { sprintf(ale,"Larelelele%u",1);
-           Glcd_write_text(ale,64,0,1);
-
-           while(!SPI1STATbits.SPIRBF); //Esperando que llegue el dato
-            Glcd_write_text("PAOLA",64,2,1);
-            dato=SPI1_Read(buffer);
-             if (dato==1) {
-
-                 Glcd_write_text("P1",64,3,1);
-                  caso1();  }
-                 if (dato==2) {
-                 Glcd_write_text("P2",64,4,1);  }
-                 if (dato==3) {
-                 Glcd_write_text("P3",64,5,1);  }
-  
-         }
-
-}
-/*void main() {
+void main() {
 
   InitMCU();config_IO();config_vref();encender_led();
    delay_ms(50);
   config_INT(); UART1_Init(9600);
- // config_timer8();
+ // config_timer8(); 
 <<<<<<< HEAD
  config_TMR2_ANIM ();
 =======
@@ -174,12 +103,14 @@ RPOR9bits.RP101R=5; //SDO
     switch(dato){
       case 1:
         caso1();
-
+<<<<<<< HEAD
           PDC4=15000;
   PDC3=15000;
   T7CONbits.TON=0;
   IPC5BITS.INT1IP=0;
   IPC7bits.INT2IP=0;
+=======
+>>>>>>> 0a11a144dccf812f1381596135ce4779763da330
   Glcd_Fill(0);
         break;
       case 2:
@@ -191,30 +122,30 @@ RPOR9bits.RP101R=5; //SDO
         break;
       default:
         glcd_write_text("Error",64,4,1);
-        delay_ms(100);
+        delay_ms(100); 
         break;
     }
 
   dato=0;
      }
   }
-}*/
+}
 
 void caso1(){
-  config_motor();config_timer7();//config_velocidad ();
+  config_motor();config_timer7();config_velocidad ();
   //T8CONbits.TON=1;
   glcd_write_text("Caso 1",64,2,1);
   delay_ms(100);
-// T7CONbits.TON=1; // activa conteo para RPM de motores
+ T7CONbits.TON=1; // activa conteo para RPM de motores
+  while(!UART1_Data_Ready());
 
   while (dato!=ESC_key){
-    encender_led();
-     while(!SPI1STATbits.SPIRBF); //Esperando que llegue el dato
-    dato=SPI1_Read(buffer);
+                  encender_led();
+    dato=UART1_Read();
     if (dato==ESC_key){continue;}
     PDC3=ajuste(dato);
-   while(!SPI1STATbits.SPIRBF); //Esperando que llegue el dato
-    dato2=SPI1_Read(buffer);
+    while(!UART1_Data_Ready());
+    dato2=UART1_Read();
     if (dato2==ESC_key){continue;}
     PDC4=ajuste(dato2);
     pantalla=PDC3;
@@ -234,17 +165,19 @@ void caso2(){
   while (dato!=ESC_key){
     dato=UART1_Read();
     if (dato==1) {
+<<<<<<< HEAD
          caso=CASE_MAY;
          T2CONbits.TON=1;
     }
      if (dato==2) {
         caso=CASE_MEN;
-
+=======
         // caso=CASE_MAY;
          T2CONbits.TON=1;
     }
      if (dato==2) {
         //caso=CASE_MEN;
+>>>>>>> 0a11a144dccf812f1381596135ce4779763da330
          T2CONbits.TON=1;
     }
      if (dato==3) {

@@ -3,7 +3,6 @@
 #include "config_TX.h"
 #define ESC_key 254
 #define PARTE_ALTA 0x3FC
-#include "config_maestro.h"
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void buffer_caso1();void caso2();void caso3();void caso1();void UART_ESC();
 void caso2_check();
@@ -35,9 +34,9 @@ void INT_ADC() org 0x2E {
 
     delay_ms(10);
     enviado=pote2;
-    SPI1_Write(enviado);    delay_ms(10);
+    UART1_Write(enviado);    delay_ms(10);
     enviado=pote1;
-    SPI1_Write(enviado);    delay_ms(10);
+    UART1_Write(enviado);    delay_ms(10);
     
     bandera1++;
 }
@@ -75,35 +74,16 @@ void cambio_led () {
   rpm2=0;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-void Error_SPI() org 0x26{
-        IFS0bits.SPI1EIF=0;
-          write("Error");
-                 delay_ms(3000);
-
-}
-void SPI() org 0x28{
-        IFS0bits.SPI1IF=0;
-            write("ALGUN DATO SE TRANSMITIO");
-                 delay_ms(3000);
-
-}
-/*char writebuff[64],readbuff[64];
-int cnt=0;*/
 void main() {
-    // cambio_led();
+    cambio_led();
     config_INT();//config_timer8();
     InitMCU();
-   config_timer3();
+    config_timer3();
     config_adc();
-   config_pin();
-   HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
-SPI1_Init_Advanced(_SPI_MASTER,_SPI_8_BIT,_SPI_PRESCALE_SEC_8,
-_SPI_PRESCALE_PRI_64,_SPI_SS_DISABLE,_SPI_DATA_SAMPLE_MIDDLE,
-_SPI_CLK_IDLE_LOW,_SPI_ACTIVE_2_IDLE);
-RPOR0bits.RP64R=5; //SDO1
-RPOR8bits.RP99R=6; //SCK1
-RPINR20bits.SDI1R=72; //SDI1
+    config_vref();
+    config_pin();
+    UART1_Init(9600);
+    HID_Enable(&readbuff,&writebuff); //inicializamos en módulo usb hid
     while(1){
             menu2();
             while(!HID_Read());
@@ -111,30 +91,20 @@ RPINR20bits.SDI1R=72; //SDI1
                     writebuff[cnt]=readbuff[cnt];
             }
             if(strcmp(readbuff,caso_1)==0){//CASE 1
-                 write("Bienvenido al Caso 1");
-                 enviado=1;
-                SPI1_Write(enviado);
                     caso1();
             }
             else if(strcmp(readbuff,caso_2)==0){//CASE 2
-                        write("Bienvenido al Caso 2");
-                      enviado=2;
-                SPI1_Write(enviado);
-                 delay_ms(4000);
-                  // caso2();
+                    write("Bienvenido al Caso 2");
+                   caso2();
             }
             else if(strcmp(readbuff,caso_3)==0){//CASE 3
-                      write("Bienvenido al Caso 3");
-                          enviado=3;
-                SPI1_Write(enviado);
-                 delay_ms(4000);
-                  //  caso3();
+                    caso3();
             }
     Delay_ms(1000);
     escape=0;
     }
 }
-void caso1(){
+void caso1(){  +
     bandera1=0;
     AD1CON1bits.ADON=1;// Se act el modulo
     T3CONbits.TON=1; // activa timer 3 para inicio de conver.
