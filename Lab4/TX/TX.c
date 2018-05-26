@@ -138,8 +138,7 @@ void caso1(){
     bandera1=0;
     AD1CON1bits.ADON=1;// Se act el modulo
     T3CONbits.TON=1; // activa timer 3 para inicio de conver.
-    enviado=1;
-    UART1_Write(enviado);
+
     //hid_caso_1(caso1_val[0],caso1_val[1],caso1_val[2],caso1_val[3],caso1_val[4],caso1_val[5],pote1,pote2);
     delay_ms(150);
     config_velocidad ();
