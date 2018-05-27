@@ -73,7 +73,7 @@ void PWM3() org 0xD4{
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MAIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 void Error_SPI() org 0x26{
-	IFS0bits.SPI1EIF=0;
+        IFS0bits.SPI1EIF=0;
 
 }
 
@@ -82,16 +82,16 @@ void SPI() org 0x28{
       dato=SPI1BUF;
     Glcd_Write_Text("algo esta en dato", 60, 2, 1);
     delay_ms(1000) ;
-	IFS0bits.SPI1IF=0;
+        IFS0bits.SPI1IF=0;
 
 }
 
 char ale[30];
 void main (){
-	ANSELC=0;
-	ANSELD=0;
-	ANSELE=0;
-	ANSELB=0;
+        ANSELC=0;
+        ANSELD=0;
+        ANSELE=0;
+        ANSELB=0;
 
      TRISFBITS.TRISF5=0;
     SRbits.IPL=0;
@@ -122,9 +122,9 @@ _SPI_PRESCALE_PRI_64,_SPI_SS_DISABLE,_SPI_DATA_SAMPLE_MIDDLE
 RPINR20bits.SCK1R=47; //SCK1
 RPOR9bits.RP101R=5; //SDO
   config_IO();config_vref();
-	config_LCD();
+        config_LCD();
          while(1)
-         { sprintf(ale,"Larelelele%u",1);
+         { sprintf(ale,"%.3f",0.1234);
            Glcd_write_text(ale,64,0,1);
 
            while(!SPI1STATbits.SPIRBF); //Esperando que llegue el dato
@@ -135,9 +135,11 @@ RPOR9bits.RP101R=5; //SDO
                  Glcd_write_text("P1",64,3,1);
                   caso1();  }
                  if (dato==2) {
-                 Glcd_write_text("P2",64,4,1);  }
+                 Glcd_write_text("P2",64,4,1);
+                 caso2();  }
                  if (dato==3) {
-                 Glcd_write_text("P3",64,5,1);  }
+                 Glcd_write_text("P3",64,5,1);
+                 caso3();  }
   
          }
 
@@ -163,7 +165,7 @@ RPOR9bits.RP101R=5; //SDO
     glcd_write_text("Laboratorio 4",64,0,1);
     glcd_write_text("Esperando Comando",64,1,1);
     delay_ms(100);
-    while(!UART1_Data_Ready()); //Espera que reciba un dato
+    while(!SPI1STATbits.SPIRBF); //Espera que reciba un dato
     dato=UART1_Read();
     pantalla=dato;
     floattostr(pantalla,txt);
@@ -232,7 +234,7 @@ void caso2(){
     GLCD_fill(0);
   glcd_write_text("Caso 2",64,0,1); 
   while (dato!=ESC_key){
-    dato=UART1_Read();
+    dato=SPI1_Read(buffer);
     if (dato==1) {
          caso=CASE_MAY;
          T2CONbits.TON=1;
@@ -259,8 +261,8 @@ dato=0;
   glcd_write_text("Caso 3",64,4,1); 
   delay_ms(50); 
   while (dato!=ESC_key){ 
-           while(!UART1_Data_Ready()); //Espera que reciba un dato   
-    dato=UART1_Read();
+           while(!SPI1STATbits.SPIRBF); //Espera que reciba un dato   
+    dato=SPI1_Read(buffer);
     if(dato<16&&dato>=0){
       pantalla=dato;
       CVRCONbits.CVR=dato;

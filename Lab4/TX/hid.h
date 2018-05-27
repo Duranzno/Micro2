@@ -8,7 +8,7 @@ char Bien1[] = "\r Bienvenido al caso 1  \x0a \x0d";
 char Bien2[] = "\n Bienvenido al caso 2 \x0a \x0d";
 char Space[]="\n \x0a \x0d"  ;
 char Bien3[] = " Bienvenido al caso 3";
-char caso_1[] = "A",caso_2[] = "B",caso_3[] = "C";
+char caso_1[] = "A",caso_2[] = "B",caso_3[] = "C",caso_4[]="D",caso_5[]="E";
 char POT1[] = "  POT 1: \r",POT2[] = "  POT 2: \r";
 char MOTO1[] = " MOT 1 ACT ",MOTO2[] = " MOT 2 ACT ";
 char error1[]= "\r POT 1 HA SUPERADO\n \r";
@@ -31,7 +31,7 @@ char caso3_5[]="OP|   8     9     A     B     C     D     E     F|";
 
 int cont = 0,it=0;
 
-char txt7[7];
+char txt7[30];
 
 void space1(){
         while(!HID_Write(space,64));        
@@ -52,12 +52,14 @@ void menu2(){
         write("CASO A MOTORES");
         write("CASO B COMPARACION");
         write("CASO C DAC");
-        space1();
+        write("CASO D I2C");
+        write("CASO E RTCC");
         space1();
         space1();
         space1();
         space1();        
 }
+
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~HID CASO1~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void update_caso1(unsigned rpn1,unsigned rpn2){
@@ -201,4 +203,34 @@ void hid_caso_2(unsigned pot){
          space1();
         space1();
         space1();
+}
+char txt_caso4[]="No hay valores guardados";
+char txt_caso42[]="No hay valores guardados";
+
+void hid_caso_4(float pot, int henhol){
+         write("Bienvenido a Caso 4");
+     write("----------------------------|---------------------");
+      sprintf(txt7,"Presione E Guardar Valor en V%u",henhol);write(txt7);
+      sprintf(txt7,"Valor de Voltaje Actual %.3f",pot);write(txt7);
+           write(txt_caso4);  
+           write(txt_caso42);
+           space2();     space2();
+}
+void hid_caso_5(){
+        write("Caso 5");
+        write("--------------------------------------------------");
+        write("CASO X INICIAR RELOJ");
+        write("CASO Y PROGRAMAR RELOJ");
+        write("CASO Z PROGRAMAR ALARMA");
+        space2();space1();
+        space2();    
+}
+void hid_config_al(){
+        write("Configuracion Alarma");
+        write("--------------------------------------------------");
+        write("CASO A Cada 30s");
+        write("CASO B Cada 60s");
+        write("CASO C Cada 90s");
+        write("CASO D Cada 120s");
+        space2();space2();space1();
 }

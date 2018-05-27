@@ -32,10 +32,11 @@ unsigned adc_valor,resistencia,parte_alta,parte_baja,
 resistencia_alamacenada;
 char txt[6];
 void escribir_24lc02(unsigned char valor,unsigned char direccion)
-{ I2C1_Start(); // emitir señal de inicio I2C
+{ int error=0;
+I2C1_Start(); // emitir señal de inicio I2C
 I2C1_Write(0xA0); // enviar byte a través de (dirección del dispositivo + W)
 I2C1_Write(direccion); // enviar byte (dirección de ubicación EEPROM)
-I2C1_Write(valor); // enviar datos (los datos se escriban)
+error=I2C1_Write(valor); // enviar datos (los datos se escriban)
 I2C1_Stop();
 Delay_ms(50);
 }

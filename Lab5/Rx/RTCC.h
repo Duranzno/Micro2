@@ -22,30 +22,30 @@
 #define HORSEM 	1
 #define DIAMES 	2
 #define ANONAD 3
-unsigned short rtcc_VAL=0,RTCIF=0,CASO_ALARMA=RTCC_NONE;
+unsigned short rtcc_VAL=0,RTCBandera=0,CASO_ALARMA=RTCC_NONE;
 unsigned short 	u_hora	[7]={0,0,0,0,0,0,0};
 char  buffer[30];
 void INT_RELOJ()org 0x000090{
 	switch(CASO_ALARMA){
 		case RTCC_30:
-		switch_led();
+		cambio_led();
 		break;
 		case RTCC_60:
-		if(RTCIF%2==0){switch_led();}
+		if(RTCBandera%2==0){cambio_led();}
 		break;
 		case RTCC_90:
-		if(RTCIF%3==0){switch_led();}
+		if(RTCBandera%3==0){cambio_led();}
 		break;
 		case RTCC_120:
-		if(RTCIF%4==0){switch_led();}
+		if(RTCBandera%4==0){cambio_led();}
 		break;
 		default:
 		case RTCC_NONE:
-		RTCIF=0;
+		RTCBandera=0;
 		break;
 	}
-	RTCIF++;
-	IFS3bits.RTCIF=0;
+	RTCBandera++;
+	IFS3bits.RTCBandera=0;
 }
 
 /*fecha tiene {Unidad_DIA,Decena_Dia,Unidad_A~o,Decena A~o}
@@ -85,7 +85,7 @@ void RTCC_assembler (){
 }
 void config_RTCC(){
 	RTCC_assembler();
-	IFS3bits.RTCIF=0;
+	IFS3bits.RTCBandera=0;
 	IEC3bits.RTCIE=1;
 	IPC15bits.RTCIP=10;
 	PADCFG1bits.RTSECSEL=1; // habilita salida de reloj a un segundo
@@ -148,7 +148,7 @@ void programar_Alarma(int RTCC_CASE){
 	ALCFGRPTbits.AMASK=0b0000;
 	ALRMPTR=10;
 	hid_config_al();
-	RTCIF=0;
+	RTCBandera=0;
 	while(!HID_Read());
             for(cnt=0;cnt<64;cnt++) {
                     writebuff[cnt]=readbuff[cnt];
@@ -180,4 +180,23 @@ void hid_config_al(){
         write("CASO C Cada 90s");
         write("CASO D Cada 120s");
         space(5);        
+}
+
+void config_Pwm_reloj() {
+PTPER = 458; /* Periodo del PWM en tiempo base primario */
+/* Desplazamiento de fase */
+PHASE1 = 0; 
+/* Ciclo útil*/
+PDC1 = 150;
+/* Tiempo muerto*/
+DTR1 = 10;
+ALTDTR1 = 10;
+/* Modo Push-Pull */
+IOCON1 =  0xC800;
+/* Tiempo base primario, Modo Flanco Alineado y ciclo útil independiente */
+PWMCON1 =  0x0000;
+/* prescaler 1:1 */
+PTCON2 = 0x0000;
+/* habilitación de módulo PWM*/
+PTCON = 0x8000;
 }

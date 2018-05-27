@@ -65,34 +65,27 @@ void config_INT(){
   CORCONbits.IPL3 = 0; // El nivel del cpu es de nivel 0, las interrupciones por perifericos habilitadas
   IPC14bits.QEI1IP=2; // interrupcion del modulo cuadratura 2
   IPC2bits.T3IP=5;
+  
   IPC6bits.T4IP=3;
 //------------------------- habilitacion de interrupcion
  }
 
-void config_timer8() {
-  tmr8=0;
-  pr8=31250;
-  t8con=0x8020;
-  IFS3bits.T8IF=0;
-  IEC3bits.T8IE=1;
-  IPC12bits.T8IP=7;
-  T8CONbits.TON=1;
-}
+
 void config_pin () {
     ANSELBbits.ANSB0=1; // RBO analogico
     ANSELBbits.ANSB3=1; // RB4 analogico
     TRISBbits.TRISB0=1;
     TRISBbits.TRISB3=1;
-    TRISDbits.TRISD9=1; // entrada opto para motor 1
+    //TRISDbits.TRISD9=1; // entrada opto para motor 1
     TRISDbits.TRISD8=1; // entrada opto para motor 2
-    RPINR0bits.INT1R=73; // RPI73 en INT1 motor 1
+  //  RPINR0bits.INT1R=73; // RPI73 en INT1 motor 1
     RPINR1bits.INT2R=72; // RPI72 en INT2 motor 2
     TRISDbits.TRISD10=0;
     TRISFBITS.TRISF5=0;
     
     
 }
-void config_velocidad () {
+/*void config_velocidad () {
 
         IFS1bits.INT2IF=0;
         INTCON2bits.INT1EP=0; //flanco positivo
@@ -101,4 +94,4 @@ void config_velocidad () {
         IEC1bits.INT2IE=1;
         IPC5BITS.INT1IP=4;
         IPC7bits.INT2IP =4;
-}
+}*/
