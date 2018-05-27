@@ -1,10 +1,11 @@
 #include "config_RX.h"
 #include "motores.h"
 #include "sprites.h"
+#include "RTCC.h"
 #define ESC_key 254
 
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void caso2();void caso3();void caso1();
+void caso2();void caso3();void caso1();void caso4();
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned short dato=0, dato2=0;
 int pantalla=0;
@@ -94,6 +95,9 @@ void main() {
       case 3:
         caso3();Glcd_Fill(0);
         break;
+      case 4:
+        caso4();Glcd_Fill(0);
+        break;  
       default:
         glcd_write_text("Error",64,4,1);
         delay_ms(100); 
@@ -169,4 +173,7 @@ dato=0;
     }
   }
  dato=0;
+}
+void caso4(){
+
 }
