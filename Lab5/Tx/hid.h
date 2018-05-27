@@ -5,9 +5,9 @@
 #define NOFALLA 0
 char menu[] = "Menu";
 char Bien1[] = "\r Bienvenido al caso 1  \x0a \x0d";char Bien2[] = "\n Bienvenido al caso 2 \x0a \x0d";
-char Bien3[] = " Bienvenido al caso 3";char Bien4[] = " Bienvenido al caso 4";
+char Bien3[] = " Bienvenido al caso 3";char Bien3[] = " Bienvenido al caso 3";char Bien4[] = " Bienvenido al caso 4";
 char caso_1[] = "A",caso_2[] = "B",caso_3[] = "C",caso_4[] = "D";
-
+char config_al[] = "Configuracion de Alarma";char config_ho[] = "Configuracion de Reloj";
 char POT1[] = "  POT 1: \r",POT2[] = "  POT 2: \r";
 char MOTO1[] = " MOT 1 ACT ",MOTO2[] = " MOT 2 ACT ";
 char error1[]= "\r POT 1 HA SUPERADO\n \r";char error2[]= "\r POT 2 HA SUPERADO \n \r";
@@ -21,7 +21,9 @@ char caso2_inf[]="Limite Inferior             |              ";char caso2_pot[]=
 char caso3_1[]="Salida por el PIN AN18 | OP=#";
 char caso3_2[]="V |0.83  0.93  1.03  1.13  1.24  1.34  1.44  1.55|";char caso3_3[]="OP|   0     1     2     3     4     5     6     7|";
 char caso3_4[]="V |1.65  1.75  1.86  1.96  2.06  2.17  2.27  2.37|";char caso3_5[]="OP|   8     9     A     B     C     D     E     F|";
-
+char m[12][]{"Enero","Febrero","Marzo","Abril","Mayo",
+                "Junio","Julio","Agosto","Septiembre",
+                ,"Octubre","Noviembre","Diciembre"}
 int cont = 0,it=0;
 
 char txt7[7];
@@ -116,6 +118,15 @@ void hid_caso_3(){
         write(caso3_3);
         write(caso3_4);
         write(caso3_5);
+        space(4);
+}
+void hid_caso_4(){
+        write(Bien4);
+        write("e) Programar Fecha y Hora Inicial");
+        write("f) Encender Alarma  30s");
+        write("g) Encender Alarma  60s");
+        write("h) Encender Alarma  90s");
+        write("i) Encender Alarma 120s");
         space(4);
 }
 void hid_caso_2(unsigned pot){

@@ -1,6 +1,7 @@
 #include "config_RX.h"
 #include "motores.h"
 #include "sprites.h"
+#include "RTCC.h"
 #define ESC_key 254
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 unsigned short dato=0, dato2=0;
@@ -140,6 +141,10 @@ RPOR9bits.RP101R=5; //SDO
                  if (dato==3) {
                  Glcd_write_text("P3",64,5,1);
                  caso3();  }
+                 if (dato==5) {
+                 Glcd_write_text("P5",64,5,1);
+                 caso5();  
+               }
   
          }
 
@@ -255,7 +260,7 @@ void caso2(){
     }
    }
 }
-   
+  
 void caso3(){
 dato=0;   
   glcd_write_text("Caso 3",64,4,1); 
@@ -273,4 +278,79 @@ dato=0;
     }
   }
  dato=0;
+}
+void caso5(){
+  config_RTCC();
+  GLCD_fill(0);
+  glcd_write_text("Caso 5",64,0,1); 
+  update_hid();
+  delay_ms(2000);
+  while (dato!=ESC_key){
+    dato=SPI1_Read(buffer);
+    if (dato=='X') {
+      glcd_write_text("Habilitacion Reloj",64,0,1); 
+      RCFGCALbits.RTCEN = 1;
+      update_hid();
+      //enable reloj y update pantalla
+    }
+    else if (dato=='Y') {
+      glcd_write_text("Config Reloj",64,0,1); 
+      while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buffer);
+      u_hora[SEG]=dato;
+      while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buffer);
+      u_hora[MIN]=dato;
+      while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buffer);
+      u_hora[HOR]=dato;
+      while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buffer);
+      u_hora[DIA]=dato;
+      while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buffer);
+      u_hora[MES]=dato;
+      while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buffer);
+      u_hora[ANO]=dato;
+      update_hid();
+    }
+    else if (dato=='Z') {
+      RCFGCALbits.RTCEN = 0;
+      ALCFGRPTbits.AMASK=0b0000;
+      ALCFGRPTbits.ALRMPTR=10;
+      glcd_write_text("Config Alarma",64,0,1); 
+      while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buffer);
+      switch dato{
+        case 'A':
+        glcd_write_text("Alarma de 30s",64,1,1); 
+        CASO_ALARMA=RTCC_30;
+        break;
+        case 'B':
+        glcd_write_text("Alarma de 60s",64,1,1); 
+        CASO_ALARMA=RTCC_60;
+        break;
+        case 'C':
+        glcd_write_text("Alarma de 90s",64,1,1); 
+        CASO_ALARMA=RTCC_90;
+        break;
+        case 'D':
+        glcd_write_text("Alarma de 120s",64,1,1); 
+        CASO_ALARMA=RTCC_120;
+        break;
+        default:
+        CASO_ALARMA=RTCC_NONE;
+        break;       
+      }
+    ALRMVAL = 0x0000;//MESDIAS
+    ALRMVAL = 0x0000;//SEMHOR
+    ALRMVAL = 0x0000;//MINSEC
+    ALCFGRPTbits.CHIME = 1;
+    ALCFGRPTbits.ALRMEN = 1;
+    }
+    else {
+
+      escape++;
+    }
+  }
+}
+void update_hid(){
+  sprintf(buffer,"%u:%u:%u   del dia %u",u_hora[HOR],u_hora[MIN],u_hora[SEG],u_hora[DIA]);
+  glcd_write_text(buffer,64,6,1); 
+  sprintf(buffer,"del mes %u,del año %u",u_hora[MES],u_hora[ANO]);
+  glcd_write_text(buffer,64,7,1); 
 }

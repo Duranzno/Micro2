@@ -33,9 +33,9 @@ void INT_ADC() org 0x2E {
     pote2=adc_value2;
     delay_ms(10);
     enviado=pote2;
-    UART1_Write(enviado);    delay_ms(10);
+    //UART1_Write(enviado);    delay_ms(10);
     enviado=pote1;
-    UART1_Write(enviado);    delay_ms(10);
+    //UART1_Write(enviado);    delay_ms(10);
     bandera1++;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,7 +74,7 @@ void caso1(){
     AD1CON1bits.ADON=1;// Se act el modulo
     T3CONbits.TON=1; // activa timer 3 para inicio de conver.
     enviado=1;
-    UART1_Write(enviado);
+    //UART1_Write(enviado);
     delay_ms(150);
     while(escape==0){
         if (bandera1==3) {
@@ -109,7 +109,7 @@ void caso2(){
     T7CONbits.TON=0;
     config_CM();
     enviado=2;
-    UART1_Write(enviado);
+    //UART1_Write(enviado);
     delay_ms(100);
     escape=0;
     while(escape==0){
@@ -154,7 +154,7 @@ void caso3(){
 void UART_ESC(){
     delay_ms(10);
     enviado=ESC_key;
-    UART1_Write(enviado);
+    //UART1_Write(enviado);
 }
 
 
