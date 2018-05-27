@@ -1,6 +1,6 @@
 [PROJECTS]
 Count=2
-Project0=TX.mcpds
-Project1=..\RX\RX.mcpds
+Project0=..\RX\RX.mcpds
+Project1=TX.mcpds
 [ActiveProject]
-Index=0
+Index=1

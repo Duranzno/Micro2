@@ -99,7 +99,7 @@ void rtc2int(){
 	u_hora[HOR]= Bcd2Dec( rtc_hora[HORSEM] & 0x00FF);
   	u_hora[ANO]= Bcd2Dec( rtc_hora[ANONAD] & 0x00FF);
 }
-void int2rtc(){int i;
+void int2rtc(){
 	rtc_hora[ANONAD]=(Dec2Bcd(u_hora[ANO]));
 	rtc_hora[DIAMES]=Dec2Bcd(u_hora[DIA])|(Dec2Bcd(u_hora[MES])<<8);
 	rtc_hora[HORSEM]=Dec2Bcd(u_hora[HOR]);
