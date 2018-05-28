@@ -12,7 +12,7 @@ sbit GLCD_CS2 at LATE3_bit;
 sbit GLCD_RS at LATD1_bit;
 sbit GLCD_RW at LATD2_bit;
 sbit GLCD_EN at LATD3_bit;
-sbit GLCD_RST at LATC14_bit;
+sbit GLCD_RST at LATB5_bit;
 
 sbit GLCD_D0_Direction at TRISD4_bit;
 sbit GLCD_D1_Direction at TRISD5_bit;
@@ -27,7 +27,7 @@ sbit GLCD_CS2_Direction at TRISE3_bit;
 sbit GLCD_RS_Direction at TRISD1_bit;
 sbit GLCD_RW_Direction at TRISD2_bit;
 sbit GLCD_EN_Direction at TRISD3_bit;
-sbit GLCD_RST_Direction at TRISC14_bit;
+sbit GLCD_RST_Direction at TRISB5_bit;
 //~~~~~~~~~~~~~~~~~~~~~~Configuraciones Iniciales~~~~~~~~~~~~~~~~~~~~~~~~~~
 void config_LCD(){
   Glcd_Init();
@@ -46,8 +46,8 @@ void config_IO(){
     RPINR0bits.INT1R=73;  // RPI73 en INT1 motor 1 RPM 
     RPINR1bits.INT2R=72;  // RPI72 en INT2 motor 2 RPM
     RPINR18bits.U1RXR=46; //U1RX
-    RPINR13bits.FLT4R=75; // pin de falla pwm4
-    RPINR13bits.FLT3R=64; //pin de falla pwm3
+  //  RPINR13bits.FLT4R=75; // pin de falla pwm4
+   // RPINR13bits.FLT3R=64; //pin de falla pwm3
 }
 
 void config_TMR2_ANIM () {

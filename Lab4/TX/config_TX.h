@@ -25,6 +25,14 @@ void  CONFIG_CM(){
   CM1CONbits.CEN=1;
   CM3CONbits.CEN=1; 
  }
+ void config_timer1() {
+  TMR1=0;
+  PR1=65000;
+  T1CON=0x0030;
+  IFS0BITS.T1IF=0;
+  IEC0BITS.T1IE=1;
+  IPC0BITS.T1IP=5;
+}
 void InitMCU(){
         ANSELC=0x0000; //Configuracion de E/S digitales
         ANSELD=0x0000; //Configuracion de E/S digitales
