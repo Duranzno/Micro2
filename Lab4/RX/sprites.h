@@ -178,36 +178,3 @@ const code char menorquec[512] = {
   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  15,  15,  15,  15,  15,  15,  15, 255, 255, 255, 128, 128, 128, 128, 120, 120, 120,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,  15,   2,   0,   0,   0,   0,   0,   0,   0, 
   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 127, 127, 127,   7,   7,   7,   7,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
 };
-void selector_sprite(int caso,int cnt){
-	switch(caso){
-		case CASE_PWM4:
-			if(cnt==1){    animate_64b(pwm4a);}
-      else if(cnt==2){animate_64b(pwm4b);}
-      else if(cnt==3){animate_64b(pwm4c);}
-		break;
-		case CASE_PWM3:
-			if(cnt==1){    animate_64b(pwm3a);}
-      else if(cnt==2){animate_64b(pwm3b);}
-      else if(cnt==3){animate_64b(pwm4c);}
-		break;
-		case CASE_MAY:
-			if(cnt==1){		animate_64b(mayorquea);}
-			else if(cnt==2){animate_64b(mayorqueb);}
-			else if(cnt==3){animate_64b(mayorquec);}
-		break;
-		case CASE_MEN:
-			if(cnt==2){animate_64b(menorqueb);}
-			else if(cnt==3){animate_64b(menorquec);}
-			else{		animate_64b(menorquea);}
-		break;
-		case CASE_NULL:
-			glcd_write_text("Error Animacion CASE_NULL",64,4,1);
-			break;
-		default:
-			glcd_write_text("Error Animacion case",64,4,1);
-		break;
-		if(cnt==0){
-			glcd_write_text("Error Animacion T1s",64,4,1);
-		}
-	}
-}

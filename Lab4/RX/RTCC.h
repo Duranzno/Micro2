@@ -23,13 +23,7 @@ int year=0x0000, mesydia=0x0000, diasyhora=0x0000, minyseg=0x0000;
 // ***_hora[4]{SEGMIN,HORAdiadelasemana,DIAMES,ANONAD} se usan las mayusculas
 
 //~~~~~~~~~~~~~~~~~~~~~~~Capa Hardware~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void rtcc_write(){
-    RCFGCALbits.RTCPTR=3;
-    RTCVAL = year;
-    RTCVAL = mesydia;
-    RTCVAL = diasyhora;
-    RTCVAL = minyseg;
-}
+
 void rtcc_read(){
         //while(RCFGCALbits.RTCSYNC==0){
         RCFGCALbits.RTCPTR=3;
@@ -53,40 +47,23 @@ void RTCC_assembler (short yea,short mon,short day,short hor,short min,short seg
         //Configura la fecha y hora al RTC
         RCFGCALbits.RTCPTR = 3;
          RCFGCALbits.RTCPTR=3;
-         RTCVAL = Dec2Bcd(yea);
+        RTCVAL = Dec2Bcd(yea);
         RTCVAL = (Dec2Bcd(day)|Dec2Bcd(mon)<<8);
         RTCVAL = Dec2Bcd(hor);
         RTCVAL = (Dec2Bcd(seg)|Dec2Bcd(min)<<8);
+        RCFGCALbits.RTCEN = 1;
         RCFGCALbits.RTCWREN = 0; // deshabilita escritura en RTCC
         delay_ms(1000);
 }
 void config_RTCC(){
         OSCCONbits.LPOSCEN=1; //activa el oscilador secundario
-        RTCC_assembler(0,0,0,0,0,0);
-        IFS3bits.RTCIF=0;//Habilitacion de Interrupcion
-        IEC3bits.RTCIE=1;
-        IPC15bits.RTCIP=10;
+        RTCC_assembler(96,04,01,05,15,05);
         PADCFG1bits.RTSECSEL=1; // habilita salida de reloj a un segundo
         RCFGCALbits.CAL=1; //ajusta a cero
         RCFGCALbits.RTCOE=1; // habilita el pin RTCC ( se puede usar para verificar que el RTCC está funcionando )
-}
-void config_Pwm_reloj() {
-        PTPER = 458; /* Periodo del PWM en tiempo base primario */
-        /* Desplazamiento de fase */
-        PHASE1 = 0;
-        /* Ciclo útil*/
-        PDC1 = 224;
-        /* Tiempo muerto*/
-        DTR1 = 10;
-        ALTDTR1 = 10;
-        /* Modo Push-Pull */
-        IOCON1 =  0xC800;
-        /* Tiempo base primario, Modo Flanco Alineado y ciclo útil independiente */
-        PWMCON1 =  0x0000;
-        /* prescaler 1:1 */
-        PTCON2 = 0x0000;
-        /* habilitación de módulo PWM*/
-        PTCON = 0x8000;
+        IFS3bits.RTCIF=0;//Habilitacion de Interrupcion
+        IEC3bits.RTCIE=1;
+        IPC15bits.RTCIP=6;
 }
 //~~~~~~~~~~~~~~~~~~~~Movimiento entre capas~~~~~~~~~~~~~~~~~~~~
 void rtc2int(){

@@ -204,17 +204,21 @@ void hid_caso_2(unsigned pot){
         space1();
         space1();
 }
-char txt_caso4[]="No hay valores guardados";
-char txt_caso42[]="No hay valores guardados";
+char txt_caso4[64]="No hay valores guardados";
+char txt_caso41[64]="No hay valores guardados";
+char txt_caso42[64]="No hay valores guardados";
 
 void hid_caso_4(float pot, int henhol){
-         write("Bienvenido a Caso 4");
-     write("----------------------------|---------------------");
-      sprintf(txt7,"Presione E Guardar Valor en V%u",henhol);write(txt7);
-      sprintf(txt7,"Valor de Voltaje Actual %.3f",pot);write(txt7);
-           write(txt_caso4);  
-           write(txt_caso42);
-           space2();     space2();
+    write("Bienvenido a Caso 4");
+    write("----------------------------|---------------------");
+    sprintf(txt7,"Presione K Guardar Valor en V%u",henhol/2);write(txt7);
+    sprintf(txt7,"Valor de Voltaje Actual %.3f",pot);write(txt7);     
+    write(txt_caso41);  
+    space1();
+    write(txt_caso42);
+    space1();
+    space1();
+    space1();
 }
 void hid_caso_5(){
         write("Caso 5");

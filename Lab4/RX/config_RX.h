@@ -93,7 +93,15 @@ void config_timer8() {
   PR8=58594;
   T8CON=0x0030;
   }
- void config_timer7() {
+ void config_timer2() {
+  TMR2=0;
+  PR2=58594;
+    T2CON=0x0030;
+   IFS0bits.T2IF=0;
+   IEC0bits.T2IE=1;
+   IPC1bits.T2IP=5;
+  }
+   void config_timer7() {
   TMR7=0;
   PR7=23438;
   T7CON=0x0030;

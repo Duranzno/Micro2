@@ -1,6 +1,6 @@
-#include "config_RX.h"
+  #include "config_RX.h"
 #include "motores.h"
-#include "sprites.h"
+ #include "sprites.h"
 #include "RTCC.h"
 #define ESC_key 254
 //~~~~~~~~~~~~~~~~~~~~~~~~Variables  del sistema~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -12,8 +12,8 @@ char txt_hora[2];
 char txt[7]={'#','#','#','#','#','#','#'};
 int cnt,rpm1=0,rpm2=0;
 //~~~~~~~~~~~~~~~~~~~~~~~Declaraciones de Funciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void caso2();void caso3();void caso1();void caso5();  void update_hid();
-void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
+void caso2();void caso3();void caso1();void caso5();  void update_hid(); void caso4();
+void encender_led(){LATFBITS.LATF4=1;delay_ms(92);LATFBITS.LATF4=0;}
 //void update_hid(){encender_led();}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Interrupciones~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /*void timer8 () org 0x7A {
@@ -21,37 +21,68 @@ void encender_led(){LATFBITS.LATF4=~LATFBITS.LATF4;}
   rpm=0;
   rpm2=0;
 }*/
+void selector_sprite(int caso,int cnt){
+if (caso==0)
+      glcd_write_text("Error CASE_NULL",64,4,1);
 
-/*void INT_T05s_T2()org 0x22{
-    T05s++;
-    inttostr(T05s,txt);
-    glcd_write_text(txt,0,3,1);
+
+    if (caso==1)
+	   { encender_led();  
+      if(cnt==1){animate_64b(mayorquea);}
+			else if(cnt==2){animate_64b(mayorqueb);}
+			else if(cnt==3){animate_64b(mayorquec);}
+      }
+      if (caso==2)
+			{  encender_led();    if(cnt==1){animate_64b(menorqueb);}
+			else if(cnt==2){animate_64b(menorquec);}
+			else if(cnt==3){animate_64b(menorquea);}
+      }
+       if (caso==3)
+       { encender_led();    if(cnt==1){animate_64b(pwm3a);}
+      else if(cnt==2){animate_64b(pwm3b);}
+      else if(cnt==3){animate_64b(pwm4c);}
+        }
+       if (caso==4)
+        { encender_led();   if(cnt==1){animate_64b(pwm4a);}
+      else if(cnt==2){animate_64b(pwm4b);}
+      else if(cnt==3){animate_64b(pwm4c);}
+      }
+
+}
+//------------------------------------
+void INT_T05s_T2()org 0x22{
+T05s++;
+
+    inttostr(T05s,txt);glcd_write_text(txt,0,3,1);
     if(T05s%2==0){T1s++;}
-     if(T05s>6){T2CONbits.TON=0;T1s=0;T05s=0;}
+    if(T05s>6){T2CONbits.TON=0;T1s=0;T05s=0;}
     if(caso!=CASE_NULL&&T1s==3){T1s=0;}
     else if(caso==CASE_NULL&&T1s==2){T1s=0;}
     selector_sprite(caso,T1s);
     IFS0bits.T2IF=0;
-}*/
+}
 void INT_RELOJ()org 0x000090{
+  LATFBITS.LATF4=0;
   switch(CASO_ALARMA){
-    case RTCC_30:
-      encender_led();
+    case RTCC_30:        
+      if(RTCBandera%3==0){encender_led();glcd_write_text("ALRM 60s",64,6,1);}
     break;
     case RTCC_60:
-      if(RTCBandera%2==0){encender_led();}
+      if(RTCBandera%6==0){encender_led();glcd_write_text("ALRM 60s",64,6,1);}
     break;
     case RTCC_90:
-      if(RTCBandera%3==0){encender_led();}
+      if(RTCBandera%9==0){encender_led();glcd_write_text("ALRM 90s",64,6,1);}
     break;
     case RTCC_120:
-      if(RTCBandera%4==0){encender_led();}
+      if(RTCBandera%12==0){encender_led();glcd_write_text("ALRM 120s",64,6,1);}
     break;
     default:
     case RTCC_NONE:
       RTCBandera=0;
     break;
   }
+  sprintf(buffer,"ALRM #%u",RTCBandera+1); 
+  glcd_write_text(buffer,64,7,1);
   RTCBandera++;
   IFS3bits.RTCIF=0;
 }
@@ -75,7 +106,7 @@ void PWM4() org 0xD6{
     glcd_write_text("Falla Motor 4",64,7,1);
     IOCON4bits.FLTDAT=0;
     PWMCON4bits.FLTSTAT=0;
-     //caso=CASE_PWM4; T2CONbits.TON=1;
+    caso=CASE_PWM4; T2CONbits.TON=1;
   }
 }
 
@@ -85,7 +116,7 @@ void PWM3() org 0xD4{
   if(PORTDbits.RD0==0){
     IOCON4bits.FLTDAT=0;
     PWMCON4bits.FLTSTAT=0;
-   //  caso=CASE_PWM3; T2CONbits.TON=1;
+    caso=CASE_PWM3; T2CONbits.TON=1;
     glcd_write_text("Falla Motor 3",64,6,1);
   }
 }
@@ -96,7 +127,7 @@ void update_hid(){
   //glcd_write_text(buffer,64,4,1);
   //sprintf(buffer,"%02.2u|%02.2u",mesydia,year);
   //glcd_write_text(buffer,64,5,1);
-  sprintf(buffer,"%02.2u/%02.2u/%02.2u",hora,minn,seg);
+  sprintf(buffer,"%02.2u:%02.2u:%02.2u",hora,minn,seg);
   glcd_write_text(buffer,64,1,1);
   sprintf(buffer,"%02.2u/%02.2u/%02.2u",dia,mes,anio);
   glcd_write_text(buffer,64,2,1);
@@ -147,10 +178,13 @@ void main (){
   RPINR20bits.SCK1R=47; //SCK1
   RPOR9bits.RP101R=5; //SDO
   config_IO();config_vref();
-  config_LCD();
+  config_LCD(); config_timer2();
   while(1){
-    while(!SPI1STATbits.SPIRBF); //Esperando que llegue el dato
+    glcd_fill(0);
     Glcd_write_text("Esperando...",64,0,1);
+    dato=0;
+    while(!SPI1STATbits.SPIRBF); //Esperando que llegue el dato
+    dato=0;
     dato=SPI1_Read(buff);
     if (dato==1) {
       Glcd_write_text("P1",64,0,1);
@@ -163,6 +197,9 @@ void main (){
     else if (dato==3) {
       Glcd_write_text("P3",64,0,1);
       caso3();  
+    }
+      else if (dato==4) {
+      caso4();
     }
     else if (dato==5) {
       Glcd_write_text("P5",64,0,1);
@@ -209,14 +246,9 @@ void caso2(){
          caso=CASE_MAY;
          T2CONbits.TON=1;
     }
-     if (dato==2) {
-        caso=CASE_MEN;
+     if (dato==2) {      
 
-        // caso=CASE_MAY;
-         T2CONbits.TON=1;
-    }
-     if (dato==2) {
-        //caso=CASE_MEN;
+         caso=CASE_MEN;
          T2CONbits.TON=1;
     }
      if (dato==3) {
@@ -227,6 +259,7 @@ void caso2(){
 }
 //-------------------------------------------------CASO 3------------------------------------------------------  
 void caso3(){
+GLCD_FILL(0);
 dato=0;   
   glcd_write_text("Caso 3",64,4,1); 
   delay_ms(50); 
@@ -244,73 +277,81 @@ dato=0;
   }
  dato=0;
 }
+//---------------------------caso 4--------------------------------
+void caso4() {
+Glcd_fill(0);
+  glcd_write_text("CASO 4",65,0,1);
+   delay_ms(2000);
+}
 //-------------------------------------------------CASO 5------------------------------------------------------
 void caso5(){
   update_hid();
   config_RTCC();
   GLCD_fill(0);
-  //glcd_write_text("Caso 5",64,0,1); 
+  glcd_write_text("Caso 5",64,0,1); 
  
   while (dato!=ESC_key){
-   
-    //dato=SPI1_Read(buff);
+    Update_hid();
+    dato=SPI1_Read(buff);
     if (dato=='X') {
       glcd_write_text("RelojEN",64,0,1);
-      RCFGCALbits.RTCEN=1;
-      update_hid();
+    RCFGCALbits.RTCEN = 0;// Limpia bit RTCEN , desactiva modulo
 
-      //enable reloj y update pantalla
     }
     else if (dato=='Y') {
       glcd_write_text("Config Reloj",64,0,1);
       while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buff);
-      seg=0;
+      seg=dato;encender_led();
       while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buff);
-      minn=0;
+      minn=dato;encender_led();
       while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buff);
-      hora=0;
+      hora=dato;encender_led();
       while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buff);
-      dia=0;
+      dia=dato;encender_led();
       while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buff);
-      mes=0;
+      mes=dato;encender_led();
       while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buff);
-      anio=dato;
+      anio=dato;encender_led();
       
       RTCC_assembler(anio,mes,dia,hora,minn,seg);
-        delay_ms(3009);
-      update_hid();
-      dato=='X';
+       PADCFG1bits.RTSECSEL=1; // habilita salida de reloj a un segundo
+       
+      RCFGCALbits.RTCOE=1; // habilita el pin RTCC ( se puede usar para verificar que el RTCC está funcionando )
+        delay_ms(50);
     }
     else if (dato=='Z') {
-      RCFGCALbits.RTCEN = 0;
-      ALCFGRPTbits.AMASK=0b0000;
-      ALCFGRPTbits.ALRMPTR=10;
-      glcd_write_text("Config Alarma",64,1,1); 
-      while(!SPI1STATbits.SPIRBF); dato=SPI1_Read(buff);
+      
+      
+      RTCBandera=0;
+      glcd_write_text("Config Alarma",64,0,1); 
+      while(!SPI1STATbits.SPIRBF);
+      dato=SPI1_Read(buff);
       switch (dato){
-        case 'A':
-        glcd_write_text("Alarma de 30s",64,1,1); 
+        case 1:
+        glcd_write_text("CALRM 30s",64,6,1); 
         CASO_ALARMA=RTCC_30;
         break;
-        case 'B':
-        glcd_write_text("Alarma de 60s",64,1,1); 
+        case 2:
+        glcd_write_text("CALRM 60s",64,6,1); 
         CASO_ALARMA=RTCC_60;
         break;
-        case 'C':
-        glcd_write_text("Alarma de 90s",64,1,1); 
+        case 3:
+        glcd_write_text("CALRM 90s",64,6,1); 
         CASO_ALARMA=RTCC_90;
         break;
-        case 'D':
-        glcd_write_text("Alarma de 120s",64,1,1); 
+        case 4:
+        glcd_write_text("CALRM 120s",64,6,1); 
         CASO_ALARMA=RTCC_120;
         break;
         default:
+        glcd_write_text("CALRM NONE",64,6,1); 
         CASO_ALARMA=RTCC_NONE;
         break;       
       }
+    ALCFGRPTbits.ALRMEN = 0; 
+    ALCFGRPTbits.ALRMPTR=0;
     ALRMVAL = 0x0000;
-    ALRMVAL = 0x0000;
-    ALRMVAL = 0x0000;
+    ALCFGRPTbits.AMASK=0b0010;
     ALCFGRPTbits.CHIME = 1;
     ALCFGRPTbits.ALRMEN = 1;
     }
