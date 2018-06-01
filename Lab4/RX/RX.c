@@ -27,15 +27,15 @@ if (caso==0)
 
 
     if (caso==1)
-	   { encender_led();  
+           { encender_led();  
       if(cnt==1){animate_64b(mayorquea);}
-			else if(cnt==2){animate_64b(mayorqueb);}
-			else if(cnt==3){animate_64b(mayorquec);}
+                        else if(cnt==2){animate_64b(mayorqueb);}
+                        else if(cnt==3){animate_64b(mayorquec);}
       }
       if (caso==2)
-			{  encender_led();    if(cnt==1){animate_64b(menorqueb);}
-			else if(cnt==2){animate_64b(menorquec);}
-			else if(cnt==3){animate_64b(menorquea);}
+                        {  encender_led();    if(cnt==1){animate_64b(menorqueb);}
+                        else if(cnt==2){animate_64b(menorquec);}
+                        else if(cnt==3){animate_64b(menorquea);}
       }
        if (caso==3)
        { encender_led();    if(cnt==1){animate_64b(pwm3a);}
@@ -55,7 +55,7 @@ T05s++;
 
     inttostr(T05s,txt);glcd_write_text(txt,0,3,1);
     if(T05s%2==0){T1s++;}
-    if(T05s>6){T2CONbits.TON=0;T1s=0;T05s=0;}
+    if(T05s>6){T2CONbits.TON=0;GLCD_FILL(0);T1s=0;T05s=0;}
     if(caso!=CASE_NULL&&T1s==3){T1s=0;}
     else if(caso==CASE_NULL&&T1s==2){T1s=0;}
     selector_sprite(caso,T1s);
@@ -187,6 +187,7 @@ void main (){
     dato=0;
     dato=SPI1_Read(buff);
     if (dato==1) {
+      GLCD_FILL(0);
       Glcd_write_text("P1",64,0,1);
       caso1();  
     }
@@ -319,6 +320,9 @@ void caso5(){
       RCFGCALbits.RTCOE=1; // habilita el pin RTCC ( se puede usar para verificar que el RTCC está funcionando )
         delay_ms(50);
     }
+     else if (dato=='U') {
+          Update_hid();
+     }
     else if (dato=='Z') {
       
       
@@ -355,6 +359,7 @@ void caso5(){
     ALCFGRPTbits.CHIME = 1;
     ALCFGRPTbits.ALRMEN = 1;
     }
+
   }
 }
 

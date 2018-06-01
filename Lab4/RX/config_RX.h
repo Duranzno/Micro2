@@ -40,14 +40,14 @@ void config_IO(){
     TRISDbits.TRISD0=1;   //Pines falla
     TRISDbits.TRISD11=1;  //Pines falla
     TRISDbits.TRISD9=1;   //entrada opto para motor 1
-    TRISDbits.TRISD8=1;   //entrada opto para motor 2
+    TRISDbits.TRISD10=1;   //entrada opto para motor 2
     TRISFbits.TRISF4=0;   //LED de prueba;
     RPOR9bits.RP101R=1;   //U1TX
     RPINR0bits.INT1R=73;  // RPI73 en INT1 motor 1 RPM 
-    RPINR1bits.INT2R=72;  // RPI72 en INT2 motor 2 RPM
+    RPINR1bits.INT2R=74;  // RPI74 en INT2 motor 2 RPM
     RPINR18bits.U1RXR=46; //U1RX
-  //  RPINR13bits.FLT4R=75; // pin de falla pwm4
-   // RPINR13bits.FLT3R=64; //pin de falla pwm3
+   RPINR13bits.FLT4R=75; // pin de falla pwm4
+    RPINR13bits.FLT3R=64; //pin de falla pwm3
 }
 
 void config_TMR2_ANIM () {
