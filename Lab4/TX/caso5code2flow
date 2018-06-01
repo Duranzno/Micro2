@@ -1,0 +1,58 @@
+
+caso4();
+while(escape==0){
+	Actualizar Pantalla;
+	while(!HID_Read());
+	switch(readbuff){
+		case X:
+		SPI1_Write("X");//Iniciar Reloj
+		break;
+		case Y:
+		SPI1_Write("Y");
+		programar_RTCC();
+		break;
+		case Z:
+		programar_Alarma();
+		break;
+		case default:
+		escape++;
+		SPI_ESC();
+		break;
+	}
+}
+return;
+programar_RTCC(){
+	Programar Segundo;
+	Programar Minuto;
+	Programar Hora;
+	Programar Dia;
+	Programar Mes;
+	Programar Año;
+	enviarlos todos en ese mismo orden;
+}
+return;
+programar_Alarma();
+
+	Mostrar opciones de alarma;
+	while(!HID_Read());
+	switch(readbuff){
+		case A:
+		Alarma de 30;
+		SPI1_Write(1);
+		break;
+		case B:
+		Alarma de 60;
+		SPI1_Write(2);
+		break;
+		case C:
+		Alarma de 90;
+		SPI1_Write(3);
+		break;
+		case D:
+		Alarma de 120;
+		SPI1_Write(3);
+		break;
+
+	}
+
+return;

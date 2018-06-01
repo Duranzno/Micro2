@@ -1,0 +1,43 @@
+
+caso4();
+while(escape==0){
+	Actualizar valor ADC;
+	Imprimir Pantalla desde Memoria & ADC;
+	while(!HID_Read());
+	switch(readbuff){
+		case T:
+		Se actualiza el valor ADC;
+		break;
+		case K:
+		escribir_24lc256(VALOR_ADC PARTE ALTA,Contador_Memoria);
+		escribir_24lc256(VALOR_ADC PARTE BAJA,Contador_Memoria+1);
+		Contador_Memoria+=2;
+		break;
+		case default:
+		escape++;
+		break;
+	}
+}
+return;
+escribir_24lc256(VALOR_ADC,CONTADOR);
+Iniciar I2C;
+Escribir A0 I2C;
+Escribir Direccion Fisica I2C;
+Escribir Direccion ALTA I2C;
+<Escribir Direccion CONTADOR I2C>;
+<Escribir VALOR_ADC I2C>;
+Parar I2C;
+return;
+leer_24lc256(CONTADOR);
+Iniciar I2C;
+Escribir A0 I2C;
+Escribir Direccion Fisica I2C;
+Escribir Direccion ALTA I2C;
+<Escribir Direccion CONTADOR I2C>;
+RESTART I2C;
+Escribir A1 I2C;
+<Leer valor I2C>;
+Parar I2C;
+\regresar valor leido/;
+return;
+
